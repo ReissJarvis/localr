@@ -113,11 +113,11 @@ server.listen(8080, function() {
     server.put("/checkin", function(req, res, next) {
         var user = req.query.user
         // this will stop the rest of the request from carrying on, user contains the username of the person
-        return next(new restify.ForbiddenError(user));
-        console.log('PUT ' + req.query.user);
-        console.log('PUT ' + req.headers);
+        //return next(new restify.ForbiddenError(user));
+        console.log('CHECKIN ');
+        console.log('PUT ' + user);
         // checks to see if the username is the same as the one in the URL 
-        if(req.params[0] != req.authorization.basic.username) {
+        if(user != req.authorization.basic.username) {
             return next(new restify.ForbiddenError('You cant access that user'));
         }
         // checks it contains  content type application/json
@@ -129,49 +129,14 @@ server.listen(8080, function() {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
         }
         console.log('parameters supplied');
-        var url = 'http://localhost:5984/users/' + req.params[0];
+        var url = 'http://localhost:5984/users/' + user
         // if put has items in the json it will grab whats in it, in this case items must be
         // an array which could ( ["item","item", "item"])
-        var items = req.params['items'];
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if the document isnt found it will create it from sratch
             if(response.statusCode == 404) {
-                console.log('document not found');
-                var salt = rand(160, 36);
-                console.log(req.authorization.basic.password + salt);
-                var password = sha1(req.authorization.basic.password + salt);
-                console.log(password);
-                var d = new Date();
-                var date = d.toUTCString();
-                console.log(date);
-                var doc = {
-                    last_modified: date,
-                    password: password,
-                    salt: salt,
-                    items: items
-                };
-                var docStr = JSON.stringify(doc);
-                var params = {
-                    uri: url,
-                    body: JSON.stringify(doc)
-                };
-                request.put(params, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant create document'));
-                    }
-                    // document has been inserted into database
-                    body = JSON.parse(body);
-                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
-                    res.setHeader('ETag', body.rev);
-                    res.setHeader('Last-Modified', date);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.setHeader('Accepts', 'PUT');
-                    res.send({
-                        items: req.params['items']
-                    });
-                    res.end();
-                });
+              return next(new restify.ForbiddenError('User Not Found'));
             };
             if(response.statusCode == 200) {
                 console.log('existing document');
@@ -184,8 +149,8 @@ server.listen(8080, function() {
                 var d = new Date();
                 var date = d.toUTCString()
                 body.last_modified = date;
-                body.items = items;
-                console.log(body);
+                body.points = body.points + 10;
+                console.log(body.points);
                 var params = {
                     uri: url,
                     body: JSON.stringify(body)
@@ -200,9 +165,7 @@ server.listen(8080, function() {
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'PUT');
-                    res.send({
-                        items: req.params['items']
-                    });
+                    res.send();
                     res.end();
                 });
             };
