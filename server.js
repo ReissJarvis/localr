@@ -110,6 +110,8 @@ server.listen(8080, function() {
         res.end()
     });
     //use this as adding points
+    //The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME This will then add 10 points at the moment
+    //we can change the amount places wanna do check in points at eventually. 
     server.put("/checkin", function(req, res, next) {
         var user = req.query.user
         // this will stop the rest of the request from carrying on, user contains the username of the person
@@ -130,8 +132,7 @@ server.listen(8080, function() {
         }
         console.log('parameters supplied');
         var url = 'http://localhost:5984/users/' + user
-        // if put has items in the json it will grab whats in it, in this case items must be
-        // an array which could ( ["item","item", "item"])
+        // we have the url for the couchDB so now to get the users profile
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if the document isnt found it will create it from sratch
@@ -148,8 +149,11 @@ server.listen(8080, function() {
                 console.log('passwords match!');
                 var d = new Date();
                 var date = d.toUTCString()
+                // change what we need in the body e.g the points can probably add to the array aswell
                 body.last_modified = date;
                 body.points = body.points + 10;
+                // adding the transactions to the array so we can keep track of them
+                body.transactions.push('{transactionid:' + body.transactions.length + ', date:'+ date +', amount_of_points:10}')
                 console.log(body.points);
                 var params = {
                     uri: url,
@@ -174,7 +178,7 @@ server.listen(8080, function() {
     });
     
     
-    //Register a new user
+    //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
     server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
         var user = req.query.user
         console.log('NEW USER');
@@ -193,8 +197,6 @@ server.listen(8080, function() {
         }
         console.log('parameters supplied');
         var url = 'http://localhost:5984/users/' + req.params[0];
-        // if put has items in the json it will grab whats in it, in this case items must be
-        // an array which could ( ["item","item", "item"])
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if the document isnt found it will create it from sratch
