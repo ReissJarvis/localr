@@ -112,12 +112,13 @@ server.listen(8080, function() {
     //use this as adding points
     server.put("/checkin", function(req, res, next) {
         var user = req.query.user
+        // this will stop the rest of the request from carrying on, user contains the username of the person
         return next(new restify.ForbiddenError(user));
         console.log('PUT ' + req.query.user);
         console.log('PUT ' + req.headers);
-        // checks to see if the username is in the URL 
-        if(req.query[0] != req.authorization.basic.username) {
-            return next(new restify.ForbiddenError('mismatched username and url'));
+        // checks to see if the username is the same as the one in the URL 
+        if(req.params[0] != req.authorization.basic.username) {
+            return next(new restify.ForbiddenError('You cant access that user'));
         }
         // checks it contains  content type application/json
         if(req.headers['content-type'] != 'application/json') {
@@ -128,13 +129,9 @@ server.listen(8080, function() {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
         }
         console.log('parameters supplied');
-        var url = 'http://localhost:5984/lists/' + req.params[0];
+        var url = 'http://localhost:5984/users/' + req.params[0];
         // if put has items in the json it will grab whats in it, in this case items must be
         // an array which could ( ["item","item", "item"])
-        console.log("items: " + req.params['items'])
-        req.params['items'].forEach(function(item){
-            console.log(item)
-        });
         var items = req.params['items'];
         request.get(url, function(err, response, body) {
             console.log("request started")
@@ -208,6 +205,78 @@ server.listen(8080, function() {
                     });
                     res.end();
                 });
+            };
+        });
+        res.end()
+    });
+    
+    
+    //Register a new user
+    server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
+        var user = req.query.user
+        console.log('NEW USER');
+        console.log('PUT ' + req.params[0])
+        // checks to see if the username is in the URL 
+        if(req.params[0] != req.authorization.basic.username) {
+            return next(new restify.ForbiddenError('You cant access that user'));
+        }
+        // checks it contains  content type application/json
+        if(req.headers['content-type'] != 'application/json') {
+            return next(new restify.UnsupportedMediaTypeError('Bad Content-Type'));
+        }
+        // checks if it has basic authorization
+        if(req.authorization.scheme != 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+        }
+        console.log('parameters supplied');
+        var url = 'http://localhost:5984/users/' + req.params[0];
+        // if put has items in the json it will grab whats in it, in this case items must be
+        // an array which could ( ["item","item", "item"])
+        request.get(url, function(err, response, body) {
+            console.log("request started")
+            // if the document isnt found it will create it from sratch
+            if(response.statusCode == 404) {
+                console.log('document not found');
+                var salt = rand(160, 36);
+                console.log(req.authorization.basic.password + salt);
+                var password = sha1(req.authorization.basic.password + salt);
+                console.log(password);
+                var d = new Date();
+                var date = d.toUTCString();
+                console.log(date);
+                var doc = {
+                    date_joined:date,
+                    last_modified: date,
+                    password: password,
+                    salt: salt,
+                    points: 0,
+                    transactions:[]
+                };
+                var docStr = JSON.stringify(doc);
+                var params = {
+                    uri: url,
+                    body: JSON.stringify(doc)
+                };
+                request.put(params, function(err, response, body) {
+                    if(err) {
+                        return next(new restify.InternalServerError('Cant create document'));
+                    }
+                    // document has been inserted into database
+                    body = JSON.parse(body);
+                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
+                    res.setHeader('ETag', body.rev);
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'PUT');
+                    res.send({
+                        items: req.params['items']
+                    });
+                    res.end();
+                });
+            };
+            // if the document is found, that means the user is already created.
+            if(response.statusCode == 200) {
+                return next(new restify.ConflictError('user already created'))
             };
         });
         res.end()
