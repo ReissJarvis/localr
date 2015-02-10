@@ -1,0 +1,20 @@
+{
+  "name": "localr",
+  "version": "1.0.0",
+  "description": "Localr repo",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm start",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reissefer/localr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reissefer/localr/issues"
+  },
+  "homepage": "https://github.com/reissefer/localr"
+}
