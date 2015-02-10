@@ -1,0 +1,20 @@
+{
+// Configure your Run and Preview buttons here.
+
+// Run button configuration
+  "commands": {
+        "Node version": "node --version",
+        "Node start": "npm start",
+        "Node test": "npm test"
+  },
+
+// Preview button configuration
+  "preview": {
+        "Project Index (static)": "https://{{domain}}/{{index}}",
+        "Current File (static)": "https://{{domain}}/{{filepath}}",
+        "Box URL": "http://{{domain}}:3000/",
+        "Box URL SSL": "https://{{domain}}:9500/",
+        "Node": "http://{{domain}}:8080/",
+        "Futon": "http://{{domain}}:5984/_utils"
+  }
+}
