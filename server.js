@@ -1,4 +1,5 @@
-#Adam testing git is working on the VPS
+//Adam testing git is working on the VPS
+//Were also not using Python hahaha no #####
 var restify = require('restify');
 var request = require('request');
 var rand = require('csprng');
