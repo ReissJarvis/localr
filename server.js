@@ -9,6 +9,11 @@ server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
 server.listen(8080, function() {
+    server.use(function crossOrigin(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        return next();
+    });
     console.log('incoming request being handled');
     // lists put requests use as reference
     server.put(/^\/lists\/([a-z]+)$/, function(req, res, next) {
@@ -250,7 +255,9 @@ server.listen(8080, function() {
     server.get(/^\/user\/([a-z]+)$/, function(req, res, next) {
         console.log('GRABBING USER');
         console.log('GET ' + req.params[0])
-        var user = {test:'test'};
+        var user = {
+            test: 'test'
+        };
         // checks to see if the username is in the URL 
         if(req.params[0] != req.authorization.basic.username) {
             return next(new restify.ForbiddenError('You cant access that user'));
