@@ -5,16 +5,15 @@ var request = require('request');
 var rand = require('csprng');
 var sha1 = require('sha1');
 var server = restify.createServer();
-server.use(restify.CORS());
+server.use(restify.CORS({
+    origins: ['*'],   // defaults to ['*']
+    credentials: true,                  // defaults to false
+    headers: ['authorization']                 // sets expose-headers
+}));
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
 server.listen(8080, function() {
-    server.use(function crossOrigin(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE");
-        return next();
-    });
     console.log('incoming request being handled');
     // lists put requests use as reference
     server.put(/^\/lists\/([a-z]+)$/, function(req, res, next) {
