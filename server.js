@@ -14,8 +14,10 @@ server.use(restify.CORS({
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
+server.CORS.ALLOW_HEADERS.push('authorization');
 server.listen(8080, function() {
     console.log('incoming request being handled');
+    
     // lists put requests use as reference
     server.put(/^\/lists\/([a-z]+)$/, function(req, res, next) {
         console.log('PUT ' + req.params[0]);
