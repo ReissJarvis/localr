@@ -253,7 +253,7 @@ server.listen(8080, function() {
             };
             // if the document is found, that means the user is already created.
         });
-        if(bool === true) {
+        if(self.bool === true) {
             res.send("{'User has been added'}")
         } else {
             res.send("{'User already exists'}")
