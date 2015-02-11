@@ -31,7 +31,7 @@ server.listen(8080, function() {
         // if put has items in the json it will grab whats in it, in this case items must be
         // an array which could ( ["item","item", "item"])
         console.log("items: " + req.params['items'])
-        req.params['items'].forEach(function(item){
+        req.params['items'].forEach(function(item) {
             console.log(item)
         });
         var items = req.params['items'];
@@ -139,7 +139,7 @@ server.listen(8080, function() {
             console.log("request started")
             // if the document isnt found it will create it from sratch
             if(response.statusCode == 404) {
-              return next(new restify.ForbiddenError('User Not Found'));
+                return next(new restify.ForbiddenError('User Not Found'));
             };
             if(response.statusCode == 200) {
                 console.log('existing document');
@@ -155,7 +155,7 @@ server.listen(8080, function() {
                 body.last_modified = date;
                 body.points = body.points + 10;
                 // adding the transactions to the array so we can keep track of them
-                body.transactions.push('{transactionid:' + body.transactions.length + ', date:'+ date +', amount_of_points:10}')
+                body.transactions.push('{transactionid:' + body.transactions.length + ', date:' + date + ', amount_of_points:10}')
                 console.log(body.points);
                 var params = {
                     uri: url,
@@ -178,8 +178,6 @@ server.listen(8080, function() {
         });
         res.end()
     });
-    
-    
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
     server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
         var user = req.query.user
@@ -212,12 +210,12 @@ server.listen(8080, function() {
                 var date = d.toUTCString();
                 console.log(date);
                 var doc = {
-                    date_joined:date,
+                    date_joined: date,
                     last_modified: date,
                     password: password,
                     salt: salt,
                     points: 0,
-                    transactions:[]
+                    transactions: []
                 };
                 var docStr = JSON.stringify(doc);
                 var params = {
@@ -247,5 +245,50 @@ server.listen(8080, function() {
             };
         });
         res.end()
+    });
+    //Grab a users profile
+    server.get(/^\/user\/([a-z]+)$/, function(req, res, next) {
+        console.log('GRABBING USER');
+        console.log('GET ' + req.params[0])
+        var user = {test:'test'};
+        // checks to see if the username is in the URL 
+        if(req.params[0] != req.authorization.basic.username) {
+            return next(new restify.ForbiddenError('You cant access that user'));
+        }
+        // checks it contains  content type application/json
+        if(req.headers['content-type'] != 'application/json') {
+            return next(new restify.UnsupportedMediaTypeError('Bad Content-Type'));
+        }
+        // checks if it has basic authorization
+        if(req.authorization.scheme != 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+        }
+        console.log('parameters supplied');
+        var url = 'http://localhost:5984/users/' + req.params[0];
+        request.get(url, function(err, response, body) {
+            console.log("request started")
+            // if user is not found will send 404 error
+            if(response.statusCode == 404) {
+                return next(new restify.BadRequestError('User Not Found'))
+            };
+            if(response.statusCode == 200) {
+                body = JSON.parse(body);
+                res.header('ETag', body._rev);
+                res.header('Last-Modified', body.last_modified);
+                res.header('Accepts', 'GET');
+                user = {
+                    id: body._id,
+                    date_joined: body.date_joined,
+                    last_modified: body.last_modified,
+                    points: body.points,
+                    transactions: body.transactions
+                }
+                console.log(user.points)
+                console.log("set user");
+                res.send(user);
+                console.log("sent data");
+                res.end();
+            };
+        });
     });
 });
