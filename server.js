@@ -247,11 +247,11 @@ server.listen(8080, function() {
             };
             // if the document is found, that means the user is already created.
         });
-        res.send()
+        res.send("{'user added'}")
         res.end()
     });
     //Grab a users profile
-    server.get(/^\/user\/([a-z]+)$/, function(req, res, next) {
+    server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
         console.log('GRABBING USER');
         console.log('GET ' + req.params[0])
         var user = {

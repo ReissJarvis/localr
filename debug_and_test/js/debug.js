@@ -6,6 +6,7 @@ localr = (function() {
         httpRequest="";
     return {
         getUser: function() {
+            localr.setCred();
             var url = "http://178.62.31.30:8080/users/" + username
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
