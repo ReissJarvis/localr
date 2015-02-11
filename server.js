@@ -205,6 +205,7 @@ server.listen(8080, function() {
         console.log('parameters supplied');
         //Set a boolean for whether user is able to be registered
         var bool;
+        var self = this;
         var url = 'http://localhost:5984/users/' + req.params[0];
         request.get(url, function(err, response, body) {
             console.log("request started")
@@ -213,7 +214,7 @@ server.listen(8080, function() {
             if(response.statusCode == 200) {
                 console.log("inside 200")
                 return next(new restify.InternalServerError('Cant create document'))
-                bool = false;
+                self.bool = false;
             };
             if(response.statusCode == 404) {
                 console.log('inside 404')
@@ -246,8 +247,9 @@ server.listen(8080, function() {
                         user: req.params
                     });
                     res.end();
-                    bool = true;
+                    
                 });
+                self.bool = true;
             };
             // if the document is found, that means the user is already created.
         });
