@@ -1,27 +1,26 @@
-<!--
-To change this template use Tools | Templates.
--->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
     <title>localr Testing suite</title>
     <script src="js/debug.js"></script>
 </head>
+
 <body>
     <div>
-            <input id = "username">
-            <input id = "password">
-            <button onclick="localr.setCred()">
-                Login
+        <input id="username">
+        <input id="password">
+        <button onclick="localr.setCred()">
+            Login
+        </button>
+        <button onclick="localr.Register()">
+            Register
+        </button>
+
+        <div id="user">
+            <button onclick="localr.getUser()">
+                Get user
             </button>
-            <button onclick="localr.Register()">
-                Register
-            </button>  
-        
-        <div id = "user">
-          <button onclick="localr.getUser()">
-              Get user
-            </button>  
         </div>
     </div>
 </body>

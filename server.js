@@ -6,10 +6,10 @@ var rand = require('csprng');
 var sha1 = require('sha1');
 var server = restify.createServer();
 server.use(restify.CORS({
-    origins: ['*'],   // defaults to ['*']
-    credentials: true,                  // defaults to false
-    headers: ['authorization', 'content-type','accept', 'origin'],
-    methods:['GET', 'PUT', 'POST', 'HEAD', 'DELETE']// sets expose-headers
+    origins: ['*'], // defaults to ['*']
+    credentials: true, // defaults to false
+    headers: ['authorization', 'content-type', 'accept', 'origin'],
+    methods: ['GET', 'PUT', 'POST', 'HEAD', 'DELETE'] // sets expose-headers
 }));
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
@@ -17,7 +17,6 @@ server.use(restify.authorizationParser());
 restify.CORS.ALLOW_HEADERS.push('authorization');
 server.listen(8080, function() {
     console.log('incoming request being handled');
-    
     // lists put requests use as reference
     server.put(/^\/lists\/([a-z]+)$/, function(req, res, next) {
         console.log('PUT ' + req.params[0]);
@@ -208,12 +207,16 @@ server.listen(8080, function() {
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if the document isnt found it will create it from sratch
+            console.log('code' + response.statusCode)
+            if(response.statusCode == 200) {
+                console.log("inside 200")
+                return next(new restify.InternalServerError('Cant create document'))
+            };
             if(response.statusCode == 404) {
+                console.log('inside 404')
                 console.log('document not found');
                 var salt = rand(160, 36);
-                console.log(req.authorization.basic.password + salt);
                 var password = sha1(req.authorization.basic.password + salt);
-                console.log(password);
                 var d = new Date();
                 var date = d.toUTCString();
                 console.log(date);
@@ -236,22 +239,15 @@ server.listen(8080, function() {
                     }
                     // document has been inserted into database
                     body = JSON.parse(body);
-                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
-                    res.setHeader('ETag', body.rev);
-                    res.setHeader('Last-Modified', date);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.setHeader('Accepts', 'PUT');
                     res.send({
-                        items: req.params['items']
+                        user: req.params
                     });
                     res.end();
                 });
             };
             // if the document is found, that means the user is already created.
-            if(response.statusCode == 200) {
-                return next(new restify.ConflictError('user already created'))
-            };
         });
+        res.send()
         res.end()
     });
     //Grab a users profile
