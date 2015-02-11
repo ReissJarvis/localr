@@ -5,6 +5,7 @@ var request = require('request');
 var rand = require('csprng');
 var sha1 = require('sha1');
 var server = restify.createServer();
+server.use(restify.CORS());
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
