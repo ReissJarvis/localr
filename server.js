@@ -11,7 +11,7 @@ server.use(restify.authorizationParser());
 server.listen(8080, function() {
     server.use(function crossOrigin(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.header("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE");
         return next();
     });
     console.log('incoming request being handled');
