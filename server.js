@@ -203,6 +203,8 @@ server.listen(8080, function() {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
         }
         console.log('parameters supplied');
+        //Set a boolean for whether user is able to be registered
+        var bool;
         var url = 'http://localhost:5984/users/' + req.params[0];
         request.get(url, function(err, response, body) {
             console.log("request started")
@@ -211,6 +213,7 @@ server.listen(8080, function() {
             if(response.statusCode == 200) {
                 console.log("inside 200")
                 return next(new restify.InternalServerError('Cant create document'))
+                bool = false;
             };
             if(response.statusCode == 404) {
                 console.log('inside 404')
@@ -243,11 +246,16 @@ server.listen(8080, function() {
                         user: req.params
                     });
                     res.end();
+                    bool = true;
                 });
             };
             // if the document is found, that means the user is already created.
         });
-        res.send("{'user added'}")
+        if(bool === true) {
+            res.send("{'User has been added'}")
+        } else {
+            res.send("{'User already exists'}")
+        }
         res.end()
     });
     //Grab a users profile
