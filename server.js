@@ -8,7 +8,8 @@ var server = restify.createServer();
 server.use(restify.CORS({
     origins: ['*'],   // defaults to ['*']
     credentials: true,                  // defaults to false
-    headers: ['authorization']                 // sets expose-headers
+    headers: ['authorization', 'content-type','accept', 'origin'],
+    methods:['GET', 'PUT', 'POST', 'HEAD', 'DELETE']// sets expose-headers
 }));
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
