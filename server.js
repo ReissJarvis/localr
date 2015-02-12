@@ -59,7 +59,7 @@ server.listen(8080, function() {
                 body.last_modified = date;
                 body.points = body.points + 10;
                 // adding the transactions to the array so we can keep track of them
-                body.transactions.push('{transactionid:' + body.transactions.length + ', date:' + date + ', amount_of_points:10}')
+                body.transactions.push('"transactionid":' + '"' + body.transactions.length + '",' + '"date:"' + '"' + date + '",' + '"amount_of_points:"' + '"' + 10 + '"')
                 console.log(body.points);
                 var params = {
                     uri: url,
