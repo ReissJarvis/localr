@@ -58,7 +58,7 @@ server.listen(8080, function() {
                     date = d.toUTCString();
                 // change what we need in the body e.g the points can probably add to the array aswell
                 body.last_modified = date;
-                body.points = body.points + 10;
+                body.points = body.points + points;
                 // adding the transactions to the array so we can keep track of them
                 body.transactions.push({transactionid: body.transactions.length, date: date, amount_of_points: points})
                 console.log(body.points);
