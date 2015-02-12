@@ -60,8 +60,8 @@ localr = (function() {
             console.log(credentials)
         },
         checkin: function(){
-            var url = 'http://178.62.31.30:8080/checkin?user=' + username + '&points=' + points;
             var points = document.getElementById("points").value
+            var url = 'http://178.62.31.30:8080/checkin?user=' + username + '&points=' + points;
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
