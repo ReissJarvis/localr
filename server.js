@@ -18,19 +18,19 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 server.listen(8080, function() {
     console.log('incoming request being handled');
     // lists put requests use as reference
-    server.put(/^\/lists\/([a-z]+)$/, function(req, res, next) {
+    server.put(/^\/lists\/([a-z]+)$/, function (req, res, next) {
         console.log('PUT ' + req.params[0]);
         console.log('PUT ' + req.headers);
         // checks to see if the username is in the URL 
-        if(req.params[0] != req.authorization.basic.username) {
+        if (req.params[0] != req.authorization.basic.username) {
             return next(new restify.ForbiddenError('mismatched username and url'));
         }
         // checks it contains  content type application/json
-        if(req.headers['content-type'] != 'application/json') {
+        if (req.headers['content-type'] !== 'application/json') {
             return next(new restify.UnsupportedMediaTypeError('Bad Content-Type'));
         }
         // checks if it has basic authorization
-        if(req.authorization.scheme != 'Basic') {
+        if (req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
         }
         console.log('parameters supplied');
@@ -38,14 +38,14 @@ server.listen(8080, function() {
         // if put has items in the json it will grab whats in it, in this case items must be
         // an array which could ( ["item","item", "item"])
         console.log("items: " + req.params['items'])
-        req.params['items'].forEach(function(item) {
-            console.log(item)
+        req.params['items'].forEach(function (item) {
+            console.log(item);
         });
         var items = req.params['items'];
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if the document isnt found it will create it from sratch
-            if(response.statusCode == 404) {
+            if (response.statusCode === 404) {
                 console.log('document not found');
                 var salt = rand(160, 36);
                 console.log(req.authorization.basic.password + salt);
@@ -186,7 +186,7 @@ server.listen(8080, function() {
         res.end()
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
-    server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
+    server.put(/^\/register\/([a-z]+)$/, function (req, res, next) {
         debugger; 
         console.log('NEW USER');
         console.log('PUT ' + req.params[0])
@@ -247,7 +247,7 @@ server.listen(8080, function() {
         
     });
     //Grab a users profile
-    server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
+    server.get(/^\/users\/([a-z]+)$/, function (req, res, next) {
         console.log('GRABBING USER');
         console.log('GET ' + req.params[0]);
         var user = {
