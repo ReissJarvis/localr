@@ -119,7 +119,7 @@ server.listen(8080, function() {
         res.end()
     });
     //use this as adding points
-    //The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME This will then add 10 points at the moment
+    //The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
     //we can change the amount places wanna do check in points at eventually. 
     server.put("/checkin", function(req, res, next) {
         var user = req.query.user
@@ -187,7 +187,7 @@ server.listen(8080, function() {
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
     server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
-        var user = req.query.user
+        debugger; 
         console.log('NEW USER');
         console.log('PUT ' + req.params[0])
         // checks to see if the username is in the URL 
@@ -202,19 +202,16 @@ server.listen(8080, function() {
         if(req.authorization.scheme != 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
         }
-        console.log('parameters supplied');
         var url = 'http://localhost:5984/users/' + req.params[0];
         request.get(url, function(err, response, body) {
-            console.log("request started")
+             if(err) {
+                        return next(new restify.InternalServerError('Error has occured'));
+                    }
             // if the document isnt found it will create it from sratch
             console.log('code' + response.statusCode)
             if(response.statusCode == 200) {
-                console.log("inside 200")
-                return next(new restify.InternalServerError('Cant create document'))
-            };
-            if(response.statusCode == 404) {
-                console.log('inside 404')
-                console.log('document not found');
+                return next(new restify.InternalServerError('user already created'));
+            }else if(response.statusCode == 404) {
                 var salt = rand(160, 36);
                 var password = sha1(req.authorization.basic.password + salt);
                 var d = new Date();
@@ -247,13 +244,12 @@ server.listen(8080, function() {
             };
             // if the document is found, that means the user is already created.
         });
-        res.send("{'user added'}")
-        res.end()
+        
     });
     //Grab a users profile
     server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
         console.log('GRABBING USER');
-        console.log('GET ' + req.params[0])
+        console.log('GET ' + req.params[0]);
         var user = {
             test: 'test'
         };
