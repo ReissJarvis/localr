@@ -15,7 +15,7 @@ localr = (function() {
             }
             httpRequest.open('GET', url);
             httpRequest.setRequestHeader('Authorization', credentials);
-            httpRequest.setRequestHeader('content-type', "application/json");
+            httpRequest.setRequestHeader('Content-Type', "application/json");
             httpRequest.onload = function() {
                 if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                     var response = JSON.parse(httpRequest.responseText);
