@@ -168,7 +168,7 @@ server.listen(8080, function() {
             };
             if(response.statusCode == 200) {
                 body = JSON.parse(body);
-                res.header('ETag', body._rev);
+                //res.header('ETag', body._rev);
                 res.header('Last-Modified', body.last_modified);
                 res.header('Accepts', 'GET');
                 user = {
