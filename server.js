@@ -82,9 +82,8 @@ server.listen(8080, function() {
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
     server.put(/^\/register\/([a-z]+)$/, function (req, res, next) {
-        debugger; 
-        console.log('NEW USER');
-        console.log('PUT ' + req.params[0])
+        console.log('NEW USER!');
+        console.log('PUT: ' + req.params[0])
         // checks to see if the username is in the URL 
         if(req.params[0] != req.authorization.basic.username) {
             return next(new restify.ForbiddenError('You cant access that user'));
@@ -107,11 +106,11 @@ server.listen(8080, function() {
             if(response.statusCode == 200) {
                 return next(new restify.InternalServerError('user already created'));
             }else if(response.statusCode == 404) {
-                var salt = rand(160, 36);
-                var password = sha1(req.authorization.basic.password + salt);
-                var d = new Date();
-                var date = d.toUTCString();
-                console.log(date);
+                var salt = rand(160, 36),
+                    password = sha1(req.authorization.basic.password + salt),
+                    d = new Date(),
+                    date = d.toUTCString();
+                console.log(date)
                 var doc = {
                     date_joined: date,
                     last_modified: date,
