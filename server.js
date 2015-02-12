@@ -23,6 +23,7 @@ server.listen(8080, function() {
     server.put("/checkin", function(req, res, next) {
         // Get user and set couchdb url
         var user = req.query.user,
+            points = req.query.points,
             url = 'http://localhost:5984/users/' + user;
         console.log('CHECKIN ');
         console.log('PUT ' + user);
@@ -59,7 +60,7 @@ server.listen(8080, function() {
                 body.last_modified = date;
                 body.points = body.points + 10;
                 // adding the transactions to the array so we can keep track of them
-                body.transactions.push({transactionid: body.transactions.length, date: date, amount_of_points: 10})
+                body.transactions.push({transactionid: body.transactions.length, date: date, amount_of_points: points})
                 console.log(body.points);
                 var params = {
                     uri: url,
