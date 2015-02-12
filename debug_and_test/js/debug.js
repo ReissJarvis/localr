@@ -26,7 +26,7 @@ localr = (function() {
             };
             httpRequest.send();
         },
-        Register: function() {
+        rgitegister: function() {
             localr.setCred();
             var url = "http://178.62.31.30:8080/register/" + username
             if(window.XMLHttpRequest) { // mozilla, safari,...
