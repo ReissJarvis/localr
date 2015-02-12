@@ -57,6 +57,26 @@ localr = (function() {
         getBasic: function() {
             credentials = "Basic " + btoa(username + ":" + password);
             console.log(credentials)
+        },
+        checkin: function(){
+            var url = 'http://178.62.31.30:8080/checkin?user=' + username;
+            if(window.XMLHttpRequest) { // mozilla, safari,...
+                httpRequest = new XMLHttpRequest();
+            } else if(window.ActiveXObject) {
+                httpRequest = ("Microsoft.XMLHTTP");
+            }
+            httpRequest.open('PUT', url);
+            httpRequest.setRequestHeader('Authorization', credentials);
+            httpRequest.setRequestHeader('content-type', "application/json");
+            httpRequest.onload = function() {
+                if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                    var response = JSON.parse(httpRequest.responseText);
+                    console.log(response)
+                } else {
+                    console.log(httpRequest.statusText);
+                }
+            };
+            httpRequest.send();
         }
     }
 })()

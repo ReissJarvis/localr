@@ -74,14 +74,14 @@ server.listen(8080, function() {
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'PUT');
-                    res.send();
+                    res.send("points added");
                     res.end();
                 });
             };
         });
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
-    server.put(/^\/register\/([a-z]+)$/, function (req, res, next) {
+    server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
         console.log('NEW USER!');
         console.log('PUT: ' + req.params[0])
         // checks to see if the username is in the URL 
@@ -98,14 +98,14 @@ server.listen(8080, function() {
         }
         var url = 'http://localhost:5984/users/' + req.params[0];
         request.get(url, function(err, response, body) {
-             if(err) {
-                        return next(new restify.InternalServerError('Error has occured'));
-                    }
+            if(err) {
+                return next(new restify.InternalServerError('Error has occured'));
+            }
             // if the document isnt found it will create it from sratch
             console.log('code' + response.statusCode)
             if(response.statusCode == 200) {
                 return next(new restify.InternalServerError('user already created'));
-            }else if(response.statusCode == 404) {
+            } else if(response.statusCode == 404) {
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
                     d = new Date(),
@@ -138,10 +138,9 @@ server.listen(8080, function() {
             };
             // if the document is found, that means the user is already created.
         });
-        
     });
     //Grab a users profile
-    server.get(/^\/users\/([a-z]+)$/, function (req, res, next) {
+    server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
         console.log('GRABBING USER');
         console.log('GET ' + req.params[0]);
         var user = {
