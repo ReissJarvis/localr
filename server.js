@@ -23,7 +23,7 @@ server.listen(8080, function() {
     server.put("/checkin", function(req, res, next) {
         // Get user and set couchdb url
         var user = req.query.user,
-            points = req.query.points,
+            points = parseInt(req.query.points),
             url = 'http://localhost:5984/users/' + user;
         console.log('CHECKIN ');
         console.log('PUT ' + user);
