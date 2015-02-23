@@ -4,7 +4,9 @@ var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
     sha1 = require('sha1'),
-    server = restify.createServer(),
+    server = restify.createServer({
+        name: "localr"
+    }),
     uuid = require('node-uuid'),
     getuser = require("./getuser.js"),
     checkin = require("./checkin.js"),
@@ -33,6 +35,6 @@ server.listen(8080, function() {
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
     server.put("/checkin", function(req, res, next) {
         checkin.checkin(req,res,next);
-        console.log('in server.js'+req.params[0].user);
+        console.log('in server.js'+req.params[0]);
     });
 });

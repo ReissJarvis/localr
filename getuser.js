@@ -12,7 +12,7 @@ function getuser(req, res, next) {
     var user = {
         test: 'test'
     };
-    validateHTTP.validateHTTP(req, res, next)
+    validateHTTP.validateGET(req, res, next)
     console.log('parameters supplied');
     var url = 'http://localhost:5984/users/' + req.params[0];
     request.get(url, function(err, response, body) {
