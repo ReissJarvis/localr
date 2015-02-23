@@ -54,7 +54,7 @@ function register(req, res, next) {
                 }, function(err, node) {
                     if(err) throw err;
                     // Output node properties.
-                    console.log(node.data);
+                    console.log('New neo4j node created with name = ' + node.name);
                     // Output node id.
                     console.log(node._id);
                 });
