@@ -14,8 +14,9 @@ function checkin(req, res, next) {
     console.log('PUT ' + user);
     console.log('Points = ' + points);
     console.log('Parameters supplied.');
-    validateHTTP.validateHTTP(req, res, next)
+    
     request.get(url, function (err, response, body) {
+        validateHTTP.validateHTTP(req, res, next);
         console.log("Request started.");
         // if the document isnt found it will create it from sratch
         if (response.statusCode === 404) {
