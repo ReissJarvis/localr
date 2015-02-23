@@ -6,6 +6,7 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function checkin(req, res, next) {
+    var self = this;
     // Get user and set couchdb url
     var user = req.query.user,
         points = parseInt(req.query.points),
@@ -16,7 +17,7 @@ function checkin(req, res, next) {
     console.log('Parameters supplied.');
     
     request.get(url, function (err, response, body) {
-        validateHTTP.validateHTTP(req, res, next);
+        validateHTTP.validateHTTP(self.req, self.res, self.next);
         console.log("Request started.");
         // if the document isnt found it will create it from sratch
         if (response.statusCode === 404) {
