@@ -18,7 +18,7 @@ function checkin(req, res, next) {
     
     request.get(url, function (err, response, body) {
         console.log('in checkin.js'+req.params[0]);
-        validateHTTP.validatePUT(req, res, next);
+        validateHTTP.validateHTTP(req, res, next);
         console.log("Request started.");
         // if the document isnt found it will create it from sratch
         if (response.statusCode === 404) {
