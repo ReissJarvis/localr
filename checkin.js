@@ -11,6 +11,7 @@ function checkin(req, res, next) {
         url = 'http://localhost:5984/users/' + user;
     console.log('CHECKIN ');
     console.log('PUT ' + user);
+    console.log('Points = ' + points);
     console.log('Parameters supplied.');
     validateHTTP.validateHTTP(req, res, next)
     request.get(url, function (err, response, body) {
