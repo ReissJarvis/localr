@@ -49,7 +49,7 @@ function register(req, res, next) {
                     user: req.params
                 });
                 db.insertNode({
-                    name: req.params[0],
+                    name: req.params.username,
                     type:'user'
                 }, function(err, node) {
                     if(err) throw err;
