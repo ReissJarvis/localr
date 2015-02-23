@@ -13,13 +13,13 @@ function checkin(req, res, next) {
     console.log('PUT ' + user);
     console.log('Parameters supplied.');
     validateHTTP.validateHTTP(req, res, next)
-    request.get(url, function(err, response, body) {
-        console.log("Request started.")
+    request.get(url, function (err, response, body) {
+        console.log("Request started.");
         // if the document isnt found it will create it from sratch
-        if(response.statusCode == 404) {
+        if (response.statusCode === 404) {
             return next(new restify.ForbiddenError('User Not Found'));
-        };
-        if(response.statusCode == 200) {
+        } ;
+        if (response.statusCode === 200) {
             console.log('Existing document.');
             body = JSON.parse(body);
             var pwd = sha1(req.authorization.basic.password + body.salt);
@@ -43,8 +43,8 @@ function checkin(req, res, next) {
                 uri: url,
                 body: JSON.stringify(body)
             };
-            request.put(params, function(err, response, body) {
-                if(err) {
+            request.put(params, function (err, response, body) {
+                if (err) {
                     return next(new restify.InternalServerError('Cant create document'));
                 }
                 // document has been inserted into database
