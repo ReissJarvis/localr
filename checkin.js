@@ -1,3 +1,4 @@
+var validateHTTP = require("./validateHTTP.js");
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
