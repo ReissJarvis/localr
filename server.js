@@ -25,11 +25,11 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 // Creating Server
 server.listen(8080, function() {
     console.log('Incoming request being handled.');
-    server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
+    server.get("/users", function(req, res, next) {
         getuser.getuser(req,res,next);
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
-    server.put(/^\/register\/([a-z]+)$/, function(req, res, next) {
+    server.put("/register", function(req, res, next) {
         register.register(req,res,next);
     });
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
