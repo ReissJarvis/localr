@@ -5,7 +5,6 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 exports.validatePUT = function(req, res, next) {
-    console.log(req);
     // checks to see if the username is in the URL 
     if (req.params.user != req.authorization.basic.username) {
         return next(new restify.ForbiddenError('You can\'t access that user'));
@@ -21,7 +20,6 @@ exports.validatePUT = function(req, res, next) {
 }
 
 exports.validateGET = function(req, res, next) {
-    console.log(req);
     // checks to see if the username is in the URL 
     if (req.params[0] != req.authorization.basic.username) {
         return next(new restify.ForbiddenError('You can\'t access that user'));
