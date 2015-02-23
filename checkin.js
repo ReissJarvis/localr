@@ -62,4 +62,4 @@ function checkin(req, res, next) {
     });
 };
 
-exports.checkin = checkin;
+module.exports.checkin = checkin;

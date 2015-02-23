@@ -46,4 +46,4 @@ function getuser(req, res, next) {
     });
 };
 
-exports.getuser = getuser;
+module.exports.getuser = getuser;
