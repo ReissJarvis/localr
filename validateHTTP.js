@@ -7,7 +7,7 @@ var restify = require('restify'),
 function validateHTTP(req) {
     console.log(req)
     // checks to see if the username is in the URL 
-    if (req.params[0] != req.authorization.basic.username) {
+    if (req.params.user != req.authorization.basic.username) {
         return next(new restify.ForbiddenError('You can\'t access that user'));
     }
     // checks it contains  content type application/json
