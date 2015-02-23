@@ -1,4 +1,4 @@
-server.put(/^\/lists\/([a-z]+)$/, function (req, res, next) {
+server.get(/^\/register\/([a-z]+\d*@uni\.coventry\.ac\.uk)/, function (req, res, next)
         console.log('PUT ' + req.params[0]);
         console.log('PUT ' + req.headers);
         // checks to see if the username is in the URL 
