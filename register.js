@@ -46,5 +46,5 @@ function register(req, res, next) {
     // if the document is found, that means the user is already created.
 };
 
-module.exports.register = register;
+exports.register = register;
 

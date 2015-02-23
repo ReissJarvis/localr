@@ -1,6 +1,7 @@
 var validateHTTP = require("./validateHTTP.js");
 
 function getuser(req, res, next) {
+    console.log(req)
     //Grab a users profile
     console.log('GRABBING USER');
     console.log('GET ' + req.params[0]);
@@ -37,4 +38,4 @@ function getuser(req, res, next) {
     });
 };
 
-module.exports.getuser = getuser;
+exports.getuser = getuser;
