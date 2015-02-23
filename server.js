@@ -142,7 +142,7 @@ server.listen(8080, function() {
         });
     });
     //Grab a users profile
-    server.get(/^\/user\/([a-z]+)$/, function(req, res, next) {
+    server.get(/^\/users\/([a-z]+)$/, function(req, res, next) {
         console.log('GRABBING USER');
         console.log('GET ' + req.params[0]);
         var user = {
