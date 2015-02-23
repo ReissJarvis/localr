@@ -149,7 +149,7 @@ server.listen(8080, function() {
         };
         // checks to see if the username is in the URL 
         if(req.params[0] != req.authorization.basic.username) {
-            return next(new restify.ForbiddenError('You cant access that user'));
+            return next(new restify.ForbiddenError('You can\'t access that user'));
         }
         // checks it contains  content type application/json
         if(req.headers['content-type'] != 'application/json') {
