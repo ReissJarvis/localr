@@ -50,6 +50,7 @@ function register(req, res, next) {
                 });
                 db.insertNode({
                     name: req.params[0],
+                    type:'user'
                 }, function(err, node) {
                     if(err) throw err;
                     // Output node properties.
