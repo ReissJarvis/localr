@@ -4,7 +4,8 @@ var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
     sha1 = require('sha1'),
-    server = restify.createServer();
+    server = restify.createServer(),
+    uuid = require('node-uuid');
 // Setting server dependancys
 server.use(restify.CORS({
     origins: ['*'], // defaults to ['*']
@@ -60,7 +61,7 @@ server.listen(8080, function() {
                 body.last_modified = date;
                 body.points = body.points + points;
                 // adding the transactions to the array so we can keep track of them
-                body.transactions.push({transactionid: body.transactions.length, date: date, amount_of_points: points})
+                body.transactions.push({transactionid: uuid.v1(), date: date, amount_of_points: points})
                 console.log(body.points);
                 var params = {
                     uri: url,
