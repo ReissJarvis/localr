@@ -8,7 +8,7 @@ localr = (function() {
     return {
         getUser: function() {
             localr.setCred();
-            var url = "http://178.62.31.30/users/" + username
+            var url = 'http://178.62.31.30/users?username="' + username + '"'
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
@@ -30,7 +30,7 @@ localr = (function() {
         },
         register: function() {
             localr.setCred();
-            var url = "http://178.62.31.30/register/" + username
+            var url = 'http://178.62.31.30/register?username"' + username + '"'
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {

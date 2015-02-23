@@ -8,7 +8,7 @@ var restify = require('restify'),
 function checkin(req, res, next) {
     var self = this;
     // Get user and set couchdb url
-    var user = req.query.user,
+    var user = req.query.username,
         points = parseInt(req.query.points),
         url = 'http://localhost:5984/users/' + user;
     console.log('CHECKIN ');

@@ -9,8 +9,8 @@ db = new neo4j('http://localhost:7474');
 
 function register(req, res, next) {
     console.log('NEW USER!');
-    console.log('PUT: ' + req.params[0])
-    var url = 'http://localhost:5984/users/' + req.params[0];
+    console.log('PUT: ' + req.params.username)
+    var url = 'http://localhost:5984/users/' + req.params.username;
     validateHTTP.validateHTTP(req, res, next)
     request.get(url, function(err, response, body) {
         if(err) {

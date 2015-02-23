@@ -8,7 +8,7 @@ var restify = require('restify'),
 function getuser(req, res, next) {
     //Grab a users profile
     console.log('GRABBING USER');
-    console.log('GET ' + req.params[0]);
+    console.log('GET ' + req.params.username);
     var user = {
         test: 'test'
     };
