@@ -1,5 +1,4 @@
-// Adam testing git is working on the VPS
-// Were also not using Python hahaha no #####
+//All working 23/2/15 - 3pm
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
