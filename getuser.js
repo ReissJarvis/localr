@@ -6,7 +6,6 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function getuser(req, res, next) {
-    console.log(req)
     //Grab a users profile
     console.log('GRABBING USER');
     console.log('GET ' + req.params[0]);
