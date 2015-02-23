@@ -14,7 +14,7 @@ function getuser(req, res, next) {
     };
     validateHTTP.validateHTTP(req, res, next)
     console.log('parameters supplied');
-    var url = 'http://localhost:5984/users?username=' + req.params.username;
+    var url = 'http://localhost:5984/users/' + req.params.username;
     request.get(url, function(err, response, body) {
         console.log("request started")
         // if user is not found will send 404 error
