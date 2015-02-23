@@ -3,10 +3,7 @@ var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
     sha1 = require('sha1'),
-    uuid = require('node-uuid'),
-    getuser = require("./getuser.js"),
-    checkin = require("./checkin.js"),
-    register = require("./register.js");
+    uuid = require('node-uuid');
 
 function getuser(req, res, next) {
     console.log(req)
