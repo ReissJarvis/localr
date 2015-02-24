@@ -5,12 +5,13 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
-db = new neo4j('http://localhost:7474');
+
 
 function register(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next)) === true) {
         console.log('NEW USER!');
         console.log('PUT: ' + req.params.username)
+        db = new neo4j('http://localhost:7474');
         var url = 'http://localhost:5984/users/' + req.params.username;
         validateHTTP.validateHTTP(req, res, next)
         request.get(url, function(err, response, body) {
@@ -22,6 +23,18 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
+                var nodeid = 0;
+                db.insertNode({
+                        name: req.params.username,
+                        type: 'user'
+                    }, function(err, node) {
+                        if(err) throw err;
+                        // Output node properties.
+                        console.log('New neo4j node created with name = ' + node.name);
+                        // Output node id.
+                        console.log(node._id);
+                        nodeid = node._id
+                    });
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
                     d = new Date(),
@@ -33,7 +46,8 @@ function register(req, res, next) {
                     password: password,
                     salt: salt,
                     points: 0,
-                    transactions: []
+                    transactions: [],
+                    nodeid = nodeid
                 };
                 var docStr = JSON.stringify(doc);
                 var params = {
@@ -48,16 +62,6 @@ function register(req, res, next) {
                     body = JSON.parse(body);
                     res.send({
                         user: req.params
-                    });
-                    db.insertNode({
-                        name: req.params.username,
-                        type: 'user'
-                    }, function(err, node) {
-                        if(err) throw err;
-                        // Output node properties.
-                        console.log('New neo4j node created with name = ' + node.name);
-                        // Output node id.
-                        console.log(node._id);
                     });
                     res.end();
                 });
