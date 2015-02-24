@@ -27,7 +27,7 @@ server.listen(8080, function() {
         business = "/business";
     console.log('Incoming request being handled.');
     // Get details for user
-    server.get({path: users + "/get"}, function(req, res, next) {
+    server.get("/users/get", function(req, res, next) {
         getDetails.getDetails(req, res, next, 'users');
     });
     // Get details for business
