@@ -7,14 +7,14 @@ var restify = require('restify'),
 
 function getDetails(req, res, next, type) {
     if(type == "users") {
-        if((validateHTTP.validateHTTP(req, res, next)) === true) {
+        if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
             //Grab a users profile
             console.log('GRABBING USER');
             console.log('GET ' + req.params.username);
             var user = {
                 test: 'test'
             };
-            validateHTTP.validateHTTP(req, res, next)
+            validateHTTP.validateHTTP(req, res, next, "users");
             console.log('parameters supplied');
             var url = 'http://localhost:5984/users/' + req.params.username;
             request.get(url, function(err, response, body) {
@@ -44,14 +44,14 @@ function getDetails(req, res, next, type) {
             });
         };
     } else if(type == "business") {
-        if((validateHTTP.validateHTTP(req, res, next)) === true) {
+        if((validateHTTP.validateHTTP(req, res, next, "business")) === true) {
             //Grab a users profile
             console.log('GRABBING BUSINESS');
             console.log('GET ' + req.params.businessname);
             var business = {
                 test: 'test'
             };
-            validateHTTP.validateHTTP(req, res, next)
+            validateHTTP.validateHTTP(req, res, next, "business");
             console.log('Parameters Supplied');
             var url = 'http://localhost:5984/business/' + req.params.businessname;
             request.get(url, function(err, response, body) {

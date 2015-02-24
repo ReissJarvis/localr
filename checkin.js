@@ -6,7 +6,7 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function checkin(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next)) === true) {
+    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
     // Get user and set couchdb url
     var user = req.query.username,
         points = parseInt(req.query.points),
