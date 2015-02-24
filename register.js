@@ -47,7 +47,7 @@ function register(req, res, next) {
                     salt: salt,
                     points: 0,
                     transactions: [],
-                    nodeid = nodeid
+                    nodeid: nodeid
                 };
                 var docStr = JSON.stringify(doc);
                 var params = {
