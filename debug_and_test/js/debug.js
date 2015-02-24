@@ -6,7 +6,7 @@ localr = (function() {
         httpRequest = "";
     return {
         getDetails: function(type) {
-            if(type == "user") {
+            if(type == "users") {
                 localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/users/get?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
@@ -99,15 +99,15 @@ localr = (function() {
         },
         setCred: function(type) {
             if(type == "users") {
-                name = document.getElementById("username");
+                name = document.getElementById("username").value;
                 console.log(name);
-                password = document.getElementById("userspassword");
+                password = document.getElementById("userpassword").value;
                 console.log(password);
                 localr.getBasic();
             } else if(type == "business") {
-                name = document.getElementById("businessname");
+                name = document.getElementById("businessname").value;
                 console.log(name);
-                password = document.getElementById("businesspassword");
+                password = document.getElementById("businesspassword").value;
                 console.log(password);
                 localr.getBasic();
             } else {
