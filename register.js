@@ -23,9 +23,9 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
-                db.insertNode(['User'], {
+                db.insertNode({
                     name: req.params.username
-                }, function(err, node) {
+                }, ['User'], function(err, node) {
                     if(err) throw err;
                     // Output node properties.
                     console.log('New neo4j node created with name = ' + node.name);
