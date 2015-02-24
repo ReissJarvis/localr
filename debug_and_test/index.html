@@ -7,26 +7,36 @@
 </head>
 
 <body>
-    <div>
+    <section id="user">
         <input id="username" placeholder="username">
         <input id="password" placeholder="password">
         <input id="points" placeholder="points">
-        <button onclick="localr.setCred()">
+        <button onclick="localr.setCred(user)">
             Login
         </button>
-        <button onclick="localr.register()">
+        <button onclick="localr.register('user')">
             Register
         </button>
-
-        <div id="user">
-            <button onclick="localr.getUser()">
-                Get user
-            </button>
-        </div>
-        <button onclick="localr.checkin()">
+        <button onclick="localr.getDetails('user')">
+            Get user
+        </button>
+        <button onclick="localr.checkin('user')">
             Checkin
         </button>
-    </div>
+    </section>
+    <section id="business">
+        <input id="businessname" placeholder="businessname">
+        <input id="password" placeholder="password">
+        <button onclick="localr.setCred('business')">
+            Login
+        </button>
+        <button onclick="localr.register('business')">
+            Register
+        </button>
+        <button onclick="localr.getDetails('business')">
+            Get Business
+        </button>
+    </section>
 </body>
 
 </html>

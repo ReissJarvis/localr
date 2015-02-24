@@ -7,7 +7,7 @@ var restify = require('restify'),
         name: "localr"
     }),
     uuid = require('node-uuid'),
-    getuser = require("./getuser.js"),
+    getDetails = require("./getDetails.js"),
     checkin = require("./checkin.js"),
     register = require("./register.js");
 // Setting server dependancys
@@ -23,9 +23,16 @@ server.use(restify.authorizationParser());
 restify.CORS.ALLOW_HEADERS.push('authorization');
 // Creating Server
 server.listen(8080, function() {
+    var users = "/users",
+        business = "/business";
     console.log('Incoming request being handled.');
-    server.get("/users", function(req, res, next) {
-        getuser.getuser(req,res,next);
+    // Get details for user
+    server.get({path: users}, function(req, res, next) {
+        getDetails.getDetails(req, res, next, 'users');
+    });
+    // Get details for business
+    server.get({path: business}, function(req, res, next) {
+        getDetails.getDetails(req, res, next, 'business');
     });
     //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
     server.put("/register", function(req, res, next) {

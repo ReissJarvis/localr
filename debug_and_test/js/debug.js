@@ -1,68 +1,116 @@
 localr = (function() {
     'use strict'
     var credentials = "",
-        username = "",
+        name = "",
         password = "",
-        httpRequest="";
-        
+        httpRequest = "";
     return {
-        getUser: function() {
-            localr.setCred();
-            var url = 'http://178.62.31.30:8080/users?username=' + username
-            if(window.XMLHttpRequest) { // mozilla, safari,...
-                httpRequest = new XMLHttpRequest();
-            } else if(window.ActiveXObject) {
-                httpRequest = ("Microsoft.XMLHTTP");
-            }
-            httpRequest.open('GET', url);
-            httpRequest.setRequestHeader('Authorization', credentials);
-            httpRequest.setRequestHeader('Content-Type', "application/json");
-            httpRequest.onload = function() {
-                if(httpRequest.readyState === 4 && httpRequest.status === 200) {
-                    var response = JSON.parse(httpRequest.responseText);
-                    console.log('In the get req')
-                    console.log(response)
-                } else {
-                    console.log(httpRequest.statusText);
+        getDetails: function(flag) {
+            if(flag == "user") {
+                localr.setCred();
+                var url = 'http://178.62.31.30:8080/users?username=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
                 }
+                httpRequest.open('GET', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('Content-Type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log('In the get req');
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else if(flag == "business") {
+                localr.setCred();
+                var url = 'http://178.62.31.30:8080/business?businessname=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
+                }
+                httpRequest.open('GET', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('Content-Type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log('In the get req');
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else {
+                console.log("Error, Invalid Flag!");
             };
-            httpRequest.send();
         },
-        register: function() {
-            localr.setCred();
-            var url = 'http://178.62.31.30:8080/register?username=' + username 
-            if(window.XMLHttpRequest) { // mozilla, safari,...
-                httpRequest = new XMLHttpRequest();
-            } else if(window.ActiveXObject) {
-                httpRequest = ("Microsoft.XMLHTTP");
-            }
-            httpRequest.open('PUT', url);
-            httpRequest.setRequestHeader('Authorization', credentials);
-            httpRequest.setRequestHeader('content-type', "application/json");
-            httpRequest.onload = function() {
-                if(httpRequest.readyState === 4 && httpRequest.status === 200) {
-                    var response = JSON.parse(httpRequest.responseText);
-                    console.log(response)
-                } else {
-                    console.log(httpRequest.statusText);
+        register: function(flag) {
+            if(flag == "user") {
+                localr.setCred();
+                var url = 'http://178.62.31.30:8080/register?username=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
                 }
+                httpRequest.open('PUT', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('content-type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else if(flag == "business") {
+                localr.setCred();
+                var url = 'http://178.62.31.30:8080/register?businessname=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
+                }
+                httpRequest.open('PUT', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('content-type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else {
+                console.log("Error, Invalid Flag!");
             };
-            httpRequest.send();
         },
         setCred: function() {
-            username = document.getElementById("username").value;
-            console.log(username);
+            name = document.getElementById("username").value;
+            console.log(name);
             password = document.getElementById("password").value;
             console.log(password);
             localr.getBasic();
         },
         getBasic: function() {
-            credentials = "Basic " + btoa(username + ":" + password);
-            console.log(credentials)
+            credentials = "Basic " + btoa(name + ":" + password);
+            console.log(credentials);
         },
-        checkin: function(){
+        checkin: function() {
             var points = document.getElementById("points").value
-            var url = 'http://178.62.31.30:8080/checkin?username=' + username + '&points=' + points;
+            var url = 'http://178.62.31.30:8080/checkin?username=' + name + '&points=' + points;
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
