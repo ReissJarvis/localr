@@ -6,6 +6,7 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function checkin(req, res, next) {
+    if((validateHTTP.validateHTTP(req, res, next)) === true) {
     // Get user and set couchdb url
     var user = req.query.username,
         points = parseInt(req.query.points),
@@ -15,7 +16,6 @@ function checkin(req, res, next) {
     console.log('Points = ' + points);
     console.log('Parameters supplied.');
     request.get(url, function(err, response, body) {
-        if((validateHTTP.validateHTTP(req, res, next)) === true) {
             console.log("Request started.");
             // if the document isnt found it will create it from sratch
             if(response.statusCode === 404) {
@@ -58,7 +58,7 @@ function checkin(req, res, next) {
                     res.end();
                 });
             };
-        }
-    })
+        })
+    }
 };
 module.exports.checkin = checkin;
