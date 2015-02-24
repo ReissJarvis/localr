@@ -32,22 +32,17 @@ module.exports.creategroup = function(req, res, next) {
                         return next(new restify.InternalServerError('no competition found'));
                     } else {
                         var competitionid = result.data[0]._id 
-                        console.log("name" + result.data[0].name); // delivers an array of query results
-                        console.log("description" + result.data[0].description); // delivers an array of query results
-                        console.log("id" + result.data[0]._id); // delivers an array of query results
-                        console.log(result.columns); // delivers an array of names of objects getting returned
-                        console.log("group name = " + groupname)
-                        console.log("description = " + description)
-                        console.log("competitionid = " + competitionid)
-                        db.insertNode({
+                        db.cypherQuery(" MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results){
+                            if(err) throw err;
+                            if (result.data.length == 0){
+                                
+                                db.insertNode({
                             name: groupname,
                             description: description
                         },['Group', competition], function(err, node) {
                             if(err) throw err;
                             // Output node properties.
                             console.log('New neo4j node created with Groupname  = ' + node.name);
-                            // Output node id.
-                            console.log(node._id);
                             console.log('starting insert relationship')
                             db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {description:'competiting in this competition'}, function(err, relationship) {
                                 if(err) throw err;
@@ -91,6 +86,12 @@ module.exports.creategroup = function(req, res, next) {
                                 });
                             });
                         });
+                            }else{
+                               return next(new restify.ConflictError('Group already created')); 
+                            }
+                            
+                        })
+                        
                     }
                     console.log(result.data.length); // delivers an array of query results
                 });
