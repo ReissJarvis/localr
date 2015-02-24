@@ -23,7 +23,7 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
-                var nodeid = 0;
+                nodeid = 0;
                 var self = this;
                 db.insertNode({
                         name: req.params.username,
@@ -35,13 +35,14 @@ function register(req, res, next) {
                         // Output node id.
                         console.log(node._id);
                         nodeid = node._id
-                        console.log('underneath node.id  ' +nodeid);
+                        
                     });
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
                     d = new Date(),
                     date = d.toUTCString();
                 console.log(date);
+                console.log('Just above doc node id  ' +nodeid);
                 var doc = {
                     date_joined: date,
                     last_modified: date,
@@ -51,6 +52,7 @@ function register(req, res, next) {
                     transactions: [],
                     nodeid: nodeid
                 };
+                console.log('doc.nodeid =  ' + doc.nodeid);
                 var docStr = JSON.stringify(doc);
                 var params = {
                     uri: url,
