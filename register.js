@@ -23,9 +23,8 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
-                db.insertNode({
-                    name: req.params.username,
-                    type: 'user'
+                db.insertNode(['User'], {
+                    name: req.params.username
                 }, function(err, node) {
                     if(err) throw err;
                     // Output node properties.
