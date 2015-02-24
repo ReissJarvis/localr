@@ -1,4 +1,8 @@
-var restify = require('restify');
+var restify = require('restify'),
+    request = require('request'),
+    rand = require('csprng'),
+    sha1 = require('sha1'),
+    uuid = require('node-uuid');
 
 function validateHTTP(req, res, next) {
     // checks to see if the username is in the URL 

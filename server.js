@@ -17,12 +17,10 @@ server.use(restify.CORS({
     headers: ['authorization', 'content-type', 'accept', 'origin'],
     methods: ['GET', 'PUT', 'POST', 'HEAD', 'DELETE'] // sets expose-headers
 }));
-//Tell server to use certain restify functions
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
 restify.CORS.ALLOW_HEADERS.push('authorization');
-
 // Creating Server
 server.listen(8080, function() {
     console.log('Incoming request being handled.');

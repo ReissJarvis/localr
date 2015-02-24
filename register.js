@@ -4,8 +4,8 @@ var restify = require('restify'),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
-    neo4j = require('node-neo4j'),
-    db = new neo4j('http://localhost:7474');
+    neo4j = require('node-neo4j');
+db = new neo4j('http://localhost:7474');
 
 function register(req, res, next) {
     console.log('NEW USER!');
@@ -50,7 +50,7 @@ function register(req, res, next) {
                 });
                 db.insertNode({
                     name: req.params.username,
-                    type: 'user'
+                    type:'user'
                 }, function(err, node) {
                     if(err) throw err;
                     // Output node properties.
