@@ -42,7 +42,7 @@ function getDetails(req, res, next, type) {
                     res.end();
                 };
             });
-        }
+        };
     } else if(type == "business") {
         if((validateHTTP.validateHTTP(req, res, next)) === true) {
             //Grab a users profile
@@ -76,7 +76,7 @@ function getDetails(req, res, next, type) {
                     res.end();
                 };
             });
-        }
+        };
     } else {
         console.log("Error, Invalid Type!");
     }

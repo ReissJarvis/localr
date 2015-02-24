@@ -5,10 +5,10 @@ localr = (function() {
         password = "",
         httpRequest = "";
     return {
-        getDetails: function(flag) {
-            if(flag == "user") {
+        getDetails: function(type) {
+            if(type == "user") {
                 localr.setCred();
-                var url = 'http://178.62.31.30:8080/users?username=' + name;
+                var url = 'http://178.62.31.30:8080/users/get?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -27,9 +27,9 @@ localr = (function() {
                     }
                 };
                 httpRequest.send();
-            } else if(flag == "business") {
+            } else if(type == "business") {
                 localr.setCred();
-                var url = 'http://178.62.31.30:8080/business?businessname=' + name;
+                var url = 'http://178.62.31.30:8080/business/get?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -49,11 +49,11 @@ localr = (function() {
                 };
                 httpRequest.send();
             } else {
-                console.log("Error, Invalid Flag!");
+                console.log("Error, Invalid Type!");
             };
         },
-        register: function(flag) {
-            if(flag == "user") {
+        register: function(type) {
+            if(type == "user") {
                 localr.setCred();
                 var url = 'http://178.62.31.30:8080/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
@@ -73,7 +73,7 @@ localr = (function() {
                     }
                 };
                 httpRequest.send();
-            } else if(flag == "business") {
+            } else if(type == "business") {
                 localr.setCred();
                 var url = 'http://178.62.31.30:8080/business/register?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
@@ -94,7 +94,7 @@ localr = (function() {
                 };
                 httpRequest.send();
             } else {
-                console.log("Error, Invalid Flag!");
+                console.log("Error, Invalid Type!");
             };
         },
         setCred: function() {
