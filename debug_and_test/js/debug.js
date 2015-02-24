@@ -114,7 +114,7 @@ localr = (function() {
                 console.log("Error, Invalid Type!");
             };
         },
-        getBasic: function(type) {
+        getBasic: function() {
             credentials = "Basic " + btoa(name + ":" + password);
             console.log(credentials);
         },
