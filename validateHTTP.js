@@ -30,7 +30,7 @@ function validateHTTP(req, res, next, type) {
     } else if(type == "business") {
         var failed = false;
         // checks to see if the businessname is in the URL 
-        if(req.params.businessname != req.authorization.basic.businessname) {
+        if(req.params.businessname != req.authorization.basic.username) {
             return next(new restify.ForbiddenError('You can\'t access that user'));
             failed = true;
         }
