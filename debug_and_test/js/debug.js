@@ -4,10 +4,11 @@ localr = (function() {
         username = "",
         password = "",
         httpRequest="";
+        
     return {
         getUser: function() {
             localr.setCred();
-            var url = "http://178.62.31.30:8080/users/" + username
+            var url = 'http://178.62.31.30:8080/users?username=' + username
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
@@ -19,6 +20,7 @@ localr = (function() {
             httpRequest.onload = function() {
                 if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                     var response = JSON.parse(httpRequest.responseText);
+                    console.log('In the get req')
                     console.log(response)
                 } else {
                     console.log(httpRequest.statusText);
@@ -28,7 +30,7 @@ localr = (function() {
         },
         register: function() {
             localr.setCred();
-            var url = "http://178.62.31.30:8080/register/" + username
+            var url = 'http://178.62.31.30:8080/register?username=' + username 
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
@@ -59,7 +61,8 @@ localr = (function() {
             console.log(credentials)
         },
         checkin: function(){
-            var url = 'http://178.62.31.30:8080/checkin?user=' + username;
+            var points = document.getElementById("points").value
+            var url = 'http://178.62.31.30:8080/checkin?username=' + username + '&points=' + points;
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {

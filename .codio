@@ -16,5 +16,6 @@
         "Box URL SSL": "https://{{domain}}:9500/",
         "Node": "http://{{domain}}:8080/",
         "Futon": "http://{{domain}}:5984/_utils"
+        
   }
 }
