@@ -99,19 +99,15 @@ localr = (function() {
         },
         setCred: function(type) {
             if(type == "users") {
-                name = document.getElementById("users");
-                name = name.getElementsByClassName("name").value;
+                name = document.getElementById("username");
                 console.log(name);
-                password = document.getElementById("users");
-                password = password.getElementsByClassName("password").value;
+                password = document.getElementById("userspassword");
                 console.log(password);
                 localr.getBasic();
             } else if(type == "business") {
-                name = document.getElementById("business");
-                name = name.getElementsByClassName("name").value;
+                name = document.getElementById("businessname");
                 console.log(name);
-                password = document.getElementById("business");
-                name = name.getElementsByClassName("password").value;
+                password = document.getElementById("businesspassword");
                 console.log(password);
                 localr.getBasic();
             } else {

@@ -8,25 +8,25 @@
 
 <body>
     <section id="users">
-        <input class="name" placeholder="username">
-        <input class="password" placeholder="password">
+        <input id="username" placeholder="username">
+        <input id="userpassword" placeholder="password">
         <input id="points" placeholder="points">
-        <button onclick="localr.setCred(user)">
+        <button onclick="localr.setCred('users')">
             Login
         </button>
-        <button onclick="localr.register('user')">
+        <button onclick="localr.register('users')">
             Register
         </button>
-        <button onclick="localr.getDetails('user')">
+        <button onclick="localr.getDetails('users')">
             Get user
         </button>
-        <button onclick="localr.checkin('user')">
+        <button onclick="localr.checkin('users')">
             Checkin
         </button>
     </section>
     <section id="business">
-        <input class="name" placeholder="businessname">
-        <input class="password" placeholder="password">
+        <input id="businessname" placeholder="businessname">
+        <input id="businesspassword" placeholder="password">
         <button onclick="localr.setCred('business')">
             Login
         </button>
