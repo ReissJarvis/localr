@@ -10,6 +10,7 @@ var restify = require('restify'),
     getuser = require("./getuser.js"),
     checkin = require("./checkin.js"),
     register = require("./register.js");
+    groups = require("./groups.js");
 // Setting server dependancys
 server.use(restify.CORS({
     origins: ['*'], // defaults to ['*']
@@ -34,5 +35,9 @@ server.listen(8080, function() {
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
     server.put("/checkin", function(req, res, next) {
         checkin.checkin(req,res,next);
+    });
+    //user/creategroup?groupname = name&description=description&competition=freshers
+    server.put("/user/creategroup", function(req, res, next) {
+        groups.creategroup(req,res,next);
     });
 });
