@@ -12,6 +12,7 @@ function register(req, res, next) {
         console.log('NEW USER!');
         console.log('PUT: ' + req.params.username)
         db = new neo4j('http://localhost:7474');
+        var nodeid = 0;
         var url = 'http://localhost:5984/users/' + req.params.username;
         validateHTTP.validateHTTP(req, res, next)
         request.get(url, function(err, response, body) {
@@ -23,8 +24,6 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
-                this.nodeid = 0;
-                var self = this;
                 db.insertNode({
                         name: req.params.username,
                         type: 'user'
@@ -34,8 +33,7 @@ function register(req, res, next) {
                         console.log('New neo4j node created with name = ' + node.name);
                         // Output node id.
                         console.log(node._id);
-                        self.nodeid = node._id
-                        
+                        nodeid = node._id
                     });
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
@@ -50,9 +48,9 @@ function register(req, res, next) {
                     salt: salt,
                     points: 0,
                     transactions: [],
-                    nodeid: self.nodeid
+                    nodeid: nodeid
                 };
-                console.log('doc.nodeid =  ' + doc.nodeid);
+                console.log('underneath node.id  ' + doc.nodeid);
                 var docStr = JSON.stringify(doc);
                 var params = {
                     uri: url,
