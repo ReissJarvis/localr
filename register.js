@@ -23,7 +23,7 @@ function register(req, res, next) {
             if(response.statusCode === 200) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
-                nodeid = 0;
+                this.nodeid = 0;
                 var self = this;
                 db.insertNode({
                         name: req.params.username,
@@ -34,7 +34,7 @@ function register(req, res, next) {
                         console.log('New neo4j node created with name = ' + node.name);
                         // Output node id.
                         console.log(node._id);
-                        nodeid = node._id
+                        self.nodeid = node._id
                         
                     });
                 var salt = rand(160, 36),
@@ -50,7 +50,7 @@ function register(req, res, next) {
                     salt: salt,
                     points: 0,
                     transactions: [],
-                    nodeid: nodeid
+                    nodeid: self.nodeid
                 };
                 console.log('doc.nodeid =  ' + doc.nodeid);
                 var docStr = JSON.stringify(doc);
