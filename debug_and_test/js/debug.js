@@ -74,7 +74,7 @@ localr = (function() {
                 };
                 httpRequest.send();
             } else if(type == "business") {
-                localr.setCred("users");
+                localr.setCred("business");
                 var url = 'http://178.62.31.30:8080/business/register?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
