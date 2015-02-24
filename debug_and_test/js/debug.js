@@ -55,7 +55,7 @@ localr = (function() {
         register: function(flag) {
             if(flag == "user") {
                 localr.setCred();
-                var url = 'http://178.62.31.30:8080/register?username=' + name;
+                var url = 'http://178.62.31.30:8080/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -75,7 +75,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(flag == "business") {
                 localr.setCred();
-                var url = 'http://178.62.31.30:8080/register?businessname=' + name;
+                var url = 'http://178.62.31.30:8080/business/register?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -110,7 +110,7 @@ localr = (function() {
         },
         checkin: function() {
             var points = document.getElementById("points").value
-            var url = 'http://178.62.31.30:8080/checkin?username=' + name + '&points=' + points;
+            var url = 'http://178.62.31.30:8080/users/checkin?username=' + name + '&points=' + points;
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
