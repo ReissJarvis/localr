@@ -24,6 +24,7 @@ function register(req, res, next) {
                 return next(new restify.InternalServerError('user already created'));
             } else if(response.statusCode === 404) {
                 var nodeid = 0;
+                var self = this;
                 db.insertNode({
                         name: req.params.username,
                         type: 'user'
@@ -34,6 +35,7 @@ function register(req, res, next) {
                         // Output node id.
                         console.log(node._id);
                         nodeid = node._id
+                        console.log('underneath node.id  ' +nodeid);
                     });
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
