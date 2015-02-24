@@ -21,7 +21,7 @@ function register(req, res, next) {
             // if the document isnt found it will create it from sratch
             console.log('code' + response.statusCode)
             if(response.statusCode === 200) {
-                return next(new restify.InternalServerError('user already created'));
+                return next(new restify.ConflictError('user already created'));
             } else if(response.statusCode === 404) {
                 db.insertNode({
                     name: req.params.username
