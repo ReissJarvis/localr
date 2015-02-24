@@ -7,7 +7,7 @@ localr = (function() {
     return {
         getDetails: function(type) {
             if(type == "user") {
-                localr.setCred();
+                localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/users/get?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -28,7 +28,7 @@ localr = (function() {
                 };
                 httpRequest.send();
             } else if(type == "business") {
-                localr.setCred();
+                localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/business/get?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -54,7 +54,7 @@ localr = (function() {
         },
         register: function(type) {
             if(type == "user") {
-                localr.setCred();
+                localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -74,7 +74,7 @@ localr = (function() {
                 };
                 httpRequest.send();
             } else if(type == "business") {
-                localr.setCred();
+                localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/business/register?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -97,14 +97,24 @@ localr = (function() {
                 console.log("Error, Invalid Type!");
             };
         },
-        setCred: function() {
-            name = document.getElementById("username").value;
-            console.log(name);
-            password = document.getElementById("password").value;
-            console.log(password);
-            localr.getBasic();
+        setCred: function(type) {
+            if(type == "users") {
+                name = document.getElementById("users").getElementsByClassName("name");
+                console.log(name);
+                password = document.getElementById("users").getElementsByClassName("password");
+                console.log(password);
+                localr.getBasic();
+            } else if(type == "business") {
+                name = document.getElementById("business").getElementsByClassName("name");
+                console.log(name);
+                password = document.getElementById("business").getElementsByClassName("password");
+                console.log(password);
+                localr.getBasic();
+            } else {
+                console.log("Error, Invalid Type!");
+            };
         },
-        getBasic: function() {
+        getBasic: function(type) {
             credentials = "Basic " + btoa(name + ":" + password);
             console.log(credentials);
         },
