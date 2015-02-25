@@ -45,3 +45,5 @@ function del(req, res, next, type) {
         console.log("Error, Invalid Type!");
     };
 };
+
+module.exports.del = del;
