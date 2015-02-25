@@ -5,12 +5,13 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     server = restify.createServer({
         name: "localr"
-    }),
+    })
     uuid = require('node-uuid'),
     getDetails = require("./getDetails.js"),
     checkin = require("./checkin.js"),
     register = require("./register.js"),
     del = require("./del.js");
+    groups = require("./groups.js");
 // Setting server dependancys
 server.use(restify.CORS({
     origins: ['*'], // defaults to ['*']
@@ -54,5 +55,21 @@ server.listen(8080, function() {
     // Delete business
     server.del({path: users + "/delete"}, function(req, res, next){
         del.del(req, res, next, 'business'); 
+     });   
+    //user/creategroup?username=username&groupname=name&description=description&competition=freshers
+    server.put({path: users + "/creategroup"}, function(req, res, next) {
+        groups.creategroup(req,res,next);
+    });
+    //?username=username&groupname=test21
+    server.get({path: users + "/getgroup"}, function(req, res, next) {
+        groups.showgroup(req,res,next);
+    });
+    //?username=username&competition=freshers
+    server.get({path: users + "/getgroups"}, function(req, res, next) {
+        groups.showcompetitiongroup(req,res,next);
+    });
+    //?username=username&groupname=test21
+     server.put({path: users + "/joingroup"}, function(req, res, next) {
+        groups.joinGroup(req,res,next);
     });
 });
