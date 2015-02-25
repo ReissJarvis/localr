@@ -21,6 +21,7 @@ function del(req, res, next, type) {
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
                     var rev = body._rev;
+                    console.log(rev);
                     request.delete(url + "?rev=" + rev, function(err, response) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant delete document'));
