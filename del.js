@@ -25,6 +25,7 @@ function del(req, res, next, type) {
                             return next(new restify.InternalServerError('Cant delete document'));
                         };
                         console.log("Deleted User!");
+                        res.end();
                     });
                 };
             });
@@ -49,6 +50,7 @@ function del(req, res, next, type) {
                             return next(new restify.InternalServerError('Cant delete document'));
                         };
                         console.log("Deleted Business!");
+                        res.end();
                     });
                 };
             });
