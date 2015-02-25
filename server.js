@@ -53,7 +53,7 @@ server.listen(8080, function() {
         del.del(req, res, next, 'users'); 
     });
     // Delete business
-    server.del({path: users + "/delete"}, function(req, res, next){
+    server.del({path: business + "/delete"}, function(req, res, next){
         del.del(req, res, next, 'business'); 
      });   
     //user/creategroup?username=username&groupname=name&description=description&competition=freshers
