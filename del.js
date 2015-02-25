@@ -12,14 +12,21 @@ function del(req, res, next, type) {
             validateHTTP.validateHTTP(req, res, next, "users");
             console.log('parameters supplied');
             var url = 'http://localhost:5984/users/' + req.params.username;
-            request.del(url, function(err, response, body) {
+            request.get(url, function(err, response, body) {
                 console.log("request started");
                 // if user is not found will send 404 error
                 if(response.statusCode == 404) {
                     return next(new restify.BadRequestError('User Not Found'));
                 };
                 if(response.statusCode == 200) {
-                    console.log("DELETED USER!");
+                    console.log("Everything 200");
+                    request.del(url, function(err)) {
+                        if(err) {
+                            return next(new restify.InternalServerError('Cant delete document'));
+                        } else {
+                            console.log("Deleted User!");
+                        };
+                    };
                 };
             });
         };
@@ -30,14 +37,21 @@ function del(req, res, next, type) {
             validateHTTP.validateHTTP(req, res, next, "business");
             console.log('parameters supplied');
             var url = 'http://localhost:5984/users/' + req.params.businessname;
-            request.del(url, function(err, response, body) {
+            request.get(url, function(err, response, body) {
                 console.log("request started");
-                // if user is not found will send 404 error
+                // if business is not found will send 404 error
                 if(response.statusCode == 404) {
-                    return next(new restify.BadRequestError('User Not Found'));
+                    return next(new restify.BadRequestError('Business Not Found'));
                 };
                 if(response.statusCode == 200) {
-                    console.log("DELETED USER!");
+                    console.log("Everything 200");
+                    request.del(url, function(err)) {
+                        if(err) {
+                            return next(new restify.InternalServerError('Cant delete document'));
+                        } else {
+                            console.log("Deleted Business!");
+                        };
+                    };
                 };
             });
         };
@@ -45,5 +59,4 @@ function del(req, res, next, type) {
         console.log("Error, Invalid Type!");
     };
 };
-
 module.exports.del = del;
