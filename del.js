@@ -20,6 +20,7 @@ function del(req, res, next, type) {
                 };
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
+                    var body = JSON.parse(body);
                     var rev = body._rev;
                     console.log(rev);
                     request.delete(url + "?rev=" + rev, function(err, response) {
