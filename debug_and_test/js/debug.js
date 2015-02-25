@@ -138,6 +138,53 @@ localr = (function() {
                 }
             };
             httpRequest.send();
+        },
+        delete: function(type) {
+            if(type == "users") {
+                localr.setCred("users");
+                var url = 'http://178.62.31.30:8080/users/delete?username=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
+                }
+                httpRequest.open('DELETE', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('Content-Type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log('In the delete req');
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else if(type == "business") {
+                localr.setCred("business");
+                var url = 'http://178.62.31.30:8080/business/delete?businessname=' + name;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
+                }
+                httpRequest.open('GET', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('Content-Type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log('In the get req');
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else {
+                console.log("Error, Invalid Type!");
+            }
         }
     }
 })()

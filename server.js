@@ -9,7 +9,8 @@ var restify = require('restify'),
     uuid = require('node-uuid'),
     getDetails = require("./getDetails.js"),
     checkin = require("./checkin.js"),
-    register = require("./register.js");
+    register = require("./register.js"),
+    del = require("./del.js");
 // Setting server dependancys
 server.use(restify.CORS({
     origins: ['*'], // defaults to ['*']
@@ -34,7 +35,7 @@ server.listen(8080, function() {
     server.get({path : business + "/get"}, function(req, res, next) {
         getDetails.getDetails(req, res, next, 'business');
     });
-    //Register a new user just a simple check if it exists if not, adding by creating the json and pushing it to couchdb
+    //Register user
     server.put({path : users + "/register"}, function(req, res, next) {
         register.register(req, res, next, 'users');
     });
@@ -45,5 +46,13 @@ server.listen(8080, function() {
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
     server.put({path : users + "/checkin"}, function(req, res, next) {
         checkin.checkin(req,res,next);
+    });
+    // Delete user
+    server.delete({path: users + "/delete"}, function(req, res, next){
+        del.del(req, res, next, 'users'); 
+    });
+    // Delete business
+    server.delete({path: users + "/delete"}, function(req, res, next){
+        del.del(req, res, next, 'business'); 
     });
 });
