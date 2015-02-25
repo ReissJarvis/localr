@@ -53,7 +53,7 @@ localr = (function() {
             };
         },
         register: function(type) {
-            if(type == "user") {
+            if(type == "users") {
                 localr.setCred("users");
                 var url = 'http://178.62.31.30:8080/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
