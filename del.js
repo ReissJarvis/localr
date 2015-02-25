@@ -40,7 +40,7 @@ function del(req, res, next, type) {
             console.log('DELETE ' + req.params.businessname);
             validateHTTP.validateHTTP(req, res, next, "business");
             console.log('parameters supplied');
-            var url = 'http://localhost:5984/users/' + req.params.businessname;
+            var url = 'http://localhost:5984/business/' + req.params.businessname;
             request.get(url, function(err, response, body) {
                 console.log("request started");
                 // if business is not found will send 404 error
