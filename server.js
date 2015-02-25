@@ -48,11 +48,11 @@ server.listen(8080, function() {
         checkin.checkin(req,res,next);
     });
     // Delete user
-    server.delete({path: users + "/delete"}, function(req, res, next){
+    server.del({path: users + "/delete"}, function(req, res, next){
         del.del(req, res, next, 'users'); 
     });
     // Delete business
-    server.delete({path: users + "/delete"}, function(req, res, next){
+    server.del({path: users + "/delete"}, function(req, res, next){
         del.del(req, res, next, 'business'); 
     });
 });
