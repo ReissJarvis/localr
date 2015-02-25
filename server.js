@@ -48,4 +48,8 @@ server.listen(8080, function() {
     server.get("/users/getgroups", function(req, res, next) {
         groups.showcompetitiongroup(req,res,next);
     });
+    //?username=username&groupname=test21
+     server.put("/users/joingroup", function(req, res, next) {
+        groups.joinGroup(req,res,next);
+    });
 });

@@ -179,12 +179,59 @@ module.exports.showcompetitiongroup = function(req, res, next) {
         if(err) throw err;
         if(Results.data == 0) {
             return next(new restify.NotFoundError('Competition not found'));
-            
         } else {
-            console.log()
             res.send(Results.data);
             console.log("competition data sent");
             res.end();
         }
+    });
+};
+module.exports.joinGroup = function(req, res, next) {
+    var db = new neo4j('http://l.adam-holt.co.uk:7474');
+    console.log('PUT');
+    console.log('JOIN GROUP: ' + req.params.username + ' ' + req.params.groupname)
+    var url = 'http://l.adam-holt.co.uk:5984/users/' + req.authorization.basic.username;
+    var groupurl = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    var userid = 0,
+        groupid = 0,
+        groupname = req.params.groupname,
+        username = req.authorization.basic.username;
+    validateHTTP.validateHTTP(req, res, next);
+    var topres = res
+    //check user exists
+    request.get(url, function(err, response, body) {
+        console.log("request started")
+        // if user is not found will send 404 error
+        if(response.statusCode == 404) {
+            return next(new restify.BadRequestError('User Not Found'))
+        };
+        if(response.statusCode == 200) {
+            body = JSON.parse(body);
+            console.log('set user id')
+            userid = body.nodeid;
+            //check group exists
+            db.cypherQuery("match n where n.name='" + groupname + "' return n", function(err, Results) {
+                if(err) throw err;
+                if(Results.data == 0) {
+                    return next(new restify.NotFoundError('Group not found'));
+                } else {
+                    groupid = Results.data[0]._id
+                    console.log("Group ID set");
+                    var d = new Date(),
+                        date = d.toUTCString();
+                    console.log(date);
+                    //make relationship
+                    db.insertRelationship(userid, groupid, 'IN_GROUP', {
+                        datejoined: date,
+                    }, function(err, relationship) {
+                        if(err) throw err;
+                        console.log("set user");
+                        res.send("relationship created @ " + date);
+                        console.log("sent data");
+                        res.end();
+                    });
+                }
+            });
+        };
     });
 };
