@@ -37,7 +37,7 @@ server.listen(8080, function() {
         checkin.checkin(req,res,next);
     });
     //user/creategroup?groupname = name&description=description&competition=freshers
-    server.put("/user/creategroup", function(req, res, next) {
+    server.put("/users/creategroup", function(req, res, next) {
         groups.creategroup(req,res,next);
     });
 });
