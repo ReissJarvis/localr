@@ -36,8 +36,16 @@ server.listen(8080, function() {
     server.put("/checkin", function(req, res, next) {
         checkin.checkin(req,res,next);
     });
-    //user/creategroup?groupname = name&description=description&competition=freshers
+    //user/creategroup?username=username&groupname=name&description=description&competition=freshers
     server.put("/users/creategroup", function(req, res, next) {
         groups.creategroup(req,res,next);
+    });
+    //?username=username&groupname=test21
+    server.get("/users/getgroup", function(req, res, next) {
+        groups.showgroup(req,res,next);
+    });
+    //?username=username&competition=freshers
+    server.get("/users/getgroups", function(req, res, next) {
+        groups.showcompetitiongroup(req,res,next);
     });
 });

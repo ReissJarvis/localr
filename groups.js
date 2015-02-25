@@ -37,7 +37,7 @@ module.exports.creategroup = function(req, res, next) {
                         console.log('Groupname = ' + groupname)
                         db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
                             if(err) throw err;
-                            console.log('Group data = '+results.data)
+                            console.log('Group data = ' + results.data)
                             if(results.data.length == 0) {
                                 db.insertNode({
                                     name: groupname,
@@ -47,7 +47,7 @@ module.exports.creategroup = function(req, res, next) {
                                     // Output node properties.
                                     console.log('New neo4j node created with Groupname  = ' + node.name);
                                     groupid = node._id
-                                    console.log('group id = '+ groupid)
+                                    console.log('group id = ' + groupid)
                                     console.log('starting insert relationship')
                                     db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
                                         description: 'competiting in this competition'
@@ -62,10 +62,10 @@ module.exports.creategroup = function(req, res, next) {
                                         console.log(relationship._end);
                                         db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
                                             if(err) throw err;
-                                            console.log('name = '+ Results.data[0])
+                                            console.log('name = ' + Results.data[0])
                                             console.log('user = ' + Results.data[0]._id)
                                             userid = Results.data[0]._id
-                                            console.log('userid ='+userid)
+                                            console.log('userid =' + userid)
                                             console.log(groupid)
                                             db.insertRelationship(userid, groupid, 'IN_GROUP', {
                                                 description: 'In this Group'
@@ -90,6 +90,7 @@ module.exports.creategroup = function(req, res, next) {
                                                     grouppoints: 0,
                                                     transactions: [],
                                                     usersjoined: [req.authorization.basic.username],
+                                                    competition: competition,
                                                     groupnodeid: groupid,
                                                 };
                                                 var docStr = JSON.stringify(doc);
@@ -126,4 +127,64 @@ module.exports.creategroup = function(req, res, next) {
         });
         // if the document is found, that means the user is already created.
     }
+};
+module.exports.showgroup = function(req, res, next) {
+    db = new neo4j('http://l.adam-holt.co.uk:7474');
+    console.log('GET');
+    console.log('GET: ' + req.params.groupname);
+    var url = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    validateHTTP.validateHTTP(req, res, next)
+    var topres = res
+    request.get(url, function(err, response, body) {
+        if(err) {
+            return next(new restify.InternalServerError('Failed To Connect To Database'));
+        }
+        // if the document isnt found it will create it from sratch
+        console.log('code' + response.statusCode)
+        if(response.statusCode === 200) {
+            body = JSON.parse(body);
+            //res.header('ETag', body._rev);
+            res.header('Last-Modified', body.last_modified);
+            res.header('Accepts', 'GET');
+            group = {
+                id: body._id,
+                groupname: body.groupname,
+                description: body.description,
+                last_modified: body.last_modified,
+                points: body.grouppoints,
+                transactions: body.transactions,
+                owner: body.createdby,
+                groupmemebers: body.usersjoined
+            }
+            console.log(group)
+            console.log("Set Group data");
+            res.send(group);
+            console.log("sent group data");
+            res.end();
+        } else if(response.statusCode === 404) {
+            return next(new restify.ConflictError('Group Already Created'));
+        }
+    });
+};
+module.exports.showcompetitiongroup = function(req, res, next) {
+    //match (n:freshers)-[COMPETING_IN]->r return n,r
+    db = new neo4j('http://l.adam-holt.co.uk:7474');
+    console.log('GET');
+    console.log('GET COMPETITION GROUPS: ' + req.params.competition)
+    var url = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    var competition = req.params.competition
+    validateHTTP.validateHTTP(req, res, next)
+    var topres = res
+    db.cypherQuery("match (n:" + competition + ")-[COMPETING_IN]->r return labels(n),n,r", function(err, Results) {
+        if(err) throw err;
+        if(Results.data == 0) {
+            return next(new restify.NotFoundError('Competition not found'));
+            
+        } else {
+            console.log()
+            res.send(Results.data);
+            console.log("competition data sent");
+            res.end();
+        }
+    });
 };
