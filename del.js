@@ -20,8 +20,8 @@ function del(req, res, next, type) {
                 };
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
-                    var body = JSON.parse(body);
-                    var rev = body._rev;
+                    var body = JSON.parse(body),
+                        rev = body._rev;
                     console.log(rev);
                     request.del(url + "?rev=" + rev, function(err, response) {
                         if(err) {
@@ -49,7 +49,8 @@ function del(req, res, next, type) {
                 };
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
-                    var rev = body._rev;
+                    var body = JSON.parse(body),
+                        rev = body._rev;
                     request.del(url + "?rev=" + rev, function(err) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant delete document'));
