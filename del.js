@@ -20,12 +20,11 @@ function del(req, res, next, type) {
                 };
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
-                    request.del(url, function(err) {
+                    request.del(url, function(err, response) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant delete document'));
                         };
                         console.log("Deleted User!");
-                        res.setHeader('Accepts', 'DEL');
                         res.send("Deleted User!");
                         res.end();
                     });
@@ -52,7 +51,6 @@ function del(req, res, next, type) {
                             return next(new restify.InternalServerError('Cant delete document'));
                         };
                         console.log("Deleted Business!");
-                        res.setHeader('Accepts', 'DEL');
                         res.send("Deleted Business!");
                         res.end();
                     });
