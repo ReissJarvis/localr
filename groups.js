@@ -7,11 +7,11 @@ var restify = require('restify'),
     neo4j = require('node-neo4j');
 module.exports.creategroup = function(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next)) === true) {
-        db = new neo4j('http://l.adam-holt.co.uk:7474');
+        db = new neo4j('http://localhost:7474');
         console.log('NEW GROUP!');
         console.log('PUT: ' + req.params.groupname)
         console.log('FOR COMPETITION: ' + req.params.competition)
-        var url = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+        var url = 'http://localhost:5984/groups/' + req.params.groupname;
         var competition = req.params.competition
         var groupname = req.params.groupname
         var description = req.params.description
@@ -129,10 +129,10 @@ module.exports.creategroup = function(req, res, next) {
     }
 };
 module.exports.showgroup = function(req, res, next) {
-    db = new neo4j('http://l.adam-holt.co.uk:7474');
+    db = new neo4j('http://localhost:7474');
     console.log('GET');
     console.log('GET: ' + req.params.groupname);
-    var url = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    var url = 'http://localhost:5984/groups/' + req.params.groupname;
     validateHTTP.validateHTTP(req, res, next)
     var topres = res
     request.get(url, function(err, response, body) {
@@ -168,10 +168,10 @@ module.exports.showgroup = function(req, res, next) {
 };
 module.exports.showcompetitiongroup = function(req, res, next) {
     //match (n:freshers)-[COMPETING_IN]->r return n,r
-    db = new neo4j('http://l.adam-holt.co.uk:7474');
+    db = new neo4j('http://localhost:7474');
     console.log('GET');
     console.log('GET COMPETITION GROUPS: ' + req.params.competition)
-    var url = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    var url = 'http://localhost:5984/groups/' + req.params.groupname;
     var competition = req.params.competition
     validateHTTP.validateHTTP(req, res, next)
     var topres = res
@@ -187,11 +187,11 @@ module.exports.showcompetitiongroup = function(req, res, next) {
     });
 };
 module.exports.joinGroup = function(req, res, next) {
-    var db = new neo4j('http://l.adam-holt.co.uk:7474');
+    var db = new neo4j('http://localhost:7474');
     console.log('PUT');
     console.log('JOIN GROUP: ' + req.params.username + ' ' + req.params.groupname)
-    var url = 'http://l.adam-holt.co.uk:5984/users/' + req.authorization.basic.username;
-    var groupurl = 'http://l.adam-holt.co.uk:5984/groups/' + req.params.groupname;
+    var url = 'http://localhost:5984/users/' + req.authorization.basic.username;
+    var groupurl = 'http://localhost:5984/groups/' + req.params.groupname;
     var userid = 0,
         groupid = 0,
         groupname = req.params.groupname,
