@@ -89,7 +89,7 @@ function register(req, res, next, type) {
                 } else if(response.statusCode === 404) {
                     db.insertNode({
                         name: req.params.businessname
-                    }, ['User'], function(err, node) {
+                    }, ['Business', req.params.businessname], function(err, node) {
                         if(err) throw err;
                         // Output node properties.
                         console.log('New neo4j node created with name = ' + node.name);
