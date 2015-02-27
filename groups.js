@@ -68,7 +68,7 @@ module.exports.creategroup = function(req, res, next) {
                                             console.log('userid =' + userid)
                                             console.log(groupid)
                                             db.insertRelationship(userid, groupid, 'IN_GROUP', {
-                                                description: 'In this Group'
+                                                description: 'Created this group'
                                             }, function(err, relationship) {
                                                 if(err) throw err;
                                                 console.log('relationship made')
@@ -91,7 +91,7 @@ module.exports.creategroup = function(req, res, next) {
                                                     transactions: [],
                                                     usersjoined: [req.authorization.basic.username],
                                                     competition: competition,
-                                                    groupnodeid: groupid,
+                                                    groupnodeid: groupid
                                                 };
                                                 var docStr = JSON.stringify(doc);
                                                 var params = {

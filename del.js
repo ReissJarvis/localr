@@ -21,8 +21,40 @@ function del(req, res, next, type) {
                 if(response.statusCode == 200) {
                     console.log("Everything 200");
                     var body = JSON.parse(body),
-                        rev = body._rev;
+                        rev = body._rev,
+                        nodeid = body.nodeid;
                     console.log(rev);
+                    console.log(nodeid)
+                    // get node
+                    // check for relationships
+                    //         db.cypherQuery("start m = node("+ nodeid +") match n<-[r]-m  return r", function(err, results) {
+                    //          //should return relationships
+                    //               if(err) throw err;
+                    //          });
+                    // delete any present relationship
+                    // need to cycle each part
+                    // results.forEach(function(item){
+                    // 
+                    // db.deleteRelationship(relationship_id, function(err, relationship){
+                    //          if(err) throw err;
+                    //          if(relationship === true){
+                    //                  relationship deleted
+                    //          } else {
+                    //                  relationship not deleted because not found.
+                    //          }
+                    //});
+                    // 
+                    // 
+                    // })
+                    // delete the node
+                    //                     b.deleteNode(nodeid, function(err, node) {
+                    //                         if(err) throw err;
+                    //                         if(node === true) {
+                    //                             // node deleted
+                    //                         } else {
+                    //                             // node not deleted because not found or because of existing relationships
+                    //                         }
+                    //                     });
                     request.del(url + "?rev=" + rev, function(err, response) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant delete document'));
