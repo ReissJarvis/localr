@@ -8,7 +8,7 @@ localr = (function() {
         getDetails: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://178.62.31.30:8080/users/get?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users/get?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -29,7 +29,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://178.62.31.30:8080/business/get?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business/get?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -55,7 +55,7 @@ localr = (function() {
         register: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://178.62.31.30:8080/users/register?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -75,7 +75,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://178.62.31.30:8080/business/register?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business/register?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -120,7 +120,7 @@ localr = (function() {
         },
         checkin: function() {
             var points = document.getElementById("points").value
-            var url = 'http://178.62.31.30:8080/users/checkin?username=' + name + '&points=' + points;
+            var url = 'http://api.adam-holt.co.uk/users/checkin?username=' + name + '&points=' + points;
             if(window.XMLHttpRequest) { // mozilla, safari,...
                 httpRequest = new XMLHttpRequest();
             } else if(window.ActiveXObject) {
@@ -142,7 +142,7 @@ localr = (function() {
         delete: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://178.62.31.30:8080/users/delete?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users/delete?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -163,7 +163,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://178.62.31.30:8080/business/delete?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business/delete?businessname=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
