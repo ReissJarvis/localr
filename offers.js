@@ -16,6 +16,7 @@ module.exports.addoffer = function(req, res, next) {
         var nodeid = 0;
         var url = 'http://localhost:5984/offers/' + offertitle ;
         var description = req.params.description
+        var businessName = req.params.businessname
         var REQ = req
         request.get(url, function(err, response, body) {
             if(err) {
@@ -60,7 +61,7 @@ module.exports.addoffer = function(req, res, next) {
                         // document has been inserted into database
                         body = JSON.parse(body);
                         res.send({
-                            user: req.params
+                            offer: req.params
                         });
                         res.end();
                     });
