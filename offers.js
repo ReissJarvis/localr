@@ -7,7 +7,7 @@ var restify = require('restify'),
     neo4j = require('node-neo4j');
 
 module.exports.addoffer = function(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
+    if((validateHTTP.validateHTTP(req, res, next, "business")) === true) {
         console.log('NEW OFFER!');
         console.log('PUT: ' + req.params.offer)
         db = new neo4j('http://localhost:7474');

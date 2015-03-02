@@ -75,7 +75,7 @@ server.listen(8080, function() {
         groups.joinGroup(req,res,next);
     });
     //Create Offer
-    server.put({path : offers + "/add"}, function(req, res, next) {
+    server.put({path : business + offers + "/add"}, function(req, res, next) {
         offer.addoffer(req, res, next);
     });
 });
