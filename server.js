@@ -11,7 +11,8 @@ var restify = require('restify'),
     checkin = require("./checkin.js"),
     register = require("./register.js"),
     del = require("./del.js");
-    groups = require("./groups.js");
+    groups = require("./groups.js"),
+    offer = require("./offers.js");
 // Setting server dependancys
 server.use(restify.CORS({
     origins: ['*'], // defaults to ['*']
@@ -75,6 +76,6 @@ server.listen(8080, function() {
     });
     //Create Offer
     server.put({path : offers + "/add"}, function(req, res, next) {
-        register.register(req, res, next);
+        offer.addoffer(req, res, next);
     });
 });
