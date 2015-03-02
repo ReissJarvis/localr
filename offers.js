@@ -11,8 +11,8 @@ module.exports.addoffer = function(req, res, next) {
         console.log('NEW OFFER!');
         console.log('PUT: ' + req.params.offer)
         db = new neo4j('http://localhost:7474');
-        var uuid = uuid.v1()
-        var offertitle = req.params.offer + uuid
+        var rand = uuid.v1()
+        var offertitle = req.params.offer + ' - ' + rand
         var nodeid = 0;
         var url = 'http://localhost:5984/offers/' + offertitle ;
         var description = req.params.description
