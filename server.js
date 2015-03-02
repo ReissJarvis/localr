@@ -26,7 +26,8 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 // Creating Server
 server.listen(8080, function() {
     var users = "/users",
-        business = "/business";
+        business = "/business",
+        offers = '/offers'
     console.log('Incoming request being handled.');
     // Get details for user
     server.get({path : users + "/get"}, function(req, res, next) {
@@ -71,5 +72,9 @@ server.listen(8080, function() {
     //?username=username&groupname=test21
      server.put({path: users + "/joingroup"}, function(req, res, next) {
         groups.joinGroup(req,res,next);
+    });
+    //Create Offer
+    server.put({path : offers + "/add"}, function(req, res, next) {
+        register.register(req, res, next);
     });
 });

@@ -17,7 +17,7 @@ module.exports.creategroup = function(req, res, next) {
         var description = req.params.description
         var groupid = 0;
         var userid = 0;
-        validateHTTP.validateHTTP(req, res, next)
+        validateHTTP.validateHTTP(req, res, next, 'users')
         var topres = res
         request.get(url, function(err, response, body) {
             if(err) {
