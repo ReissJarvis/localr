@@ -29,7 +29,7 @@ module.exports.addoffer = function(req, res, next) {
             } else if(response.statusCode === 404) {
                 db.insertNode({
                     name: offertitle
-                }, ['Offer'], function(err, node) {
+                }, ['Offer', businessName], function(err, node) {
                     if(err) throw err;
                     // Output node properties.
                     console.log('New neo4j node created with name = ' + node.name);
