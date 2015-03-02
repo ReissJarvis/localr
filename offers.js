@@ -12,11 +12,11 @@ module.exports.addoffer = function(req, res, next) {
         console.log('PUT: ' + req.params.offer)
         db = new neo4j('http://localhost:7474');
         var rand = uuid.v1()
-        var offertitle = req.params.offer + ' - ' + rand
+        var businessName = req.params.businessname
+        var offertitle = req.params.offer + ' - ' + businessName
         var nodeid = 0;
         var url = 'http://localhost:5984/offers/' + offertitle ;
         var description = req.params.description
-        var businessName = req.params.businessname
         var REQ = req
         request.get(url, function(err, response, body) {
             if(err) {
@@ -43,6 +43,7 @@ module.exports.addoffer = function(req, res, next) {
                     var doc = {
                         date_created: date,
                         last_modified: date,
+                        uuid: rand,
                         offer_title: REQ.params.offer,
                         offer_description: description,
                         redeems: [],
