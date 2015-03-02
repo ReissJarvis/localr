@@ -41,3 +41,8 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 http://api.adam-holt.co.uk/business/offers/add?businessname=BUSINESSNAME&offer=OFFER&description=DESCRIPTION
 
 
+
+FOR GETTING ALL OFFERS FROM CODIO WITH BUSINESSNAME
+http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/business?startkey=%22codio%22&endkey=%22codio%22
+
+

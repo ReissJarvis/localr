@@ -185,6 +185,33 @@ localr = (function() {
             } else {
                 console.log("Error, Invalid Type!");
             }
+        },
+        addOffer: function(type) {
+            var offer = document.getElementById("offertitle").value;
+            var description = document.getElementById("offerdescription").value;
+            if(type == "business") {
+                localr.setCred("business");
+                var url = 'http://api.adam-holt.co.uk/business/offers/add?businessname=' + name + '&offer=' + offer + '&description=' + description;
+                if(window.XMLHttpRequest) { // mozilla, safari,...
+                    httpRequest = new XMLHttpRequest();
+                } else if(window.ActiveXObject) {
+                    httpRequest = ("Microsoft.XMLHTTP");
+                }
+                httpRequest.open('PUT', url);
+                httpRequest.setRequestHeader('Authorization', credentials);
+                httpRequest.setRequestHeader('content-type', "application/json");
+                httpRequest.onload = function() {
+                    if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                        var response = JSON.parse(httpRequest.responseText);
+                        console.log(response);
+                    } else {
+                        console.log(httpRequest.statusText);
+                    }
+                };
+                httpRequest.send();
+            } else {
+                console.log("Error, Invalid Type!");
+            };
         }
     }
 })()

@@ -46,6 +46,7 @@ module.exports.addoffer = function(req, res, next) {
                         uuid: rand,
                         offer_title: REQ.params.offer,
                         offer_description: description,
+                        businessname: businessName,
                         redeems: [],
                         nodeid: nodeid
                     };
