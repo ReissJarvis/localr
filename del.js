@@ -31,8 +31,8 @@ function del(req, res, next, type) {
                         if(err) throw err;
                         console.log(results);
                         results.forEach(function(item){
-                           var id = item._id;
-                            console.log(id);
+                            var id = item._id;
+                            console.log("Loggin id: " + id);
                         });
                     });
                     
