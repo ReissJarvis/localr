@@ -82,9 +82,13 @@ module.exports.getAllOffers = function(req, res, next) {
                 return next(new restify.InternalServerError('Error has occured'));
             }
             if(response.statusCode === 200) {
-                res.send(JSON.parse(response.body));
-            }
-            else if(response.statusCode === 404) {
+                var resp = JSON.parse(body)
+                var offers = {
+                    total_Offers: resp.rows.length,
+                    offers: resp.rows
+                }
+                res.send(JSON.stringify(offers));
+            } else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
             };
         });
@@ -101,9 +105,13 @@ module.exports.getBusinessOffers = function(req, res, next) {
                 return next(new restify.InternalServerError('Error has occured'));
             }
             if(response.statusCode === 200) {
-                res.send(JSON.parse(response.body));
-            }
-            else if(response.statusCode === 404) {
+                var resp = JSON.parse(body)
+                var offers = {
+                    total_Offers: resp.rows.length,
+                    offers: resp.rows
+                }
+                res.send(JSON.stringify(offers));
+            } else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
             };
         });
