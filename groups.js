@@ -5,8 +5,9 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
+
 module.exports.creategroup = function(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next)) === true) {
+    if((validateHTTP.validateHTTP(req, res, next, 'users')) === true) {
         db = new neo4j('http://localhost:7474');
         console.log('NEW GROUP!');
         console.log('PUT: ' + req.params.groupname)
@@ -133,7 +134,7 @@ module.exports.showgroup = function(req, res, next) {
     console.log('GET');
     console.log('GET: ' + req.params.groupname);
     var url = 'http://localhost:5984/groups/' + req.params.groupname;
-    validateHTTP.validateHTTP(req, res, next)
+    validateHTTP.validateHTTP(req, res, next, "users")
     var topres = res
     request.get(url, function(err, response, body) {
         if(err) {
@@ -196,7 +197,7 @@ module.exports.joinGroup = function(req, res, next) {
         groupid = 0,
         groupname = req.params.groupname,
         username = req.authorization.basic.username;
-    validateHTTP.validateHTTP(req, res, next);
+    validateHTTP.validateHTTP(req, res, next, "users");
     var topres = res
     //check user exists
     request.get(url, function(err, response, body) {
