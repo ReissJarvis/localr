@@ -83,7 +83,7 @@ module.exports.getAllOffers = function(req, res, next) {
             }
             if(response.statusCode === 200) {
                 res.send(response);
-            };
+            }
             else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
             };
