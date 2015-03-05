@@ -54,7 +54,7 @@ localr = (function() {
         },
         register: function(type) {
             if(type == "users") {
-                localr.setCred("users");
+                localr.setCred("users", document.getElementById("username").value ,document.getElementById("userpassword").value);
                 var url = 'http://api.adam-holt.co.uk/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -67,9 +67,11 @@ localr = (function() {
                 httpRequest.onload = function() {
                     if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                         var response = JSON.parse(httpRequest.responseText);
-                        console.log(response);
+                        console.log(response + httpRequest);
+                        return response, httpRequest;;
                     } else {
                         console.log(httpRequest.statusText);
+                        return httpRequest;
                     }
                 };
                 httpRequest.send();
@@ -97,11 +99,11 @@ localr = (function() {
                 console.log("Error, Invalid Type!");
             };
         },
-        setCred: function(type) {
+        setCred: function(type, username, password) {
             if(type == "users") {
-                name = document.getElementById("username").value;
+                name = username
                 console.log(name);
-                password = document.getElementById("userpassword").value;
+                password = password
                 console.log(password);
                 localr.getBasic();
             } else if(type == "business") {
@@ -141,7 +143,7 @@ localr = (function() {
         },
         delete: function(type) {
             if(type == "users") {
-                localr.setCred("users");
+                localr.setCred("users",document.getElementById("username").value, document.getElementById("userpassword").value);
                 var url = 'http://api.adam-holt.co.uk/users/delete?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
