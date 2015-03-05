@@ -34,6 +34,7 @@ function del(req, res, next, type) {
                             i = 0;
                         results.data.forEach(function(item) {
                             var id = item._id;
+                            console.log(id);
                             i++;
                             console.log("Loggin id: " + id);
                             db.deleteRelationship(id, function(err, relationship) {
