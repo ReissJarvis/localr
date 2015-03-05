@@ -84,6 +84,6 @@ server.listen(8080, function() {
     });
     //Get all Offers
     server.get({path : business + offers + "/show/business"}, function(req, res, next) {
-        offer.getAllOffers(req, res, next);
+        offer.getBusinessOffers(req, res, next);
     });
 });
