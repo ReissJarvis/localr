@@ -54,7 +54,7 @@ localr = (function() {
         },
         register: function(type) {
             if(type == "users") {
-                localr.setCred("users", document.getElementById("username").value ,document.getElementById("userpassword").value);
+                localr.setCred("users");
                 var url = 'http://api.adam-holt.co.uk/users/register?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
@@ -99,11 +99,11 @@ localr = (function() {
                 console.log("Error, Invalid Type!");
             };
         },
-        setCred: function(type, username, password) {
+        setCred: function(type) {
             if(type == "users") {
-                name = username
+                name = document.getElementById("username").value
                 console.log(name);
-                password = password
+                password = document.getElementById("userpassword").value
                 console.log(password);
                 localr.getBasic();
             } else if(type == "business") {
@@ -143,7 +143,7 @@ localr = (function() {
         },
         delete: function(type) {
             if(type == "users") {
-                localr.setCred("users",document.getElementById("username").value, document.getElementById("userpassword").value);
+                localr.setCred("users");
                 var url = 'http://api.adam-holt.co.uk/users/delete?username=' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();

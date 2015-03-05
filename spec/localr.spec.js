@@ -16,6 +16,7 @@ describe('Localr API', function() {
             console.log('creating user')
             var x = "";
             x=localr.register("users");
+            done();
             
             
             
