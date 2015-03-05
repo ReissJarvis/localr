@@ -82,7 +82,7 @@ module.exports.getAllOffers = function(req, res, next) {
                 return next(new restify.InternalServerError('Error has occured'));
             }
             if(response.statusCode === 200) {
-                res.send(response.body);
+                res.send(JSON.stringify(response.body));
             }
             else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
