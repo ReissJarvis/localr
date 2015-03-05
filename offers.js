@@ -76,7 +76,26 @@ module.exports.getAllOffers = function(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
         console.log('Get All OFFERS!');
         //Gets all offers from couchDB as JSON
-        var url = 'http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/all';
+        var url = 'http://localhost:5984/offers/_design/offers/_view/all';
+        request.get(url, function(err, response, body) {
+            if(err) {
+                return next(new restify.InternalServerError('Error has occured'));
+            }
+            if(response.statusCode === 200) {
+                res.send(JSON.parse(response.body));
+            }
+            else if(response.statusCode === 404) {
+                return next(new restify.InternalServerError('No Offers Found'));
+            };
+        });
+    };
+};
+module.exports.getBusinessOffers = function(req, res, next) {
+    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
+        console.log('Get All OFFERS!');
+        var business = req.params.businessname;
+        //Gets all offers from couchDB as JSON
+        var url = "http://localhost:5984/offers/_design/offers/_view/business?startkey='" + business + "'&endkey='" + business + "'";
         request.get(url, function(err, response, body) {
             if(err) {
                 return next(new restify.InternalServerError('Error has occured'));
