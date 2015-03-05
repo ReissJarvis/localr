@@ -2,7 +2,8 @@ var validateHTTP = require("./validateHTTP.js"),
     restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
-    sha1 = require('sha1');
+    sha1 = require('sha1'),
+    neo4j = require('node-neo4j');
 
 function del(req, res, next, type) {
     if(type == "users") {
@@ -11,7 +12,8 @@ function del(req, res, next, type) {
             console.log('DELETE ' + req.params.username);
             validateHTTP.validateHTTP(req, res, next, "users");
             console.log('parameters supplied');
-            var url = 'http://localhost:5984/users/' + req.params.username;
+            var url = 'http://localhost:5984/users/' + req.params.username,
+                db = new neo4j('http://localhost:7474');
             request.get(url, function(err, response, body) {
                 console.log("request started");
                 // if user is not found will send 404 error
@@ -24,16 +26,15 @@ function del(req, res, next, type) {
                         rev = body._rev,
                         nodeid = body.nodeid;
                     console.log(rev);
-                    console.log(nodeid)
-                    // get node
-                    // check for relationships
-                    //         db.cypherQuery("start m = node("+ nodeid +") match n<-[r]-m  return r", function(err, results) {
-                    //          //should return relationships
-                    //               if(err) throw err;
-                    //          });
-                    // delete any present relationship
-                    // need to cycle each part
-                    // results.forEach(function(item){
+                    console.log(nodeid);
+                    db.cypherQuery("start m = node("+ nodeid +") match n<-[r]-m  return r", function(err, results) {
+                        if(err) throw err;
+                        console.log(results);
+                        //results.forEach(function(item){
+                           //var id = item.relationship_id;
+                        //});
+                    });
+                    
                     // 
                     // db.deleteRelationship(relationship_id, function(err, relationship){
                     //          if(err) throw err;
