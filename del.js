@@ -30,7 +30,7 @@ function del(req, res, next, type) {
                     db.cypherQuery("start m = node(" + nodeid + ") match n<-[r]-m  return r", function(err, results) {
                         if(err) throw err;
                         console.log(results);
-                        var resLength = results.datag.length,
+                        var resLength = results.data.length,
                             i = 0;
                         results.data.forEach(function(item) {
                             var id = item._id;
