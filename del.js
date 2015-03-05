@@ -33,30 +33,26 @@ function del(req, res, next, type) {
                         results.data.forEach(function(item){
                             var id = item._id;
                             console.log("Loggin id: " + id);
+                            db.deleteRelationship(id, function(err, relationship){
+                                if(err) throw err;
+                                if(relationship === true){
+                                    console.log("Deleted Relationship!");
+                                } else {
+                                    console.log("Relationship not Deleted...");
+                                    return next(new restify.InternalServerError('Cant delete Relationship!'));
+                                };
+                            });
                         });
                     });
-                    
-                    // 
-                    // db.deleteRelationship(relationship_id, function(err, relationship){
-                    //          if(err) throw err;
-                    //          if(relationship === true){
-                    //                  relationship deleted
-                    //          } else {
-                    //                  relationship not deleted because not found.
-                    //          }
-                    //});
-                    // 
-                    // 
-                    // })
-                    // delete the node
-                    //                     b.deleteNode(nodeid, function(err, node) {
-                    //                         if(err) throw err;
-                    //                         if(node === true) {
-                    //                             // node deleted
-                    //                         } else {
-                    //                             // node not deleted because not found or because of existing relationships
-                    //                         }
-                    //                     });
+                    b.deleteNode(nodeid, function(err, node) {
+                        if(err) throw err;
+                        if(node === true) {
+                            console.log("Node Deleted!");
+                        } else {
+                            console.log("Node not Deleted");
+                            return next(new restify.InternalServerError('Cant delete node!'));
+                        };
+                    });
                     request.del(url + "?rev=" + rev, function(err, response) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant delete document'));
