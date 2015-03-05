@@ -5,8 +5,7 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
-
-module.exports.addoffer = function(req, res, next) {
+module.exports.addOffer = function(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next, "business")) === true) {
         console.log('NEW OFFER!');
         console.log('PUT: ' + req.params.offer)
@@ -15,7 +14,7 @@ module.exports.addoffer = function(req, res, next) {
         var businessName = req.params.businessname
         var offertitle = req.params.offer + ' - ' + businessName
         var nodeid = 0;
-        var url = 'http://localhost:5984/offers/' + offertitle ;
+        var url = 'http://localhost:5984/offers/' + offertitle;
         var description = req.params.description
         var REQ = req
         request.get(url, function(err, response, body) {
@@ -72,4 +71,22 @@ module.exports.addoffer = function(req, res, next) {
         });
         // if the document is found, that means the user is already created.
     };
-}
+};
+module.exports.getAllOffers = function(req, res, next) {
+    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
+        console.log('Get All OFFERS!');
+        //Gets all offers from couchDB as JSON
+        var url = 'http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/all';
+        request.get(url, function(err, response, body) {
+            if(err) {
+                return next(new restify.InternalServerError('Error has occured'));
+            }
+            if(response.statusCode === 200) {
+                res.send(JSON.parse(response.body));
+            }
+            else if(response.statusCode === 404) {
+                return next(new restify.InternalServerError('No Offers Found'));
+            };
+        });
+    };
+};

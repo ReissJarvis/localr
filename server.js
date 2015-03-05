@@ -76,6 +76,10 @@ server.listen(8080, function() {
     });
     //Create Offer
     server.put({path : business + offers + "/add"}, function(req, res, next) {
-        offer.addoffer(req, res, next);
+        offer.addOffer(req, res, next);
+    });
+    //Get all Offers
+    server.get({path : business + offers + "/show/all"}, function(req, res, next) {
+        offer.getAllOffers(req, res, next);
     });
 });

@@ -52,5 +52,5 @@ function validateHTTP(req, res, next, type) {
     } else {
         console.log("Error, Invalid Type!");
     }
-}
+};
 module.exports.validateHTTP = validateHTTP;
