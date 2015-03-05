@@ -29,37 +29,57 @@ function del(req, res, next, type) {
                     console.log(nodeid);
                     db.cypherQuery("start m = node(" + nodeid + ") match n<-[r]-m  return r", function(err, results) {
                         if(err) throw err;
-                        console.log(results);
-                        results.data.forEach(function(item) {
-                            var id = item._id;
-                            console.log("Loggin id: " + id);
-                            db.deleteRelationship(id, function(err, relationship) {
+                        if(results == 0) {
+                            db.deleteNode(nodeid, function(err, node) {
                                 if(err) throw err;
-                                if(relationship === true) {
-                                    console.log("Deleted Relationship!");
-                                    db.deleteNode(nodeid, function(err, node) {
-                                        if(err) throw err;
-                                        if(node === true) {
-                                            console.log("Node Deleted!");
-                                            request.del(url + "?rev=" + rev, function(err, response) {
-                                                if(err) {
-                                                    return next(new restify.InternalServerError('Cant delete document'));
-                                                };
-                                                console.log("Deleted User!");
-                                                res.send("Deleted User!");
-                                                res.end();
-                                            });
-                                        } else {
-                                            console.log("Node not Deleted");
-                                            return next(new restify.InternalServerError('Cant delete node!'));
+                                if(node === true) {
+                                    console.log("Node Deleted!");
+                                    request.del(url + "?rev=" + rev, function(err, response) {
+                                        if(err) {
+                                            return next(new restify.InternalServerError('Cant delete document'));
                                         };
+                                        console.log("Deleted User!");
+                                        res.send("Deleted User!");
+                                        res.end();
                                     });
                                 } else {
-                                    console.log("Relationship not Deleted...");
-                                    return next(new restify.InternalServerError('Cant delete Relationship!'));
+                                    console.log("Node not Deleted");
+                                    return next(new restify.InternalServerError('Cant delete node!'));
                                 };
                             });
-                        });
+                        } else {
+                            console.log(results);
+                            results.data.forEach(function(item) {
+                                var id = item._id;
+                                console.log("Loggin id: " + id);
+                                db.deleteRelationship(id, function(err, relationship) {
+                                    if(err) throw err;
+                                    if(relationship === true) {
+                                        console.log("Deleted Relationship!");
+                                        db.deleteNode(nodeid, function(err, node) {
+                                            if(err) throw err;
+                                            if(node === true) {
+                                                console.log("Node Deleted!");
+                                                request.del(url + "?rev=" + rev, function(err, response) {
+                                                    if(err) {
+                                                        return next(new restify.InternalServerError('Cant delete document'));
+                                                    };
+                                                    console.log("Deleted User!");
+                                                    res.send("Deleted User!");
+                                                    res.end();
+                                                });
+                                            } else {
+                                                console.log("Node not Deleted");
+                                                return next(new restify.InternalServerError('Cant delete node!'));
+                                            };
+                                        });
+                                    } else {
+                                        console.log("Relationship not Deleted...");
+                                        return next(new restify.InternalServerError('Cant delete Relationship!'));
+                                    };
+                                });
+                            });
+                        }
                     });
                 };
             });
