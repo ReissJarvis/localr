@@ -5,8 +5,10 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
+
 module.exports.addOffer = function(req, res, next) {
     //Data that has been sent in the request
+    console.log(req)
     var body = JSON.parse(req.body);
     console.log('NEW OFFER!');
     //Connection to neo4j
