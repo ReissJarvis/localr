@@ -87,6 +87,7 @@ module.exports.getAllOffers = function(req, res, next) {
                     businessname: i.value.businessname,
                     last_modified: i.value.last_modified
                 };
+                console.log(offer)
                 allOffers.push(offer);
             });
             var offers = {
