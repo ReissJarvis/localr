@@ -40,11 +40,11 @@ server.listen(8080, function() {
         offers = '/offers'
     console.log('Incoming request being handled.');
     // Get details for user
-    server.get({path : users + "/:username"}, function(req, res, next) {
+    server.get({path : users + "/get/:username"}, function(req, res, next) {
         getDetails.getDetails(req, res, next, 'users');
     });
     // Get details for business
-    server.get({path : business + "/:businessname"}, function(req, res, next) {
+    server.get({path : business + "/get/:businessname"}, function(req, res, next) {
         getDetails.getDetails(req, res, next, 'business');
     });
     //Register user
@@ -84,11 +84,11 @@ server.listen(8080, function() {
         groups.joinGroup(req,res,next);
     });
     //Create Offer
-    server.post({path : business + offers}, function(req, res, next) {
+    server.post({path : business + offers + '/add'}, function(req, res, next) {
         offer.addOffer(req, res, next);
     });
     //Get all Offers
-    server.get({path : business + offers + '/:businessname'}, function(req, res, next) {
+    server.get({path : business + offers + '/get/:businessname'}, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
 });
