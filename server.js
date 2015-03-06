@@ -87,12 +87,8 @@ server.listen(8080, function() {
     server.put({path : business + offers}, function(req, res, next) {
         offer.addOffer(req, res, next);
     });
-    //Get all Offers
-    server.get({path : business + offers + '/all'}, function(req, res, next) {
+    //Get all Offers + if businessname is defined it will get just that business
+    server.get({path : business + offers + '/:businessname'}, function(req, res, next) {
         offer.getAllOffers(req, res, next);
-    });
-    //Get all Offers
-    server.get({path : business + offers + "/:businessname"}, function(req, res, next) {
-        offer.getBusinessOffers(req, res, next);
     });
 });
