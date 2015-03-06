@@ -62,7 +62,7 @@ function register(req, res, next, type) {
                         // document has been inserted into database
                         var sendBack = {
                             Registered: 'OK',
-                            Business_Name: businessName,
+                            Business_Name: username,
                             Date_Joined: date
                         }
                         res.send(sendBack);
