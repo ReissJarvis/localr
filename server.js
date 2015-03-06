@@ -20,12 +20,10 @@ server.use(restify.CORS({
     headers: ['authorization', 'content-type', 'accept', 'origin'],
     methods: ['GET', 'PUT', 'POST', 'HEAD', 'DELETE'] // sets expose-headers
 }));
-
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.authorizationParser());
 restify.CORS.ALLOW_HEADERS.push('authorization');
-
 // //Some error handling
 // server.on('NotFound', function(request, response, next) {}); // When a client request is sent for a URL that does not exist, restify will emit this event. Note that restify checks for listeners on this event, and if there are none, responds with a default 404 handler. It is expected that if you listen for this event, you respond to the client.
 // server.on('MethodNotAllowed', function(request, response, cb) {}); // When a client request is sent for a URL that does exist, but you have not registered a route for that HTTP verb, restify will emit this event. Note that restify checks for listeners on this event, and if there are none, responds with a default 405 handler. It is expected that if you listen for this event, you respond to the client.
@@ -33,7 +31,6 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 // server.on('UnsupportedMediaType', function(request, response, cb) {}); // When a client request is sent for a route that exist, but has a content-type mismatch, restify will emit this event. Note that restify checks for listeners on this event, and if there are none, responds with a default 415 handler. It is expected that if you listen for this event, you respond to the client.
 // server.on('after', function(request, response, route, error) {}); // Emitted after a route has finished all the handlers you registered. You can use this to write audit logs, etc. The route parameter will be the Route object that ran.
 // server.on('uncaughtException', function(request, response, route, error) {}); // Emitted when some handler throws an uncaughtException somewhere in the chain. The default behavior is to just call res.send(error), and let the built-ins in restify handle transforming, but you can override to whatever you want here.
-
 // Creating Server
 server.listen(8080, function() {
     var users = "/users",
@@ -56,13 +53,23 @@ server.listen(8080, function() {
     server.post({
         path: users + "/register"
     }, function(req, res, next) {
-        register.register(req, res, next, 'users');
+        if(req.authorization.scheme !== 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+            failed = true;
+        } else {
+            register.register(req, res, next, 'users');
+        }
     });
     // Register business.
     server.post({
         path: business + "/register"
     }, function(req, res, next) {
-        register.register(req, res, next, 'business');
+        if(req.authorization.scheme !== 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+            failed = true;
+        } else {
+            register.register(req, res, next, 'business');
+        }
     });
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
     server.put({
