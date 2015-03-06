@@ -40,11 +40,11 @@ server.listen(8080, function() {
         offers = '/offers'
     console.log('Incoming request being handled.');
     // Get details for user
-    server.get({path : users + "/get"}, function(req, res, next) {
+    server.get({path : users + "/:username"}, function(req, res, next) {
         getDetails.getDetails(req, res, next, 'users');
     });
     // Get details for business
-    server.get({path : business + "/get"}, function(req, res, next) {
+    server.get({path : business + "/:businessname"}, function(req, res, next) {
         getDetails.getDetails(req, res, next, 'business');
     });
     //Register user
@@ -87,7 +87,7 @@ server.listen(8080, function() {
     server.put({path : business + offers}, function(req, res, next) {
         offer.addOffer(req, res, next);
     });
-    //Get all Offers + if businessname is defined it will get just that business
+    //Get all Offers
     server.get({path : business + offers + '/:businessname'}, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
