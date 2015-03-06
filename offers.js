@@ -84,6 +84,7 @@ module.exports.getAllOffers = function(req, res, next) {
                 var offer = {
                     title: i.value.offer_title,
                     description: i.value.offer_description,
+                    businessname: i.value.businessname,
                     last_modified: i.value.last_modified
                 };
                 allOffers.push(offer);
@@ -114,6 +115,7 @@ module.exports.getBusinessOffers = function(req, res, next) {
                 var offer = {
                     title: i.value.offer_title,
                     description: i.value.offer_description,
+                    businessname: i.value.businessname,
                     last_modified: i.value.last_modified
                 };
                 allOffers.push(offer);
