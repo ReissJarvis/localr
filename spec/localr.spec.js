@@ -12,17 +12,13 @@
              //                 });
              //             })
              it("be able to create a user", function(done) {
-                 var url = 'http://api.adam-holt.co.uk/users/testuser';
-                 var doc = {
-                     name: "testuser"
-                 };
+                 var url = 'http://api.adam-holt.co.uk/users/register';
                  // getting params
                  var params = {
                      uri: url,
                      headers: {
                          authorization: getBasic('testuser', 'test')
-                     },
-                     body: JSON.stringify(doc)
+                     }
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(200);
