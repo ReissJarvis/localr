@@ -87,7 +87,7 @@ module.exports.getAllOffers = function(req, res, next) {
                     total_Offers: resp.rows.length,
                     offers: resp.rows
                 }
-                res.send(JSON.stringify(offers));
+                res.send(offers);
             } else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
             };
@@ -110,7 +110,7 @@ module.exports.getBusinessOffers = function(req, res, next) {
                     total_Offers: resp.rows.length,
                     offers: resp.rows
                 }
-                res.send(JSON.stringify(offers));
+                res.send(offers);
             } else if(response.statusCode === 404) {
                 return next(new restify.InternalServerError('No Offers Found'));
             };
