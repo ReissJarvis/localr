@@ -28,6 +28,7 @@ restify.CORS.ALLOW_HEADERS.push('authorization');
 
 //Some error handling
 server.on('NotFound', function(request, response, next) {
+    console.log('testing not found')
     return next(new restify.NotFoundError('404 - Not Found, please consult documentation'))
 }); // When a client request is sent for a URL that does not exist, restify will emit this event. Note that restify checks for listeners on this event, and if there are none, responds with a default 404 handler. It is expected that if you listen for this event, you respond to the client.
 server.on('MethodNotAllowed', function(request, response, cb) {}); // When a client request is sent for a URL that does exist, but you have not registered a route for that HTTP verb, restify will emit this event. Note that restify checks for listeners on this event, and if there are none, responds with a default 405 handler. It is expected that if you listen for this event, you respond to the client.
