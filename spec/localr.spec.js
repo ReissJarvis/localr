@@ -57,7 +57,7 @@
      })
      describe('checkin', function(done) {
          it("be able to checkin", function(done) {
-             var url = 'http://api.adam-holt.co.uk/users/checkin?user=testuser&points=10';
+             var url = 'http://api.adam-holt.co.uk/users/checkin?username=testuser&points=10';
              var doc = {
                  username: "testuser",
                  points:10
