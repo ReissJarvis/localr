@@ -80,14 +80,14 @@
      it("be able to redeem the latest offer", function() {})
      it("be able to check what offers youve redeemed", function() {})
      it("be able delete yourself", function(done) {
-         var url = 'http://api.adam-holt.co.uk/users/testuser';
+         var url = 'http://api.adam-holt.co.uk/users/delete';
          // getting params
          console.log('at delete')
          var params = {
              uri: url,
              headers: {
                  authorization: getBasic('testuser', 'test')
-             },
+             }
          };
          request.del(params, function(error, response, body) {
              expect(response.statusCode).toBe(200);
