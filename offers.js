@@ -90,6 +90,7 @@ module.exports.getAllOffers = function(req, res, next) {
                         description: i.offer_description,
                         last_modified: i.last_modified
                     };
+                    console.log(offer);
                     allOffers.push(offer);
                 });
                 var offers = {
