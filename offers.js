@@ -86,9 +86,9 @@ module.exports.getAllOffers = function(req, res, next) {
                 var allOffers = [];
                 resp.rows.forEach(function(i) {
                     var offer = {
-                        title: i.offer_title,
-                        description: i.offer_description,
-                        last_modified: i.last_modified
+                        title: i.value.offer_title,
+                        description: i.value.offer_description,
+                        last_modified: i.value.last_modified
                     };
                     console.log(offer);
                     allOffers.push(offer);
@@ -119,9 +119,9 @@ module.exports.getBusinessOffers = function(req, res, next) {
                 var allOffers = [];
                 resp.rows.forEach(function(i) {
                     var offer = {
-                        title: i.offer_title,
-                        description: i.offer_description,
-                        last_modified: i.last_modified
+                        title: i.value.offer_title,
+                        description: i.value.offer_description,
+                        last_modified: i.value.last_modified
                     };
                     allOffers.push(offer);
                 });
