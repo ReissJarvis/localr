@@ -4,9 +4,11 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid');
-
 module.exports.getDetails = function(req, res, next, type) {
     if(type == "users") {
+        if(!req.params.username) {
+            return next(new restify.BadRequestError("You didn't select a user - please add on the username like /users/xxx"))
+        }
         //Grab a users profile
         console.log('GRABBING USER');
         console.log('GET ' + req.params.username);
@@ -39,6 +41,9 @@ module.exports.getDetails = function(req, res, next, type) {
             };
         });
     } else if(type == "business") {
+        if(!req.params.businessname) {
+            return next(new restify.BadRequestError("You didn't select a user - please add on the username like /users/xxx"))
+        }
         //Grab a users profile
         console.log('GRABBING BUSINESS');
         console.log('GET ' + req.params.businessname);
