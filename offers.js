@@ -99,33 +99,32 @@ module.exports.getAllOffers = function(req, res, next) {
     });
 };
 module.exports.getBusinessOffers = function(req, res, next) {
-        var business = req.params.businessname;
-        console.log('Get All OFFERS from' + business);
-        //Gets all offers from couchDB as JSON
-        var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
-        request.get(url, function(err, response, body) {
-            if(err) {
-                return next(new restify.InternalServerError('Error communicating with CouchDB'));
-            }
-            if(response.statusCode === 200) {
-                var resp = JSON.parse(body);
-                var allOffers = [];
-                resp.rows.forEach(function(i) {
-                    var offer = {
-                        title: i.value.offer_title,
-                        description: i.value.offer_description,
-                        last_modified: i.value.last_modified
-                    };
-                    allOffers.push(offer);
-                });
-                var offers = {
-                    total_Offers: resp.rows.length,
-                    offers: allOffers
+    var business = req.params.businessname;
+    console.log('Get All OFFERS from' + business);
+    //Gets all offers from couchDB as JSON
+    var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
+    request.get(url, function(err, response, body) {
+        if(err) {
+            return next(new restify.InternalServerError('Error communicating with CouchDB'));
+        }
+        if(response.statusCode === 200) {
+            var resp = JSON.parse(body);
+            var allOffers = [];
+            resp.rows.forEach(function(i) {
+                var offer = {
+                    title: i.value.offer_title,
+                    description: i.value.offer_description,
+                    last_modified: i.value.last_modified
                 };
-                res.send(offers);
-            } else if(response.statusCode === 404) {
-                return next(new restify.InternalServerError('No Offers Found'));
+                allOffers.push(offer);
+            });
+            var offers = {
+                total_Offers: resp.rows.length,
+                offers: allOffers
             };
-        });
-    };
+            res.send(offers);
+        } else if(response.statusCode === 404) {
+            return next(new restify.InternalServerError('No Offers Found'));
+        };
+    });
 };
