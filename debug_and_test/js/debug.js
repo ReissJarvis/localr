@@ -67,8 +67,8 @@ localr = (function() {
                 httpRequest.onload = function() {
                     if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                         var response = JSON.parse(httpRequest.responseText);
-                        console.log(response + httpRequest);
-                        return response, httpRequest;;
+                        console.log(response);
+                        return response, httpRequest;
                     } else {
                         console.log(httpRequest.statusText);
                         return httpRequest;
@@ -90,8 +90,10 @@ localr = (function() {
                     if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                         var response = JSON.parse(httpRequest.responseText);
                         console.log(response);
+                        return response
                     } else {
                         console.log(httpRequest.statusText);
+                        return httpRequest.statusText
                     }
                 };
                 httpRequest.send();
@@ -135,8 +137,10 @@ localr = (function() {
                 if(httpRequest.readyState === 4 && httpRequest.status === 200) {
                     var response = JSON.parse(httpRequest.responseText);
                     console.log(response)
+                    return response
                 } else {
                     console.log(httpRequest.statusText);
+                    return httpRequest.statusText
                 }
             };
             httpRequest.send();

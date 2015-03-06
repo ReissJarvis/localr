@@ -46,3 +46,8 @@ FOR GETTING ALL OFFERS FROM CODIO WITH BUSINESSNAME
 http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/business?startkey=%22codio%22&endkey=%22codio%22
 
 
+
+READ THIS
+
+http://mark-kirby.co.uk/2013/creating-a-true-rest-api/
+
