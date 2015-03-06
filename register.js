@@ -8,16 +8,14 @@ var validateHTTP = require("./validateHTTP.js"),
 
 function register(req, res, next, type) {
     if(type == "users") {
-        if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
-            console.log('NEW USER!');
-            console.log('PUT: ' + req.params.username);
-            db = new neo4j('http://localhost:7474');
-            var nodeid = 0;
-            var url = 'http://localhost:5984/users/' + req.params.username;
-            validateHTTP.validateHTTP(req, res, next, "users");
-            request.get(url, function(err, response, body) {
+        console.log('NEW USER!');
+        console.log('PUT: ' + req.params.username);
+        db = new neo4j('http://localhost:7474');
+        var nodeid = 0;
+        var url = 'http://localhost:5984/users/' + req.params.username;
+        request.get(url, function(err, response, body) {
                 if(err) {
-                    return next(new restify.InternalServerError('Error has occured'));
+                    return next(new restify.InternalServerError('Could not get user from CouchDB'));
                 }
                 // if the document isnt found it will create it from sratch
                 console.log('code' + response.statusCode);
@@ -66,19 +64,16 @@ function register(req, res, next, type) {
                             res.end();
                         });
                     });
-                };
-            });
+                });
             // if the document is found, that means the user is already created.
         };
     } else if(type == "business") {
-        if((validateHTTP.validateHTTP(req, res, next, "business")) === true) {
-            console.log('NEW BUSINESS!');
-            console.log('PUT: ' + req.params.businessname);
-            db = new neo4j('http://localhost:7474');
-            var nodeid = 0;
-            var url = 'http://localhost:5984/business/' + req.params.businessname;
-            validateHTTP.validateHTTP(req, res, next, "business")
-            request.get(url, function(err, response, body) {
+        console.log('NEW BUSINESS!');
+        console.log('PUT: ' + req.params.businessname);
+        db = new neo4j('http://localhost:7474');
+        var nodeid = 0;
+        var url = 'http://localhost:5984/business/' + req.params.businessname;
+        request.get(url, function(err, response, body) {
                 if(err) {
                     return next(new restify.InternalServerError('Error has occured'));
                 }
@@ -127,13 +122,11 @@ function register(req, res, next, type) {
                             res.end();
                         });
                     });
-                };
-            });
+                });
             // if the document is found, that means the user is already created.
         };
     } else {
         console.log("Error, Invalid Type!");
     };
 };
-
 module.exports.register = register;

@@ -48,11 +48,11 @@ server.listen(8080, function() {
         getDetails.getDetails(req, res, next, 'business');
     });
     //Register user
-    server.put({path : users + "/register"}, function(req, res, next) {
+    server.post({path : users + "/:username"}, function(req, res, next) {
         register.register(req, res, next, 'users');
     });
     // Register business.
-    server.put({path : business + "/register"}, function(req, res, next){
+    server.post({path : business + "/:businessname"}, function(req, res, next){
         register.register(req, res, next, 'business');
     });
     // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
@@ -60,11 +60,11 @@ server.listen(8080, function() {
         checkin.checkin(req,res,next);
     });
     // Delete user
-    server.del({path: users + "/delete"}, function(req, res, next){
+    server.del({path: users + "/:usersname"}, function(req, res, next){
         del.del(req, res, next, 'users'); 
     });
     // Delete business
-    server.del({path: business + "/delete"}, function(req, res, next){
+    server.del({path: business + "/:businessname"}, function(req, res, next){
         del.del(req, res, next, 'business'); 
      });   
     //user/creategroup?username=username&groupname=name&description=description&competition=freshers
