@@ -60,7 +60,7 @@ server.listen(8080, function() {
         checkin.checkin(req,res,next);
     });
     // Delete user
-    server.del({path: users + "/:usersname"}, function(req, res, next){
+    server.del({path: users + "/:username"}, function(req, res, next){
         del.del(req, res, next, 'users'); 
     });
     // Delete business
