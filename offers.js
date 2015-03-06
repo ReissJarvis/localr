@@ -59,7 +59,13 @@ module.exports.addOffer = function(req, res, next) {
                     }
                     // document has been inserted into database
                     // now send url and document back to user
-                    res.send(docStr);
+                    var sendBack = {
+                        Added: 'OK',
+                        Offer_Title: offertitle,
+                        Offer_Description: description,
+                        Date_Added: date
+                    }
+                    res.send(sendBack);
                     res.end();
                 });
             });
