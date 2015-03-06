@@ -8,15 +8,13 @@ var restify = require('restify'),
 
 module.exports.addOffer = function(req, res, next) {
     //Data that has been sent in the request
-    console.log(req)
-    var body = JSON.parse(req.body);
     console.log('NEW OFFER!');
     //Connection to neo4j
     db = new neo4j('http://localhost:7474');
     var rand = uuid.v1()
-    var businessName = body.businessname
-    var description = body.description
-    var offertitle = body.title + ' - ' + businessName
+    var businessName = req.params.businessname
+    var description = req.params.description
+    var offertitle = req.params.title + ' - ' + businessName
     var nodeid = 0;
     //URL for when offer will be stored in CouchDB
     var url = 'http://localhost:5984/offers/' + offertitle;
