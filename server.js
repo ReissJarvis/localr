@@ -88,7 +88,7 @@ server.listen(8080, function() {
         offer.addOffer(req, res, next);
     });
     //Get all Offers
-    server.get({path : business + offers}, function(req, res, next) {
+    server.get({path : business + offers + '/all'}, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
     //Get all Offers
