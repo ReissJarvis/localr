@@ -19,12 +19,12 @@ module.exports.addOffer = function(req, res, next) {
         var REQ = req
         request.get(url, function(err, response, body) {
             if(err) {
-                return next(new restify.InternalServerError('Error has occured'));
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }
             // if the document isnt found it will create it from sratch
             console.log('code' + response.statusCode)
             if(response.statusCode === 200) {
-                return next(new restify.ConflictError('Offer already created'));
+                return next(new restify.ConflictError('Offer has already been created with the same name'));
             } else if(response.statusCode === 404) {
                 db.insertNode({
                     name: offertitle
@@ -53,17 +53,14 @@ module.exports.addOffer = function(req, res, next) {
                     var docStr = JSON.stringify(doc);
                     var params = {
                         uri: url,
-                        body: JSON.stringify(doc)
+                        body: docStr
                     };
                     request.put(params, function(err, response, body) {
                         if(err) {
-                            return next(new restify.InternalServerError('Cant create document'));
+                            return next(new restify.InternalServerError('Cant create document in CouchDB'));
                         }
                         // document has been inserted into database
-                        body = JSON.parse(body);
-                        res.send({
-                            offer: req.params
-                        });
+                        res.send(docStr);
                         res.end();
                     });
                 });
@@ -73,46 +70,42 @@ module.exports.addOffer = function(req, res, next) {
     };
 };
 module.exports.getAllOffers = function(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
-        console.log('Get All OFFERS!');
-        //Gets all offers from couchDB as JSON
-        var url = 'http://localhost:5984/offers/_design/offers/_view/all';
-        request.get(url, function(err, response, body) {
-            if(err) {
-                return next(new restify.InternalServerError('Error has occured'));
+    console.log('Get All OFFERS!');
+    //Gets all offers from couchDB as JSON
+    var url = 'http://localhost:5984/offers/_design/offers/_view/all';
+    request.get(url, function(err, response, body) {
+        if(err) {
+            return next(new restify.InternalServerError('Error communicating with CouchDB'));
+        }
+        if(response.statusCode === 200) {
+            var resp = JSON.parse(body)
+            var allOffers = [];
+            resp.rows.forEach(function(i) {
+                var offer = {
+                    title: i.value.offer_title,
+                    description: i.value.offer_description,
+                    last_modified: i.value.last_modified
+                };
+                allOffers.push(offer);
+            });
+            var offers = {
+                total_Offers: resp.rows.length,
+                offers: allOffers
             }
-            if(response.statusCode === 200) {
-                var resp = JSON.parse(body)
-                var allOffers = [];
-                resp.rows.forEach(function(i) {
-                    var offer = {
-                        title: i.value.offer_title,
-                        description: i.value.offer_description,
-                        last_modified: i.value.last_modified
-                    };
-                    console.log(offer);
-                    allOffers.push(offer);
-                });
-                var offers = {
-                    total_Offers: resp.rows.length,
-                    offers: allOffers
-                }
-                res.send(offers);
-            } else if(response.statusCode === 404) {
-                return next(new restify.InternalServerError('No Offers Found'));
-            };
-        });
-    };
+            res.send(offers);
+        } else if(response.statusCode === 404) {
+            return next(new restify.InternalServerError('No Offers Found'));
+        };
+    });
 };
 module.exports.getBusinessOffers = function(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next, "users")) === true) {
         var business = req.params.businessname;
         console.log('Get All OFFERS from' + business);
         //Gets all offers from couchDB as JSON
         var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
         request.get(url, function(err, response, body) {
             if(err) {
-                return next(new restify.InternalServerError('Error has occured'));
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }
             if(response.statusCode === 200) {
                 var resp = JSON.parse(body);
