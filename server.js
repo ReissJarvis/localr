@@ -75,15 +75,15 @@ server.listen(8080, function() {
         groups.joinGroup(req,res,next);
     });
     //Create Offer
-    server.put({path : business + offers + "/add"}, function(req, res, next) {
+    server.put({path : business + offers}, function(req, res, next) {
         offer.addOffer(req, res, next);
     });
     //Get all Offers
-    server.get({path : business + offers + "/show/all"}, function(req, res, next) {
+    server.get({path : business + offers}, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
     //Get all Offers
-    server.get({path : business + offers + "/show/:businessname"}, function(req, res, next) {
+    server.get({path : business + offers + "/:businessname"}, function(req, res, next) {
         offer.getBusinessOffers(req, res, next);
     });
 });
