@@ -29,7 +29,7 @@
                  })
              })
              it("be not able to create duplicate user", function(done) {
-                 var url = 'http://api.adam-holt.co.uk/register';
+                 var url = 'http://api.adam-holt.co.uk/users/register';
                  // getting params
                  var params = {
                      uri: url,
