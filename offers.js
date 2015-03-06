@@ -94,7 +94,7 @@ module.exports.getAllOffers = function(req, res, next) {
                 });
                 var offers = {
                     total_Offers: resp.rows.length,
-                    offers: resp.rows
+                    offers: allOffers
                 }
                 res.send(offers);
             } else if(response.statusCode === 404) {
@@ -126,7 +126,7 @@ module.exports.getBusinessOffers = function(req, res, next) {
                 });
                 var offers = {
                     total_Offers: resp.rows.length,
-                    offers: resp.rows
+                    offers: allOffers
                 };
                 res.send(offers);
             } else if(response.statusCode === 404) {
