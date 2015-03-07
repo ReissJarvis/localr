@@ -7,10 +7,11 @@ var validateHTTP = require("./validateHTTP.js"),
 
 function del(req, res, next, type) {
     if(type == "users") {
+        var username = req.authorization.basic.username
         console.log('DELETE USER');
-        console.log('DELETE ' + req.params.username);
+        console.log('DELETE ' + username);
         console.log('parameters supplied');
-        var url = 'http://localhost:5984/users/' + req.params.username,
+        var url = 'http://localhost:5984/users/' + username,
             db = new neo4j('http://localhost:7474');
         request.get(url, function(err, response, body) {
             console.log("request started");
@@ -88,11 +89,12 @@ function del(req, res, next, type) {
             };
         });
     } else if(type == "business") {
+        var businessName = req.authorization.basic.username
         console.log('DELETE BUSINESS');
-        console.log('DELETE ' + req.params.businessname);
+        console.log('DELETE ' + businessName);
         validateHTTP.validateHTTP(req, res, next, "business");
         console.log('parameters supplied');
-        var url = 'http://localhost:5984/business/' + req.params.businessname;
+        var url = 'http://localhost:5984/business/' + businessName;
         request.get(url, function(err, response, body) {
             console.log("request started");
             // if business is not found will send 404 error

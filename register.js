@@ -6,13 +6,16 @@ var validateHTTP = require("./validateHTTP.js"),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
 
+//Need to do a check to make sure authorization headers are set on both
+
 function register(req, res, next, type) {
     if(type == "users") {
+        var username = req.authorization.basic.username;
         console.log('NEW USER!');
-        console.log('PUT: ' + req.params.username);
+        console.log('PUT: ' + username);
         db = new neo4j('http://localhost:7474');
         var nodeid = 0;
-        var url = 'http://localhost:5984/users/' + req.params.username;
+        var url = 'http://localhost:5984/users/' + username;
         request.get(url, function(err, response, body) {
             if(err) {
                 return next(new restify.InternalServerError('Could not get user from CouchDB'));
@@ -57,10 +60,12 @@ function register(req, res, next, type) {
                             return next(new restify.InternalServerError('Cant create document'));
                         }
                         // document has been inserted into database
-                        body = JSON.parse(body);
-                        res.send({
-                            user: req.params
-                        });
+                        var sendBack = {
+                            Registered: 'OK',
+                            Username: username,
+                            Date_Joined: date
+                        }
+                        res.send(sendBack);
                         res.end();
                     });
                 });
@@ -68,11 +73,12 @@ function register(req, res, next, type) {
             // if the document is found, that means the user is already created.
         });
     } else if(type == "business") {
+        var businessName = req.authorization.basic.username
         console.log('NEW BUSINESS!');
-        console.log('PUT: ' + req.params.businessname);
+        console.log('PUT: ' + businessName);
         db = new neo4j('http://localhost:7474');
         var nodeid = 0;
-        var url = 'http://localhost:5984/business/' + req.params.businessname;
+        var url = 'http://localhost:5984/business/' + businessName;
         request.get(url, function(err, response, body) {
             if(err) {
                 return next(new restify.InternalServerError('Error has occured'));
@@ -83,8 +89,8 @@ function register(req, res, next, type) {
                 return next(new restify.ConflictError('user already created'));
             } else if(response.statusCode === 404) {
                 db.insertNode({
-                    name: req.params.businessname
-                }, ['Business', req.params.businessname], function(err, node) {
+                    name: businessName
+                }, ['Business', businessName], function(err, node) {
                     if(err) throw err;
                     // Output node properties.
                     console.log('New neo4j node created with name = ' + node.name);
@@ -115,10 +121,12 @@ function register(req, res, next, type) {
                             return next(new restify.InternalServerError('Cant create document'));
                         }
                         // document has been inserted into database
-                        body = JSON.parse(body);
-                        res.send({
-                            business: req.params
-                        });
+                        var sendBack = {
+                            Registered: 'OK',
+                            Business_Name: businessName,
+                            Date_Joined: date
+                        }
+                        res.send(sendBack);
                         res.end();
                     });
                 });
