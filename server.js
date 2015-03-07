@@ -67,7 +67,7 @@ server.listen(8080, function() {
     server.del({path: business + "/:businessname"}, function(req, res, next){
         del.del(req, res, next, 'business'); 
      });   
-    //user/creategroup?username=username&groupname=name&description=description&competition=freshers
+    //user/group?username=username&groupname=name&description=description&competition=freshers
     server.put({path: users + "/creategroup"}, function(req, res, next) {
         groups.creategroup(req,res,next);
     });

@@ -60,7 +60,7 @@
              var url = 'http://api.adam-holt.co.uk/users/checkin?username=testuser&points=10';
              var doc = {
                  username: "testuser",
-                 points:10
+                 points: 10
              };
              // getting params
              var params = {
@@ -78,32 +78,159 @@
                  done();
              })
          })
-         it("check points have been added", function() {})
-     })
-     it("be able to see where you've checked in", function() {})
-     it("be able to create a group", function() {})
-     it("be able to delete a group", function() {})
-     it("be able to join a group", function() {})
-     it("Be able to get the latest offers", function() {})
-     it("be able to redeem the latest offer", function() {})
-     it("be able to check what offers youve redeemed", function() {})
-     it("be able delete yourself", function(done) {
-         var url = 'http://api.adam-holt.co.uk/users/testuser';
-         // getting params
-         console.log('at delete')
-         var params = {
-             uri: url,
-             headers: {
-                 authorization: getBasic('testuser', 'test')
-             },
-         };
-         request.del(params, function(error, response, body) {
-             expect(response.statusCode).toBe(200);
-             if(error) {
-                 expect(error.code).not.toBe('ECONNREFUSED');
-             }
-             done();
+         it("check points have been added", function() {
+             var url = 'http://api.adam-holt.co.uk/users/testuser';
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 }
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 body = JSON.parse(body);
+                 expect(body.points).toBe(10);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
          })
+         it("be able to see where you've checked in", function() {})
+     })
+     describe("groups", function() {
+         it("be able to create a group", function() {
+             var url = 'http://api.adam-holt.co.uk/users/groups';
+             var doc = {
+                 username: "testuser",
+                 description: "testgroup",
+                 competition: "freshers"
+             };
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(201);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it("be able to join a group", function() {
+             var url = 'http: //api.adam-holt.co.uk/users/groups/testgroup';
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it("be able to delete a group", function(done) {
+             var url = 'http: //api.adam-holt.co.uk/users/groups';
+             var doc = {
+                 username: "testuser",
+                 groupname: "testgroup",
+                 description: "testgroup",
+                 competition: "freshers"
+             };
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.del(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+     });
+     describe('buisnesses', function() {
+         it('able to create new business', function() {})
+         it('be able to create an offer', function() {})
+         it('cant create duplicate offer', function() {})
+     })
+     describe('Offers', function() {
+         it("Be able to get the latest offers", function(done) {
+             var url = 'http: //api.adam-holt.co.uk/business/offers/';
+             // getting params
+             console.log('get all offers')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it("be able to get a businesses offers", function(done) {
+             var url = 'http: //api.adam-holt.co.uk/business/offers/testbusiness';
+             // getting params
+             console.log('get testbusiness offers')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+     })
+     it("be able to check what offers youve redeemed", function() {})
+     describe('delete all', function() {
+         it("be able delete the user", function(done) {
+             var url = 'http: //api.adam-holt.co.uk/users/testuser';
+             // getting params
+             console.log('at delete')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.del(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it('delete business', function() {})
+         it('delete offers', function() {})
+         it('delete group', function() {})
      })
  });
  getBasic = function(username, password) {
