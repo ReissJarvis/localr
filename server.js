@@ -51,7 +51,7 @@ server.listen(8080, function() {
     });
     //Register user
     server.post({
-        path: users + "/register"
+        path: users
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
@@ -62,7 +62,7 @@ server.listen(8080, function() {
     });
     // Register business.
     server.post({
-        path: business + "/register"
+        path: business
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
