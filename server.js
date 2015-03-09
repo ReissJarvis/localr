@@ -125,6 +125,12 @@ server.listen(8080, function() {
     }, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
+    //Redeem Offer
+    server.put({
+        path: business + offers + '/redeem'
+    }, function(req, res, next) {
+        offer.redeemOffer(req, res, next);
+    });
 });
 
 
