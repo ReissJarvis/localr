@@ -48,6 +48,7 @@ function checkin(req, res, next) {
                 // change what we need in the body e.g the points can probably add to the array aswell
                 body.last_modified = date;
                 body.points = body.points + points;
+                var totalPoints = body.points;
                 // adding the transactions to the array so we can keep track of them
                 body.transactions.push({
                     transactionid: uuid.v1(),
@@ -68,7 +69,14 @@ function checkin(req, res, next) {
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'PUT');
-                    res.send("points added");
+                    var sendBack = {
+                        CheckIn: 'Ok',
+                        username: user,
+                        business: business,
+                        points_added: points,
+                        total_points: totalPoints
+                    }
+                    res.send(sendBack);
                     res.end();
                 });
             };
