@@ -1,16 +1,8 @@
  var request = require('request');
+require('../testserver.js').startserver();
  describe('Localr API', function() {
      describe('Users', function() {
          describe('create the user', function() {
-             //                          beforeEach(function() {
-             //                              var restify = require('restify');
-             //                              var test = require('../server.js');
-             //                              var server = restify.createServer();
-             //                              test.init(server);
-             //                              server.listen('8080', 'localhost', function() {
-             //                              console.log('%s server listen at %s', server.name, server.url);
-             //                              });
-             //                          })
              it("be able to create a user", function(done) {
                  var url = 'http://api.adam-holt.co.uk/users/register';
                  // getting params
@@ -160,44 +152,43 @@
          })
      });
      describe('businesses', function() {
-         it('able to create new business', function(done) { 
+         it('able to create new business', function(done) {
              var url = 'http://api.adam-holt.co.uk/';
-         // getting the parameters
-         // 
-         var params = {
-             uri: url,
-             headers: {
-                 authorization: getBasic('testuser', 'test')
-             },
-         };
-         request.put(params, function(error, response, body) {
-             expect(response.statusCode).toBe(200);
-             if(error) {
-                 expect(error.code).not.toBe('ECONNREFUSED');
-             }
-             done();
-         })})
-        
+             // getting the parameters
+             // 
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
          it('be able to create an offer', function(done) {
              var url = 'http://api.adam-holt.co.uk/';
-         // getting the parameters
-         // 
-         console.log('create offer')
-         var params = {
-             uri: url,
-             headers: {
-                 authorization: getBasic('testuser', 'test')
-             },
-         };
-         request.put(params, function(error, response, body) {
-             expect(response.statusCode).toBe(200);
-             if(error) {
-                 expect(error.code).not.toBe('ECONNREFUSED');
-             }
-             done();
+             // getting the parameters
+             // 
+             console.log('create offer')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
          })
-         })
-         
          it('cant create duplicate offer', function(done) {
              var url = 'http://api.adam-holt.co.uk/';
              // getting the parameters
