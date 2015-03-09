@@ -13,7 +13,7 @@ function checkin(req, res, next) {
     var user = req.authorization.basic.username,
         business = req.params.business,
         userUrl = 'http://localhost:5984/users/' + user,
-        businessUrl = 'http://localhost:5984/users/' + business,
+        businessUrl = 'http://localhost:5984/business/' + business,
         points = 0;
     
     //Get business doc to see how many points the user gets for checkin
