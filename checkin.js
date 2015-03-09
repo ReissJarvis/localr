@@ -6,19 +6,34 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function checkin(req, res, next) {
+    if (!req.params.business){
+        return next(new restify.NotAcceptableError('Business Not Found please supply a businessname in the query'));
+    }
     // Get user and set couchdb url
-    var user = req.query.username,
-        points = parseInt(req.query.points),
-        url = 'http://localhost:5984/users/' + user;
+    var user = req.authorization.basic.username,
+        business = req.params.business,
+        userUrl = 'http://localhost:5984/users/' + user,
+        businessUrl = 'http://localhost:5984/users/' + business,
+        points = 0;
+    
+    //Get business doc to see how many points the user gets for checkin
+    request.get(businessUrl, function(err, response, body) {
+        if(response.statusCode === 404) {
+                return next(new restify.NotFoundError('Business Not Found'));
+        };
+        if(response.statusCode === 200) {
+            //Parse string into javascript object
+            body = JSON.parse(body);
+            points = body.checkin_points;
+        }
+    });
     console.log('CHECKIN ');
     console.log('PUT ' + user);
-    console.log('Points = ' + points);
-    console.log('Parameters supplied.');
     request.get(url, function(err, response, body) {
             console.log("Request started.");
             // if the document isnt found it will create it from sratch
             if(response.statusCode === 404) {
-                return next(new restify.ForbiddenError('User Not Found'));
+                return next(new restify.NotFoundError('User Not Found'));
             };
             if(response.statusCode === 200) {
                 console.log('Existing document.');
