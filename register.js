@@ -6,10 +6,9 @@ var validateHTTP = require("./validateHTTP.js"),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
 
-//Need to do a check to make sure authorization headers are set on both
-
 function register(req, res, next, type) {
     if(type == "users") {
+        //Get new username from authorization header
         var username = req.authorization.basic.username;
         console.log('NEW USER!');
         console.log('PUT: ' + username);
@@ -25,6 +24,7 @@ function register(req, res, next, type) {
             if(response.statusCode === 200) {
                 return next(new restify.ConflictError('user already created'));
             } else if(response.statusCode === 404) {
+                //Insert new node to neo4j
                 db.insertNode({
                     name: req.params.username
                 }, ['User'], function(err, node) {
@@ -40,6 +40,7 @@ function register(req, res, next, type) {
                         date = d.toUTCString();
                     console.log(date);
                     console.log('Just above doc node id  ' + nodeid);
+                    //Create document for couchDB
                     var doc = {
                         date_joined: date,
                         last_modified: date,
@@ -51,10 +52,12 @@ function register(req, res, next, type) {
                     };
                     console.log('underneath node.id  ' + doc.nodeid);
                     var docStr = JSON.stringify(doc);
+                    //Build request
                     var params = {
                         uri: url,
                         body: JSON.stringify(doc)
                     };
+                    //Put doc to CouchDB
                     request.put(params, function(err, response, body) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant create document'));
@@ -65,6 +68,7 @@ function register(req, res, next, type) {
                             Username: username,
                             Date_Joined: date
                         }
+                        //Send back successful response
                         res.send(sendBack);
                         res.end();
                     });
@@ -73,12 +77,18 @@ function register(req, res, next, type) {
             // if the document is found, that means the user is already created.
         });
     } else if(type == "business") {
-        var businessName = req.authorization.basic.username
+        //Get the business username from their basic http auth
+        var businessName = req.authorization.basic.username;
+        //The amount of points a user will get for checking in
+        var points = req.params.points;
         console.log('NEW BUSINESS!');
         console.log('PUT: ' + businessName);
-        db = new neo4j('http://localhost:7474');
+        //Connecting to neo4j host
+        var db = new neo4j('http://localhost:7474');
         var nodeid = 0;
+        //CouchDB URL
         var url = 'http://localhost:5984/business/' + businessName;
+        //Make a request to CouchDB
         request.get(url, function(err, response, body) {
             if(err) {
                 return next(new restify.InternalServerError('Error has occured'));
@@ -88,6 +98,7 @@ function register(req, res, next, type) {
             if(response.statusCode === 200) {
                 return next(new restify.ConflictError('user already created'));
             } else if(response.statusCode === 404) {
+                //Insert new node to neo4j
                 db.insertNode({
                     name: businessName
                 }, ['Business', businessName], function(err, node) {
@@ -103,19 +114,23 @@ function register(req, res, next, type) {
                         date = d.toUTCString();
                     console.log(date);
                     console.log('Just above doc node id  ' + nodeid);
+                    //Create document for couchDB
                     var doc = {
                         date_joined: date,
                         last_modified: date,
                         password: password,
                         salt: salt,
-                        nodeid: nodeid
+                        nodeid: nodeid,
+                        checkin_points: points
                     };
                     console.log('underneath node.id  ' + doc.nodeid);
                     var docStr = JSON.stringify(doc);
+                    //Build request
                     var params = {
                         uri: url,
                         body: JSON.stringify(doc)
                     };
+                    //Put doc to CouchDB
                     request.put(params, function(err, response, body) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant create document'));
@@ -126,6 +141,7 @@ function register(req, res, next, type) {
                             Business_Name: businessName,
                             Date_Joined: date
                         }
+                        //Send back successful response
                         res.send(sendBack);
                         res.end();
                     });
