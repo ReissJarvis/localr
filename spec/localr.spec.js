@@ -159,12 +159,61 @@
      });
      describe('businesses', function() {
          it('able to create new business', function() {})
+            var url = 'http: //api.adam-holt.co.uk/';
+             // getting the parameters
+             // 
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
          
          it('be able to create an offer', function() {})
+            var url = 'http: //api.adam-holt.co.uk/';
+             // getting the parameters
+             // 
+             console.log('create offer')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
          
          
          
          it('cant create duplicate offer', function() {})
+            var url = 'http: //api.adam-holt.co.uk/';
+             // getting the parameters
+             
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
      })
      describe('Offers', function() {
          it("Be able to get the latest offers", function(done) {
