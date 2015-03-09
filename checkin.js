@@ -6,21 +6,36 @@ var restify = require('restify'),
     uuid = require('node-uuid');
 
 function checkin(req, res, next) {
+    if (!req.params.business){
+        return next(new restify.NotAcceptableError('Business Not Found please supply a businessname in the query'));
+    }
     // Get user and set couchdb url
-    var user = req.query.username,
-        points = parseInt(req.query.points),
-        url = 'http://localhost:5984/users/' + user;
+    var user = req.authorization.basic.username,
+        business = req.params.business,
+        userUrl = 'http://localhost:5984/users/' + user,
+        businessUrl = 'http://localhost:5984/business/' + business,
+        points = 0;
+    
+    //Get business doc to see how many points the user gets for checkin
+    request.get(businessUrl, function (err, response, body) {
+        if (response.statusCode === 404) {
+                return next(new restify.NotFoundError('Business Not Found'));
+        };
+        if (response.statusCode === 200) {
+            //Parse string into javascript object
+            body = JSON.parse(body);
+            points = body.checkin_points;
+        }
+    });
     console.log('CHECKIN ');
     console.log('PUT ' + user);
-    console.log('Points = ' + points);
-    console.log('Parameters supplied.');
-    request.get(url, function(err, response, body) {
+    request.get(userUrl, function (err, response, body) {
             console.log("Request started.");
             // if the document isnt found it will create it from sratch
-            if(response.statusCode === 404) {
-                return next(new restify.ForbiddenError('User Not Found'));
+            if (response.statusCode === 404) {
+                return next(new restify.NotFoundError('User Not Found'));
             };
-            if(response.statusCode === 200) {
+            if (response.statusCode === 200) {
                 console.log('Existing document.');
                 body = JSON.parse(body);
                 var pwd = sha1(req.authorization.basic.password + body.salt);
@@ -33,6 +48,7 @@ function checkin(req, res, next) {
                 // change what we need in the body e.g the points can probably add to the array aswell
                 body.last_modified = date;
                 body.points = body.points + points;
+                var totalPoints = body.points;
                 // adding the transactions to the array so we can keep track of them
                 body.transactions.push({
                     transactionid: uuid.v1(),
@@ -41,10 +57,10 @@ function checkin(req, res, next) {
                 })
                 console.log(body.points);
                 var params = {
-                    uri: url,
+                    uri: userUrl,
                     body: JSON.stringify(body)
                 };
-                request.put(params, function(err, response, body) {
+                request.put(params, function (err, response, body) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant create document'));
                     }
@@ -53,7 +69,14 @@ function checkin(req, res, next) {
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'PUT');
-                    res.send("points added");
+                    var sendBack = {
+                        CheckIn: 'Ok',
+                        username: user,
+                        business: business,
+                        points_added: points,
+                        total_points: totalPoints
+                    }
+                    res.send(sendBack);
                     res.end();
                 });
             };
