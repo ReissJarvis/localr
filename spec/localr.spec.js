@@ -157,9 +157,13 @@
              })
          })
      });
-     describe('buisnesses', function() {
+     describe('businesses', function() {
          it('able to create new business', function() {})
+         
          it('be able to create an offer', function() {})
+         
+         
+         
          it('cant create duplicate offer', function() {})
      })
      describe('Offers', function() {
@@ -203,7 +207,7 @@
      it("be able to check what offers youve redeemed", function() {})
      describe('delete all', function() {
          it("be able delete the user", function(done) {
-             var url = 'http: //api.adam-holt.co.uk/users/testuser';
+             var url = 'http://api.adam-holt.co.uk/users/testuser';
              // getting params
              console.log('at delete')
              var params = {
