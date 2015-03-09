@@ -1,7 +1,7 @@
  var request = require('request');
  describe('Localr API', function() {
      describe('Users', function() {
-         describe('create the user', function(done) {
+         describe('create the user', function() {
              //                          beforeEach(function() {
              //                              var restify = require('restify');
              //                              var test = require('../server.js');
@@ -49,7 +49,7 @@
              })
          })
      })
-     describe('checkin', function(done) {
+     describe('checkin', function() {
          it("be able to checkin", function(done) {
              var url = 'http://api.adam-holt.co.uk/users/checkin?username=testuser&points=10';
              var doc = {
@@ -72,7 +72,7 @@
                  done();
              })
          })
-         it("check points have been added", function() {
+         it("check points have been added", function(done) {
              var url = 'http://api.adam-holt.co.uk/users/testuser';
              // getting params
              var params = {
@@ -160,8 +160,8 @@
          })
      });
      describe('businesses', function() {
-         it('able to create new business', function(done) {})
-         var url = 'http://api.adam-holt.co.uk/';
+         it('able to create new business', function(done) { 
+             var url = 'http://api.adam-holt.co.uk/';
          // getting the parameters
          // 
          var params = {
@@ -176,9 +176,10 @@
                  expect(error.code).not.toBe('ECONNREFUSED');
              }
              done();
-         })
-         it('be able to create an offer', function() {})
-         var url = 'http://api.adam-holt.co.uk/';
+         })})
+        
+         it('be able to create an offer', function(done) {
+             var url = 'http://api.adam-holt.co.uk/';
          // getting the parameters
          // 
          console.log('create offer')
@@ -195,7 +196,9 @@
              }
              done();
          })
-         it('cant create duplicate offer', function() {
+         })
+         
+         it('cant create duplicate offer', function(done) {
              var url = 'http://api.adam-holt.co.uk/';
              // getting the parameters
              var params = {
