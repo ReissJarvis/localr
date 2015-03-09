@@ -4,7 +4,7 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid');
-module.exports.getDetails = function(req, res, next, type) {
+module.exports.getDetails = function (req, res, next, type) {
     if(type == "users") {
         if(!req.params.username) {
             return next(new restify.BadRequestError("You didn't select a user - please add on the username like /users/xxx"))
@@ -15,13 +15,13 @@ module.exports.getDetails = function(req, res, next, type) {
         var user = {};
         console.log('parameters supplied');
         var url = 'http://localhost:5984/users/' + req.params.username;
-        request.get(url, function(err, response, body) {
+        request.get(url, function (err, response, body) {
             console.log("request started")
             // if user is not found will send 404 error
-            if(response.statusCode == 404) {
+            if (response.statusCode == 404) {
                 return next(new restify.NotFoundError('User Not Found'));
             };
-            if(response.statusCode == 200) {
+            if (response.statusCode == 200) {
                 body = JSON.parse(body);
                 //res.header('ETag', body._rev);
                 res.header('Last-Modified', body.last_modified);
@@ -40,8 +40,8 @@ module.exports.getDetails = function(req, res, next, type) {
                 res.end();
             };
         });
-    } else if(type == "business") {
-        if(!req.params.businessname) {
+    } else if (type == "business") {
+        if (!req.params.businessname) {
             return next(new restify.BadRequestError("You didn't select a user - please add on the username like /users/xxx"))
         }
         //Grab a users profile
@@ -53,10 +53,10 @@ module.exports.getDetails = function(req, res, next, type) {
         request.get(url, function(err, response, body) {
             console.log("request started")
             // if business is not found will send 404 error
-            if(response.statusCode == 404) {
+            if (response.statusCode == 404) {
                 return next(new restify.NotFoundError('Business Not Found'));
             };
-            if(response.statusCode == 200) {
+            if (response.statusCode == 200) {
                 body = JSON.parse(body);
                 //res.header('ETag', body._rev);
                 res.header('Last-Modified', body.last_modified);
