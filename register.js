@@ -121,7 +121,7 @@ function register(req, res, next, type) {
                         password: password,
                         salt: salt,
                         nodeid: nodeid,
-                        checkin_points:  
+                        checkin_points: points
                     };
                     console.log('underneath node.id  ' + doc.nodeid);
                     var docStr = JSON.stringify(doc);
