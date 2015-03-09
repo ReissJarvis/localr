@@ -148,7 +148,7 @@ localr = (function() {
         delete: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://api.adam-holt.co.uk/users/delete?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users/delete';
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -169,7 +169,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://api.adam-holt.co.uk/business/delete?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business/delete';
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
