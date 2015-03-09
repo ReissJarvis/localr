@@ -8,7 +8,7 @@
              //                 var server = restify.createServer();
              //                 test.init(server);
              //                 server.listen('8080', 'localhost', function() {
-             //                     console.log('%s server listen at %s', server.name, server.url);
+             //                 console.log('%s server listen at %s', server.name, server.url);
              //                 });
              //             })
              it("be able to create a user", function(done) {
@@ -22,6 +22,8 @@
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(200);
+                     body = JSON.stringify(body)
+                     expect(body.Username).toBe("testuser")
                      if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
