@@ -55,13 +55,13 @@ localr = (function() {
         register: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://api.adam-holt.co.uk/users/register?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users';
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
                     httpRequest = ("Microsoft.XMLHTTP");
                 }
-                httpRequest.open('PUT', url);
+                httpRequest.open('POST', url);
                 httpRequest.setRequestHeader('Authorization', credentials);
                 httpRequest.setRequestHeader('content-type', "application/json");
                 httpRequest.onload = function() {
@@ -77,13 +77,13 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://api.adam-holt.co.uk/business/register?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
                     httpRequest = ("Microsoft.XMLHTTP");
                 }
-                httpRequest.open('PUT', url);
+                httpRequest.open('POST', url);
                 httpRequest.setRequestHeader('Authorization', credentials);
                 httpRequest.setRequestHeader('content-type', "application/json");
                 httpRequest.onload = function() {
