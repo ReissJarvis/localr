@@ -115,13 +115,13 @@ server.listen(8080, function() {
     });
     //Create Offer
     server.post({
-        path: business + offers + '/add'
+        path: business + offers
     }, function(req, res, next) {
         offer.addOffer(req, res, next);
     });
     //Get all Offers
     server.get({
-        path: business + offers + '/get/:businessname'
+        path: business + offers + '/:businessname'
     }, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
