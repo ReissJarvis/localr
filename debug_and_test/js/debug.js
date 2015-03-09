@@ -8,7 +8,7 @@ localr = (function() {
         getDetails: function(type) {
             if(type == "users") {
                 localr.setCred("users");
-                var url = 'http://api.adam-holt.co.uk/users/get?username=' + name;
+                var url = 'http://api.adam-holt.co.uk/users/get/' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
@@ -29,7 +29,7 @@ localr = (function() {
                 httpRequest.send();
             } else if(type == "business") {
                 localr.setCred("business");
-                var url = 'http://api.adam-holt.co.uk/business/get?businessname=' + name;
+                var url = 'http://api.adam-holt.co.uk/business/get/' + name;
                 if(window.XMLHttpRequest) { // mozilla, safari,...
                     httpRequest = new XMLHttpRequest();
                 } else if(window.ActiveXObject) {
