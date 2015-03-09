@@ -82,9 +82,11 @@ module.exports.addOffer = function(req, res, next) {
     db = new neo4j('http://localhost:7474');
     var rand = uuid.v1()
     //If all parameters havent been supplied then return an error
-    if(!req.params.businessname || !req.params.description || !req.params.title || req.params.cost) {
-        return next(new restify.NotAcceptableError('Not enough parameters supplied please see documentation'));
-    }
+
+//     if(!req.params.businessname || !req.params.description || !req.params.title || req.params.cost) {
+//         return next(new restify.NotAcceptableError('Not enough parameters supplied please see documentation'));
+//     }
+
     //Set variables from params
     var businessName = req.params.businessname;
     var description = req.params.description;
