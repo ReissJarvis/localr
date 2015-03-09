@@ -37,6 +37,12 @@ server.listen(8080, function() {
         business = "/business",
         offers = '/offers'
     console.log('Incoming request being handled.');
+    // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
+    server.put({
+        path: users + "/checkin"
+    }, function(req, res, next) {
+        checkin.checkin(req, res, next);
+    });
     // Get details for user
     server.get({
         path: users + "/get/:username"
@@ -70,12 +76,6 @@ server.listen(8080, function() {
         } else {
             register.register(req, res, next, 'business');
         }
-    });
-    // The way this works is by having there name in at the moment e.g DOMAIN/checkin?user=USERNAME&location=7817587295719 This will then add 10 points at the moment
-    server.put({
-        path: users + "/checkin"
-    }, function(req, res, next) {
-        checkin.checkin(req, res, next);
     });
     // Delete user
     server.del({
