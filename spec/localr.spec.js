@@ -272,7 +272,25 @@
                  done();
              })
          })
-         it('delete business', function () {})
+         it('be able to delete the business', function () {})
+         var url = 'http://api.adam-holt.co.uk/';
+             // getting the parameters
+             // 
+             console.log('at delete')
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.del(params, function (error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
          it('delete offers', function () {})
          it('delete group', function () {})
      })
