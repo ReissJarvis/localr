@@ -56,7 +56,7 @@ function checkin(req, res, next) {
                 })
                 console.log(body.points);
                 var params = {
-                    uri: url,
+                    uri: userUrl,
                     body: JSON.stringify(body)
                 };
                 request.put(params, function(err, response, body) {
