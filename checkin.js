@@ -17,11 +17,11 @@ function checkin(req, res, next) {
         points = 0;
     
     //Get business doc to see how many points the user gets for checkin
-    request.get(businessUrl, function(err, response, body) {
-        if(response.statusCode === 404) {
+    request.get(businessUrl, function (err, response, body) {
+        if (response.statusCode === 404) {
                 return next(new restify.NotFoundError('Business Not Found'));
         };
-        if(response.statusCode === 200) {
+        if (response.statusCode === 200) {
             //Parse string into javascript object
             body = JSON.parse(body);
             points = body.checkin_points;
@@ -29,13 +29,13 @@ function checkin(req, res, next) {
     });
     console.log('CHECKIN ');
     console.log('PUT ' + user);
-    request.get(userUrl, function(err, response, body) {
+    request.get(userUrl, function (err, response, body) {
             console.log("Request started.");
             // if the document isnt found it will create it from sratch
-            if(response.statusCode === 404) {
+            if (response.statusCode === 404) {
                 return next(new restify.NotFoundError('User Not Found'));
             };
-            if(response.statusCode === 200) {
+            if (response.statusCode === 200) {
                 console.log('Existing document.');
                 body = JSON.parse(body);
                 var pwd = sha1(req.authorization.basic.password + body.salt);
@@ -60,7 +60,7 @@ function checkin(req, res, next) {
                     uri: userUrl,
                     body: JSON.stringify(body)
                 };
-                request.put(params, function(err, response, body) {
+                request.put(params, function (err, response, body) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant create document'));
                     }
