@@ -17,7 +17,7 @@ function del(req, res, next, type) {
             console.log("request started");
             // if user is not found will send 404 error
             if (response.statusCode == 404) {
-                return next(new restify.BadRequestError('User Not Found'));
+                return next(new restify.NotFoundError('User Not Found'));
             };
             if (response.statusCode == 200) {
                 console.log("Everything 200");
@@ -99,7 +99,7 @@ function del(req, res, next, type) {
             console.log("request started");
             // if business is not found will send 404 error
             if (response.statusCode == 404) {
-                return next(new restify.BadRequestError('Business Not Found'));
+                return next(new restify.NotFoundError('Business Not Found'));
             };
             if (response.statusCode == 200) {
                 console.log("Everything 200");
