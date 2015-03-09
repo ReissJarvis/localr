@@ -29,7 +29,7 @@ function checkin(req, res, next) {
     });
     console.log('CHECKIN ');
     console.log('PUT ' + user);
-    request.get(url, function(err, response, body) {
+    request.get(userUrl, function(err, response, body) {
             console.log("Request started.");
             // if the document isnt found it will create it from sratch
             if(response.statusCode === 404) {
