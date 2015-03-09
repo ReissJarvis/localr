@@ -118,7 +118,7 @@
              })
          })
          it("be able to join a group", function () {
-             var url = 'http: //api.adam-holt.co.uk/users/groups/testgroup';
+             var url = 'http://api.adam-holt.co.uk/users/groups/testgroup';
              // getting params
              var params = {
                  uri: url,
@@ -135,7 +135,7 @@
              })
          })
          it("be able to delete a group", function (done) {
-             var url = 'http: //api.adam-holt.co.uk/users/groups';
+             var url = 'http://api.adam-holt.co.uk/users/groups';
              var doc = {
                  username: "testuser",
                  groupname: "testgroup",
@@ -161,7 +161,7 @@
      });
      describe('businesses', function () {
          it('able to create new business', function () {})
-            var url = 'http: //api.adam-holt.co.uk/';
+            var url = 'http://api.adam-holt.co.uk/';
              // getting the parameters
              // 
              var params = {
@@ -179,7 +179,7 @@
              })
          
          it('be able to create an offer', function () {})
-            var url = 'http: //api.adam-holt.co.uk/';
+            var url = 'http://api.adam-holt.co.uk/';
              // getting the parameters
              // 
              console.log('create offer')
@@ -198,7 +198,7 @@
              })
          
          it('cant create duplicate offer', function () {})
-            var url = 'http: //api.adam-holt.co.uk/';
+            var url = 'http://api.adam-holt.co.uk/';
              // getting the parameters
              
              var params = {
@@ -217,7 +217,7 @@
      })
      describe('Offers', function () {
          it("Be able to get the latest offers", function (done) {
-             var url = 'http: //api.adam-holt.co.uk/business/offers/';
+             var url = 'http://api.adam-holt.co.uk/business/offers/';
              // getting params
              console.log('get all offers')
              var params = {
@@ -235,7 +235,7 @@
              })
          })
          it("be able to get a businesses offers", function (done) {
-             var url = 'http: //api.adam-holt.co.uk/business/offers/testbusiness';
+             var url = 'http://api.adam-holt.co.uk/business/offers/testbusiness';
              // getting params
              console.log('get testbusiness offers')
              var params = {
