@@ -1,4 +1,12 @@
- exports.getRoutes = function(server){
+var checkin = require('./checkin.js'),
+    getDetails = require('./getDetails.js'),
+    offers = require('./offers.js'),
+    register = require('./register.js'),
+    del = require('./del.js'),
+    groups = require('./groups.js');
+    
+
+exports.getRoutes = function(server){
  var users = "/users",
         business = "/business",
         offers = '/offers'
