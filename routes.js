@@ -1,6 +1,6 @@
 var checkin = require('./checkin.js'),
     getDetails = require('./getDetails.js'),
-    offers = require('./offers.js'),
+    offer = require('./offers.js'),
     register = require('./register.js'),
     del = require('./del.js'),
     groups = require('./groups.js');
