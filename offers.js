@@ -28,6 +28,7 @@ module.exports.redeemOffer = function(req, res, next) {
         };
         //If offer is found
         if(response.statusCode === 200) {
+            body = JSON.parse(body);
             businessName = body.businessname;
             cost = body.offer_cost;
             request.get(userUrl, function(err, response, doc) {
@@ -44,7 +45,8 @@ module.exports.redeemOffer = function(req, res, next) {
                     doc.transactions.push({
                         transactionid: uuid.v1(),
                         date: date,
-                        amount_of_points: (cost - (cost*2))
+                        amount_of_points: (cost - (cost*2)),
+                        business_redeemed: businessName
                     })
                     var userParams = {
                         uri: userUrl,
