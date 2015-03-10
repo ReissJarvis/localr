@@ -1,10 +1,31 @@
  var request = require('request');
-require('../testserver.js').startserver();
+ require('../testserver.js').startserver();
  describe('Localr API', function() {
+     describe('test local connection', function() {
+         it('make connection to server', function(done) {
+
+             var url = 'http://localhost:8080/users/test';
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 }
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+             "connection works"
+         })
+     })
      describe('Users', function() {
          describe('create the user', function() {
              it("be able to create a user", function(done) {
-                 var url = 'http://127.0.0.1:8080/users/register';
+                 var url = 'http://localhost:8080/users/register';
                  // getting params
                  var params = {
                      uri: url,
@@ -12,17 +33,18 @@ require('../testserver.js').startserver();
                          authorization: getBasic('testuser', 'test')
                      }
                  };
-                 request.post(params, function (error, response, body) {
+                 request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      body = JSON.stringify(body)
                      expect(body.Username).toBe("testuser")
-                     if (error) {
+                     if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
                      done();
                  })
              })
              it("be not able to create duplicate user", function(done) {
+
                  var url = 'http://127.0.0.1:8080/users/register';
                  // getting params
                  var params = {
@@ -31,9 +53,9 @@ require('../testserver.js').startserver();
                          authorization: getBasic('testuser', 'test')
                      }
                  };
-                 request.post(params, function (error, response, body) {
+                 request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(409);
-                     if (error) {
+                     if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
                      done();
@@ -42,7 +64,8 @@ require('../testserver.js').startserver();
          })
      })
      describe('checkin', function() {
-         it("be able to checkin", function (done) {
+         it("be able to checkin", function(done) {
+
              var url = 'http://127.0.0.1:8080/users/checkin?username=testuser&points=10';
              var doc = {
                  username: "testuser",
@@ -56,15 +79,16 @@ require('../testserver.js').startserver();
                  },
                  body: JSON.stringify(doc)
              };
-             request.put(params, function (error, response, body) {
+             request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it("check points have been added", function (done) {
+         it("check points have been added", function(done) {
+
              var url = 'http://127.0.0.1:8080/users/testuser';
              // getting params
              var params = {
@@ -73,20 +97,23 @@ require('../testserver.js').startserver();
                      authorization: getBasic('testuser', 'test')
                  }
              };
-             request.get(params, function (error, response, body) {
+             request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  body = JSON.parse(body);
                  expect(body.points).toBe(10);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it("be able to see where you've checked in", function() {})
+         it("be able to see where you've checked in", function() {
+
+         })
      })
      describe("groups", function() {
-         it("be able to create a group", function() {
+
+         it("be able to create a group", function(done) {
              var url = 'http://127.0.0.1:8080/users/groups';
              var doc = {
                  username: "testuser",
@@ -101,15 +128,15 @@ require('../testserver.js').startserver();
                  },
                  body: JSON.stringify(doc)
              };
-             request.post(params, function (error, response, body) {
+             request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it("be able to join a group", function() {
+         it("be able to join a group", function(done) {
              var url = 'http://127.0.0.1:8080/users/groups/testgroup';
              // getting params
              var params = {
@@ -118,15 +145,15 @@ require('../testserver.js').startserver();
                      authorization: getBasic('testuser', 'test')
                  },
              };
-             request.put(params, function (error, response, body) {
+             request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it("be able to delete a group", function (done) {
+         it("be able to delete a group", function(done) {
              var url = 'http://127.0.0.1:8080/users/groups';
              var doc = {
                  username: "testuser",
@@ -142,9 +169,9 @@ require('../testserver.js').startserver();
                  },
                  body: JSON.stringify(doc)
              };
-             request.del(params, function (error, response, body) {
+             request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
@@ -153,6 +180,7 @@ require('../testserver.js').startserver();
      });
      describe('businesses', function() {
          it('able to create new business', function(done) {
+
              var url = 'http://127.0.0.1:8080/';
              // getting the parameters
              // 
@@ -174,7 +202,6 @@ require('../testserver.js').startserver();
              var url = 'http://127.0.0.1:8080/';
              // getting the parameters
              // 
-             console.log('create offer')
              var params = {
                  uri: url,
                  headers: {
@@ -190,6 +217,7 @@ require('../testserver.js').startserver();
              })
          })
          it('cant create duplicate offer', function(done) {
+
              var url = 'http://127.0.0.1:8080/';
              // getting the parameters
              var params = {
@@ -198,27 +226,7 @@ require('../testserver.js').startserver();
                      authorization: getBasic('testuser', 'test')
                  },
              };
-             request.get(params, function (error, response, body) {
-                 expect(response.statusCode).toBe(200);
-                 if (error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 done();
-             })
-         })
-     })
-     describe('Offers', function() {
-         it("Be able to get the latest offers", function (done) {
-             var url = 'http://127.0.0.1:8080/business/offers/';
-             // getting params
-             console.log('get all offers')
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-             };
-             request.get(params, function (error, response, body) {
+             request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
@@ -226,19 +234,38 @@ require('../testserver.js').startserver();
                  done();
              })
          })
-         it("be able to get a businesses offers", function (done) {
-             var url = 'http://127.0.0.1:8080/business/offers/testbusiness';
+     })
+     describe('Offers', function() {
+         it("Be able to get the latest offers", function(done) {
+             var url = 'http://127.0.0.1:8080/business/offers/';
              // getting params
-             console.log('get testbusiness offers')
+
              var params = {
                  uri: url,
                  headers: {
                      authorization: getBasic('testuser', 'test')
                  },
              };
-             request.get(params, function (error, response, body) {
+             request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it("be able to get a businesses offers", function(done) {
+             var url = 'http://127.0.0.1:8080/business/offers/testbusiness';
+             // getting params
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
@@ -251,35 +278,35 @@ require('../testserver.js').startserver();
              var url = 'http://127.0.0.1:8080/users/testuser';
              // getting params
              // 
-             console.log('at delete')
+
              var params = {
                  uri: url,
                  headers: {
                      authorization: getBasic('testuser', 'test')
                  },
              };
-             request.del(params, function (error, response, body) {
+             request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it('be able to delete the business', function (done) {
+         it('be able to delete the business', function(done) {
              var url = 'http://127.0.0.1:8080/';
              // getting the parameters
              // 
-             console.log('at delete')
+ 
              var params = {
                  uri: url,
                  headers: {
                      authorization: getBasic('testuser', 'test')
                  },
              };
-             request.del(params, function (error, response, body) {
+             request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 if (error) {
+                 if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();

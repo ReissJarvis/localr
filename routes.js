@@ -1,35 +1,15 @@
-//All working 23/2/15 - 3pm
-var restify = require('restify'),
-    request = require('request'),
-    rand = require('csprng'),
-    sha1 = require('sha1'),
-    server = restify.createServer({
-        name: "localr"
-    })
-    uuid = require('node-uuid'),
-    getDetails = require("./getDetails.js"),
-    checkin = require("./checkin.js"),
-    register = require("./register.js"),
-    del = require("./del.js");
-groups = require("./groups.js"),
-offer = require("./offers.js");
-// Setting server dependancys
-server.use(restify.CORS({
-    origins: ['*'], // defaults to ['*']
-    credentials: true, // defaults to false
-    headers: ['authorization', 'content-type', 'accept', 'origin'],
-    methods: ['GET', 'PUT', 'POST', 'HEAD', 'DELETE'] // sets expose-headers
-}));
-server.use(restify.bodyParser());
-server.use(restify.queryParser());
-server.use(restify.authorizationParser());
-restify.CORS.ALLOW_HEADERS.push('authorization');
-exports.init= function(server) {
-    
-     var users = "/users",
+ exports.getRoutes = function(server){
+ var users = "/users",
         business = "/business",
         offers = '/offers'
-    console.log('Incoming request being handled.');
+ 
+   // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
+    server.get({
+        path: users + "/test"
+    }, function(req, res, next) {
+        req.send('works')
+        req.end();
+    });
     // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
     server.put({
         path: users + "/checkin"
@@ -118,4 +98,10 @@ exports.init= function(server) {
     }, function(req, res, next) {
         offer.getAllOffers(req, res, next);
     });
-};
+    //Redeem Offer
+    server.put({
+        path: business + offers + '/redeem'
+    }, function(req, res, next) {
+        offer.redeemOffer(req, res, next);
+    }); 
+ }
