@@ -30,7 +30,7 @@ module.exports.redeemOffer = function(req, res, next) {
         if(response.statusCode === 200) {
             businessName = body.businessname;
             cost = body.offer_cost;
-            request.get(userUrl, function(err, response, body) {
+            request.get(userUrl, function(err, response, doc) {
                 if(response.statusCode === 404) {
                     return next(new restify.NotFoundError('User Not Found'));
                 };
@@ -38,16 +38,16 @@ module.exports.redeemOffer = function(req, res, next) {
                     var d = new Date(),
                         date = d.toUTCString();
                     //Get users transaction and points
-                    body.points = body.points - (body.points * 2);
-                    var totalPoints = body.points;
-                    body.transactions.push({
+                    doc.points = doc.points - (doc.points * 2);
+                    var totalPoints = doc.points;
+                    doc.transactions.push({
                         transactionid: uuid.v1(),
                         date: date,
                         amount_of_points: cost
                     })
                     var userParams = {
                         uri: userUrl,
-                        body: JSON.stringify(body)
+                        body: JSON.stringify(doc)
                     };
                     //Update user document with new points total and added transaction
                     request.put(userParams, function(err, response, body) {
