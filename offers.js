@@ -170,6 +170,7 @@ module.exports.getAllOffers = function(req, res, next) {
                 var offer = {
                     title: i.value.offer_title,
                     description: i.value.offer_description,
+                    points_cost: i.value.offer_cost,
                     businessname: i.value.businessname,
                     last_modified: i.value.last_modified
                 };
