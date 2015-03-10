@@ -154,10 +154,10 @@ module.exports.getAllOffers = function(req, res, next) {
     console.log('Get All OFFERS!');
     //Gets all offers from couchDB as JSON
     var business = req.params.businessname;
-    if(business) {
-        var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
-    } else {
+    if(business == 'all') {
         var url = 'http://localhost:5984/offers/_design/offers/_view/all';
+    } else {
+        var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
     }
     request.get(url, function(err, response, body) {
         if(err) {
