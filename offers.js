@@ -39,12 +39,12 @@ module.exports.redeemOffer = function(req, res, next) {
                     var d = new Date(),
                         date = d.toUTCString();
                     //Get users transaction and points
-                    doc.points = doc.points - (doc.points * 2);
+                    doc.points = doc.points - cost;
                     var totalPoints = doc.points;
                     doc.transactions.push({
                         transactionid: uuid.v1(),
                         date: date,
-                        amount_of_points: cost
+                        amount_of_points: (cost - (cost*2))
                     })
                     var userParams = {
                         uri: userUrl,
