@@ -4,7 +4,7 @@
      describe('test local connection', function() {
          it('make connection to server', function(done) {
 
-             var url = 'http://127.0.0.1:8080/users/test';
+             var url = 'http://localhost:8080/users/test';
              // getting params
              var params = {
                  uri: url,
@@ -27,7 +27,7 @@
      describe('Users', function() {
          describe('create the user', function() {
              it("be able to create a user", function(done) {
-                 var url = 'http://localhost:8080/users/register';
+                 var url = 'http://localhost:8080/users';
                  // getting params
                  var params = {
                      uri: url,
@@ -38,8 +38,9 @@
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      console.log(body)
-                     body = JSON.stringify(body)
-                     expect(body.Username).toBe("testuser")
+                     body = JSON.stringify(body);
+                     expect(body.username).toBe('testuser');
+                     expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
                      if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
@@ -48,7 +49,7 @@
              })
              it("be not able to create duplicate user", function(done) {
 
-                 var url = 'http://127.0.0.1:8080/users/register';
+                 var url = 'http://localhost:8080/users';
                  // getting params
                  var params = {
                      uri: url,
@@ -69,7 +70,7 @@
      describe('checkin', function() {
          it("be able to checkin", function(done) {
 
-             var url = 'http://127.0.0.1:8080/users/checkin?username=testuser&points=10';
+             var url = 'http://localhost:8080/users/checkin?username=testuser&points=10';
              var doc = {
                  username: "testuser",
                  points: 10
@@ -92,7 +93,7 @@
          })
          it("check points have been added", function(done) {
 
-             var url = 'http://127.0.0.1:8080/users/testuser';
+             var url = 'http://localhost:8080/users/testuser';
              // getting params
              var params = {
                  uri: url,
@@ -117,7 +118,7 @@
      describe("groups", function() {
 
          it("be able to create a group", function(done) {
-             var url = 'http://127.0.0.1:8080/users/groups';
+             var url = 'http://localhost:8080/users/groups';
              var doc = {
                  username: "testuser",
                  description: "testgroup",
@@ -140,7 +141,7 @@
              })
          })
          it("be able to join a group", function(done) {
-             var url = 'http://127.0.0.1:8080/users/groups/testgroup';
+             var url = 'http://localhost:8080/users/groups/testgroup';
              // getting params
              var params = {
                  uri: url,
@@ -157,7 +158,7 @@
              })
          })
          it("be able to delete a group", function(done) {
-             var url = 'http://127.0.0.1:8080/users/groups';
+             var url = 'http://localhost:8080/users/groups';
              var doc = {
                  username: "testuser",
                  groupname: "testgroup",
@@ -184,7 +185,7 @@
      describe('businesses', function() {
          it('able to create new business', function(done) {
 
-             var url = 'http://127.0.0.1:8080/';
+             var url = 'http://localhost:8080/';
              // getting the parameters
              // 
              var params = {
@@ -202,7 +203,7 @@
              })
          })
          it('be able to create an offer', function(done) {
-             var url = 'http://127.0.0.1:8080/';
+             var url = 'http://localhost:8080/';
              // getting the parameters
              // 
              var params = {
@@ -221,7 +222,7 @@
          })
          it('cant create duplicate offer', function(done) {
 
-             var url = 'http://127.0.0.1:8080/';
+             var url = 'http://localhost:8080/';
              // getting the parameters
              var params = {
                  uri: url,
@@ -240,7 +241,7 @@
      })
      describe('Offers', function() {
          it("Be able to get the latest offers", function(done) {
-             var url = 'http://127.0.0.1:8080/business/offers/';
+             var url = 'http://localhost:8080/business/offers/';
              // getting params
 
              var params = {
@@ -258,7 +259,7 @@
              })
          })
          it("be able to get a businesses offers", function(done) {
-             var url = 'http://127.0.0.1:8080/business/offers/testbusiness';
+             var url = 'http://localhost:8080/business/offers/testbusiness';
              // getting params
              var params = {
                  uri: url,
@@ -278,7 +279,7 @@
      it("be able to check what offers youve redeemed", function() {})
      describe('delete all', function() {
          it("be able delete the user", function(done) {
-             var url = 'http://127.0.0.1:8080/users/testuser';
+             var url = 'http://localhost:8080/users/testuser';
              // getting params
              // 
 
@@ -297,7 +298,7 @@
              })
          })
          it('be able to delete the business', function(done) {
-             var url = 'http://127.0.0.1:8080/';
+             var url = 'http://localhost:8080/';
              // getting the parameters
              // 
  
