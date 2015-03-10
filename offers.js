@@ -37,6 +37,9 @@ module.exports.redeemOffer = function(req, res, next) {
                 };
                 if(response.statusCode === 200) {
                     doc = JSON.parse(doc);
+                    if ((doc.points - cost) < 0){
+                        return next(new restify.ForbiddenError ("You don't have enough points to redeem this offer"));
+                    } else {
                     var d = new Date(),
                         date = d.toUTCString();
                     //Get users transaction and points
@@ -72,7 +75,7 @@ module.exports.redeemOffer = function(req, res, next) {
                         res.send(sendBack);
                         res.end();
                     })
-                }
+                }}
             })
         }
     })
