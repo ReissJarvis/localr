@@ -35,6 +35,7 @@ module.exports.redeemOffer = function(req, res, next) {
                     return next(new restify.NotFoundError('User Not Found'));
                 };
                 if(response.statusCode === 200) {
+                    doc = JSON.parse(doc);
                     var d = new Date(),
                         date = d.toUTCString();
                     //Get users transaction and points
