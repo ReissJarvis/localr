@@ -4,7 +4,7 @@
      describe('test local connection', function() {
          it('make connection to server', function(done) {
 
-             var url = 'http://localhost:8080/users/test';
+             var url = 'http://127.0.0.1:8080/users/test';
              // getting params
              var params = {
                  uri: url,
@@ -14,12 +14,14 @@
              };
              request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(body).toBe('"works"');
+                 console.log(body)
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
-             "connection works"
+             console.log("connection works")
          })
      })
      describe('Users', function() {
@@ -35,6 +37,7 @@
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
+                     console.log(body)
                      body = JSON.stringify(body)
                      expect(body.Username).toBe("testuser")
                      if(error) {

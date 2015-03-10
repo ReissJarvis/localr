@@ -236,3 +236,24 @@ module.exports.joinGroup = function(req, res, next) {
         };
     });
 };
+
+
+
+module.exports.delgroup= function(req, res, next){
+    
+    // check group exists
+   
+    
+   // check owner is correct
+   
+    
+    
+    // delete relationships
+    
+    
+    
+    // delete couchdb
+    // 
+    // send back success.
+    
+}

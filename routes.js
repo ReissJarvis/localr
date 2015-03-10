@@ -14,9 +14,9 @@ exports.getRoutes = function(server){
    // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
     server.get({
         path: users + "/test"
-    }, function(req, res, next) {
-        req.send('works')
-        req.end();
+    }, function(req, res,next) {
+        res.send('works')
+        res.end();
     });
     // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
     server.put({
