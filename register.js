@@ -18,7 +18,7 @@ function register(req, res, next, type) {
         var nodeid = 0;
         var url = 'http://localhost:5984/users/' + username;
         
-        /start of get request
+        //start of get request
         request.get(url, function(err, response, body) {
             if(err) {
                 return next(new restify.InternalServerError('Could not get user from CouchDB'));
