@@ -4,8 +4,8 @@ var restify = require('restify'),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
-    neo4j = require('node-neo4j');
-
+    neo4j = require('node-neo4j'),
+    Promise = require('promise');
 module.exports.creategroup = function(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next, 'users')) === true) {
         db = new neo4j('http://localhost:7474');
@@ -236,24 +236,60 @@ module.exports.joinGroup = function(req, res, next) {
         };
     });
 };
-
-
-
-module.exports.delgroup= function(req, res, next){
-    
+// rebuilding with promises and closures
+var groups = (function() {
+    var url = "",
+        competition = "",
+        groupname = "",
+        description = "",
+        groupid = 0,
+        userid = 0,
+    return {
+        createGroup: function(req, res, next) {
+            url = 'http://localhost:5984/groups/' + req.params.groupname
+            competition = req.params.competition
+            var groupname = req.params.groupname
+            var description = req.params.description
+            var groupid = 0;
+            var userid = 0;
+            getRequest(url).catch(function(err) {
+                return next(new restify.InternalServerError('Error has occured'));
+            }).then(function(call) {
+                if(response.statusCode === 200) {
+                    return next(new restify.ConflictError('Group Already Created'));
+                }
+            }).then(
+            db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+                    if(err) throw err;
+                    if(result.data.length == 0) {
+                        return next(new restify.InternalServerError('no competition found'));
+                    }
+                        )
+        },
+        getRequest: function(url) {
+            // set up initial get request. 
+            return new Promise(function(resolve, reject) {
+                request.get(url, function(err, response, body) {
+                    if(err) reject(err);
+                    // if the document isnt found it will create it from sratch
+                    console.log('code' + response.statusCode)
+                    resolve({
+                        response: response,
+                        body: body
+                    })
+                })
+            });
+        },
+        nodequery: function(query) {
+            return new Promise(function(resolve, reject))
+        }
+    }
+})();
+module.exports.delgroup = function(req, res, next) {
     // check group exists
-   
-    
-   // check owner is correct
-   
-    
-    
+    // check owner is correct
     // delete relationships
-    
-    
-    
     // delete couchdb
     // 
     // send back success.
-    
 }
