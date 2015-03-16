@@ -38,7 +38,7 @@
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      console.log(body)
-                     body = JSON.stringify(body);
+                     body = JSON.Parse(body);
                      expect(body.username).toBe('testuser');
                      expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
                      if(error) {
