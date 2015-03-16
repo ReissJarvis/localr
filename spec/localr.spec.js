@@ -39,7 +39,7 @@
                      expect(response.statusCode).toBe(201);
                      console.log(body)
                      body = JSON.parse(body);
-                     expect(body.username).toBe('testuser');
+                     expect(body.Username).toBe('testuser');
                      expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
                      if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
