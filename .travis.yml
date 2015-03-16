@@ -2,11 +2,12 @@
 language: node_js
 node_js:
    - "0.10"
-services:
-  - couchdb
-  - neo4j
-before_script:
-  - curl -X PUT localhost:5984/users
-  - curl -X PUT localhost:5984/groups
-  - curl -X PUT localhost:5984/business
-  - curl -X PUT localhost:5984/offers
+#
+#services:
+#  - couchdb
+#  - neo4j
+#before_script:
+#  - curl -X PUT localhost:5984/users
+#  - curl -X PUT localhost:5984/groups
+#  - curl -X PUT localhost:5984/business
+#  - curl -X PUT localhost:5984/offers
