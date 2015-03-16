@@ -37,7 +37,7 @@
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
-                     console.log(body)
+           
                      body = JSON.parse(body);
                      expect(body.Username).toBe('testuser');
                      expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
@@ -279,7 +279,7 @@
      it("be able to check what offers youve redeemed", function() {})
      describe('delete all', function() {
          it("be able delete the user", function(done) {
-             var url = 'http://api.adam-holt.co.uk:8080/users/';
+             var url = 'http://api.adam-holt.co.uk:8080/users';
              // getting params
              // 
 
@@ -298,7 +298,7 @@
              })
          })
          it('be able to delete the business', function(done) {
-             var url = 'http://api.adam-holt.co.uk:8080/';
+             var url = 'http://api.adam-holt.co.uk:8080/business';
              // getting the parameters
              // 
  
