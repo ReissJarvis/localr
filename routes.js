@@ -1,3 +1,4 @@
+
 var checkin = require('./checkin.js'),
     getDetails = require('./getDetails.js'),
     offer = require('./offers.js'),
