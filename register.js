@@ -73,7 +73,7 @@ function register(req, res, next, type) {
                             url : "api.adam-holt.co.uk/users/" + username
                         }
                         //Send back successful response
-                        res.send(sendBack);
+                        res.send(201,sendBack);
                         res.end();
                         // end of couchdb callback
                     });
