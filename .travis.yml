@@ -7,6 +7,13 @@ services:
 before_script:
   - npm install -g jasmine-node
   - npm install -g request
+  - npm install -g restify
+  - npm install -g csprng
+  - npm install -g sha1
+  - npm install -g node-uuid
+  - npm install -g node-neo4j
+  - npm install -g prm
+  
   - curl -X PUT localhost:5984/users
   - curl -X PUT localhost:5984/groups
   - curl -X PUT localhost:5984/business
