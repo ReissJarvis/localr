@@ -39,7 +39,7 @@
            
                      body = JSON.parse(body);
                      expect(body.Username).toBe('testuser');
-                     expect(body.url).toBe('localhost/users/testuser');
+                     expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
                      if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
@@ -290,7 +290,7 @@
              };
              request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 expect(body).toBe('User Deleted')
+                 expect(body).toBe('"Deleted User!"')
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
