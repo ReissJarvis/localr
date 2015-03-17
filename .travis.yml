@@ -12,7 +12,7 @@ before_script:
   - npm install -g sha1
   - npm install -g node-uuid
   - npm install -g node-neo4j
-  - npm install -g prm
+  - npm install -g promise
   
   - curl -X PUT localhost:5984/users
   - curl -X PUT localhost:5984/groups
