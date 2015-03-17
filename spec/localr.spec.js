@@ -28,7 +28,6 @@
          describe('create the user', function() {
              it("be able to create a user", function(done) {
                  var url = 'http://localhost:8080/users';
-                 // getting params
                  var params = {
                      uri: url,
                      headers: {
