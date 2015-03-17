@@ -2,14 +2,32 @@
 language: node_js
 node_js:
    - "0.10"
-#
-#services:
-#  - couchdb
-#  - neo4j
+services:
+  - couchdb
 before_script:
-- npm install -g jasmine-node
-- npm install -g request
-#  - curl -X PUT localhost:5984/users
-#  - curl -X PUT localhost:5984/groups
-#  - curl -X PUT localhost:5984/business
-#  - curl -X PUT localhost:5984/offers
+  - npm install -g jasmine-node
+  - npm install -g request
+  - curl -X PUT localhost:5984/users
+  - curl -X PUT localhost:5984/groups
+  - curl -X PUT localhost:5984/business
+  - curl -X PUT localhost:5984/offers
+jdk:
+  - oraclejdk7  
+
+env:
+  - NEO4J_VERSION="2.2.0-RC01"
+  - NEO4J_VERSION="2.1.7"
+  - NEO4J_VERSION="2.0.4"
+
+matrix:
+  # but we may want to allow our tests to fail against *some* Neo4j versions,
+  # e.g. due to unstability, bugs, or breaking changes for our test code.
+  allow_failures:
+    - env: NEO4J_VERSION="2.0.4"  # seems to have transaction bugs
+
+before_install:
+  # install Neo4j locally:
+  - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - neo4j-community-$NEO4J_VERSION/bin/neo4j start
+  

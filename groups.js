@@ -248,7 +248,7 @@ var groups = (function() {
     return {
         createGroup: function(req, res, next) {
             url = 'http://localhost:5984/groups/' + req.params.groupname
-            competition = req.params.competition
+            var competition = req.params.competition
             var groupname = req.params.groupname
             var description = req.params.description
             var groupid = 0;
@@ -266,7 +266,7 @@ var groups = (function() {
                     return next(new restify.InternalServerError('no competition found'));
                 }
                 return competitionid = result.data[0]._id
-            })).then(function(id) {
+            })).then(function(i1d) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
                     if(err) throw err;
                     if(results.data.length == 0) {
