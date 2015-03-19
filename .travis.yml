@@ -20,6 +20,9 @@ before_script:
   - curl -X PUT localhost:5984/offers
 jdk:
   - oraclejdk7  
+  
+notifications:
+  slack: 305cde:D6P6eEdiisfcsHy0mXuWJ8sT
 
 env:
   - NEO4J_VERSION="2.1.7"
