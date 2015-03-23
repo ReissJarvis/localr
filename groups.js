@@ -250,7 +250,6 @@ module.exports.groups = (function(req, res, next) {
             console.log("group create started")
             console.log("POST "  + req.params.groupname )
             url = 'http://localhost:5984/groups/' + req.params.groupname
-            console.log(req)
             var competition = req.params.competition;
             var groupname = req.params.groupname;
             var description = req.params.description;

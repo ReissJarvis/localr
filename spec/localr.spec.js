@@ -80,6 +80,7 @@
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(response.body).toBe("{'Points added':'10'}")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
