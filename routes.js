@@ -109,6 +109,9 @@ exports.getRoutes = function(server){
     server.get({
         path: group
     }, function(req, res, next) {
+        console.log("IN THE ROUTE")
+        console.log(req)
+        console.log("OUT OF THE ROUTE")
         groups.showcompetitiongroup(req, res, next);
     });
     //?username=username&groupname=test21
