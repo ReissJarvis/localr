@@ -96,11 +96,11 @@ function register(req, res, next, type) {
         //The amount of points a user will get for checking in
         var points = req.params.points;
         //Start of extra details of Business
-        var address: req.params.city,
+        var address = req.params.city,
             city = req.params.city,
             postcode = req.params.postcode,
-            lon = req.params.lon,
-            lat = req.params.lat;
+            longitude = req.params.longitude,
+            latitude = req.params.latitude;
         console.log('NEW BUSINESS!');
         console.log('PUT: ' + businessName);
         //Connecting to neo4j host
@@ -141,8 +141,8 @@ function register(req, res, next, type) {
                         address: address,
                         city: city,
                         postcode: postcode,
-                        latitude: lat,
-                        longitude: lon
+                        latitude: latitude,
+                        longitude: longitude
                     };
                     var docStr = JSON.stringify(doc);
                     //Build request
