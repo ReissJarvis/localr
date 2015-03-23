@@ -247,14 +247,18 @@ var groups = (function() {
         competitionid = "";
     return {
         createGroup: function(req, res, next) {
+            console.log("group create started")
+            console.log("POST "  + req.params.groupname )
             url = 'http://localhost:5984/groups/' + req.params.groupname
             var competition = req.params.competition;
             var groupname = req.params.groupname;
             var description = req.params.description;
+            console.log(competition + " Group :"  + groupname + " Description: " + description)
             var groupid = 0;
             var userid = 0;
             getRequest(url).
             catch(function(err) {
+                console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
                 if(response.statusCode === 200) {
