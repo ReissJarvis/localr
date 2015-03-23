@@ -8,7 +8,18 @@ var validateHTTP = require("./validateHTTP.js"),
 
 module.exports.update = function(req, res ,next, type){
     if(type == "users") {
-        
+        console.log("Updating: " + username);
+        var username = req.authorization.basic.username,
+            url = 'http://localhost:5984/users/' + username;
+        request.get(url, function(err, response, body) {
+            if(response.statusCode === 404) {
+                return next(new restify.NotFoundError('User Not Found'));
+            };
+            if(response.statusCode === 200) {
+                body = JSON.parse(body);
+                
+            };
+        });   
     } else if (type == "business"){
         
     } else {
