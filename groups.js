@@ -248,10 +248,9 @@ var groups = (function() {
     return {
         createGroup: function(req, res, next) {
             url = 'http://localhost:5984/groups/' + req.params.groupname
-            var competition = req.params.competition
-            var groupname = req.params.groupname
-            var description = req.params.description
-            req.
+            var competition = req.params.competition;
+            var groupname = req.params.groupname;
+            var description = req.params.description;
             var groupid = 0;
             var userid = 0;
             getRequest(url).
