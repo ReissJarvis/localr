@@ -14,7 +14,7 @@ function register(req, res, next, type) {
         var city = req.params.city,
             dob = req.params.dob,
             firstname = req.params.firstname,
-            surname = req.params.surname,
+            surname = req.params.surname;
         // setting console logs to node server
         console.log('NEW USER!');
         console.log('PUT: ' + username);
