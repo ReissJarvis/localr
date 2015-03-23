@@ -1,5 +1,5 @@
-var validateHTTP = require("./validateHTTP.js");
-var restify = require('restify'),
+var validateHTTP = require("./validateHTTP.js"),
+    restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
     sha1 = require('sha1'),

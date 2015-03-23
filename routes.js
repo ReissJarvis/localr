@@ -1,10 +1,10 @@
-
 var checkin = require('./checkin.js'),
     getDetails = require('./getDetails.js'),
     offer = require('./offers.js'),
     register = require('./register.js'),
     del = require('./del.js'),
-    groups = require('./groups.js');
+    groups = require('./groups.js'),
+    update = require('./update.js');
     
 
 exports.getRoutes = function(server){
@@ -58,6 +58,28 @@ exports.getRoutes = function(server){
             failed = true;
         } else {
             register.register(req, res, next, 'business');
+        }
+    });
+    //Update User
+    server.put({
+        path: users + "/update"
+    }, function(req, res, next) {
+        if(req.authorization.scheme !== 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+            failed = true;
+        } else {
+            update.update(req, res, next, 'users');
+        }
+    });
+    //Update Business
+    server.put({
+        path: business + "/update"
+    }, function(req, res, next) {
+        if(req.authorization.scheme !== 'Basic') {
+            return next(new restify.UnauthorizedError('Basic HTTP auth required'));
+            failed = true;
+        } else {
+            update.update(req, res, next, 'business');
         }
     });
     // Delete user
