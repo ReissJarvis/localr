@@ -251,6 +251,7 @@ var groups = (function() {
             var competition = req.params.competition
             var groupname = req.params.groupname
             var description = req.params.description
+            req.
             var groupid = 0;
             var userid = 0;
             getRequest(url).
@@ -401,3 +402,5 @@ module.exports.delgroup = function(req, res, next) {
     // 
     // send back success.
 }
+
+module.exports = groups;

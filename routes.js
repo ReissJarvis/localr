@@ -10,7 +10,8 @@ var checkin = require('./checkin.js'),
 exports.getRoutes = function(server){
     var users = "/users",
         business = "/business",
-        offers = '/offers';
+        offers = '/offers',
+        group = '/groups';
  
    // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
     server.get({
@@ -71,21 +72,20 @@ exports.getRoutes = function(server){
     }, function(req, res, next) {
         del.del(req, res, next, 'business');
     });
-    //user/creategroup?username=username&groupname=name&description=description&competition=freshers
     server.post({
-        path: users + "/groups"
+        path: group
     }, function(req, res, next) {
-        groups.creategroup(req, res, next);
+        groups.groups.createGroup(req, res, next);
     });
     //?username=username&groupname=test21
     server.get({
-        path: users + "/getgroup"
+        path: group +"/:groupname"
     }, function(req, res, next) {
         groups.showgroup(req, res, next);
     });
     //?username=username&competition=freshers
     server.get({
-        path: users + "/getgroups"
+        path: group
     }, function(req, res, next) {
         groups.showcompetitiongroup(req, res, next);
     });
