@@ -3,7 +3,6 @@
  describe('Localr API', function() {
      describe('test local connection', function() {
          it('make connection to server', function(done) {
-
              var url = 'http://localhost:8080/users/test';
              // getting params
              var params = {
@@ -36,7 +35,6 @@
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
-           
                      body = JSON.parse(body);
                      expect(body.Username).toBe('testuser');
                      expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
@@ -47,7 +45,6 @@
                  })
              })
              it("be not able to create duplicate user", function(done) {
-
                  var url = 'http://localhost:8080/users';
                  // getting params
                  var params = {
@@ -68,7 +65,6 @@
      })
      describe('checkin', function() {
          it("be able to checkin", function(done) {
-
              var url = 'http://localhost:8080/users/checkin?username=testuser&points=10';
              var doc = {
                  username: "testuser",
@@ -91,7 +87,6 @@
              })
          })
          it("check points have been added", function(done) {
-
              var url = 'http://localhost:8080/users/testuser';
              // getting params
              var params = {
@@ -110,12 +105,9 @@
                  done();
              })
          })
-         it("be able to see where you've checked in", function() {
-
-         })
+         it("be able to see where you've checked in", function() {})
      })
      describe("groups", function() {
-
          it("be able to create a group", function(done) {
              var url = 'http://localhost:8080/groups';
              var doc = {
@@ -183,7 +175,6 @@
      });
      describe('businesses', function() {
          it('able to create new business', function(done) {
-
              var url = 'http://localhost:8080/';
              // getting the parameters
              // 
@@ -220,7 +211,6 @@
              })
          })
          it('cant create duplicate offer', function(done) {
-
              var url = 'http://localhost:8080/';
              // getting the parameters
              var params = {
@@ -239,10 +229,34 @@
          })
      })
      describe('Offers', function() {
-         it("Be able to get the latest offers", function(done) {
-             var url = 'http://localhost:8080/business/offers/';
+         it("Be able to add an offer", function(done) {
+             var url = 'http://localhost:8080/business/offers';
+             var doc = {
+                 businessname: 'testbusiness',
+                 description: 'description',
+                 title: 'test offer',
+                 cost: 50
+                 
+             }
              // getting params
-
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+         it("Be able to get the latest offers", function(done) {
+             var url = 'http://localhost:8080/business/offers/all';
+             // getting params
              var params = {
                  uri: url,
                  headers: {
@@ -281,7 +295,6 @@
              var url = 'http://localhost:8080/users';
              // getting params
              // 
-
              var params = {
                  uri: url,
                  headers: {
@@ -301,7 +314,6 @@
              var url = 'http://localhost:8080/business';
              // getting the parameters
              // 
- 
              var params = {
                  uri: url,
                  headers: {
