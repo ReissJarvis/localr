@@ -8,9 +8,9 @@ var checkin = require('./checkin.js'),
     
 
 exports.getRoutes = function(server){
- var users = "/users",
+    var users = "/users",
         business = "/business",
-        offers = '/offers'
+        offers = '/offers';
  
    // The way this works by sending a parameter of "business" and looks up how many points to add from couchDB
     server.get({

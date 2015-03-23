@@ -10,6 +10,12 @@ function register(req, res, next, type) {
     if(type == "users") {
         //Get new username from authorization header
         var username = req.authorization.basic.username;
+        //Start of extra details of User
+        //var city = req.params.city,
+        //    dob = req.params.dob,
+        //    firstname = req.params.firstname,
+        //    surname = req.params.surname,
+        //if dob is not over a certain limit we should restrict the ability to register and return 403.
         // setting console logs to node server
         console.log('NEW USER!');
         console.log('PUT: ' + username);
@@ -17,7 +23,6 @@ function register(req, res, next, type) {
         //set up global variables
         var nodeid = 0;
         var url = 'http://localhost:5984/users/' + username;
-        
         //start of get request
         request.get(url, function(err, response, body) {
             if(err) {
@@ -29,7 +34,6 @@ function register(req, res, next, type) {
                 return next(new restify.ConflictError('user already created'));
             } else if(response.statusCode === 404) {
                 //Insert new node to neo4j
-                
                 db.insertNode({
                     name: username
                 }, ['User'], function(err, node) {
@@ -51,6 +55,10 @@ function register(req, res, next, type) {
                         points: 0,
                         transactions: [],
                         nodeid: nodeid
+                        //city: city,
+                        //dob: dob,
+                        //firstname: firstname,
+                        //surname: surname
                     };
                     // compile the json file
                     var docStr = JSON.stringify(doc);
@@ -88,6 +96,12 @@ function register(req, res, next, type) {
         var businessName = req.authorization.basic.username;
         //The amount of points a user will get for checking in
         var points = req.params.points;
+        //Start of extra details of Business
+        //var address: req.params.city,
+        //    city = req.params.city,
+        //    postcode = req.params.postcode,
+        //    lon = req.params.lon,
+        //    lat = req.params.lat;
         console.log('NEW BUSINESS!');
         console.log('PUT: ' + businessName);
         //Connecting to neo4j host
@@ -125,6 +139,11 @@ function register(req, res, next, type) {
                         salt: salt,
                         nodeid: nodeid,
                         checkin_points: points
+                        //address: address,
+                        //city: city,
+                        //postcode: postcode,
+                        //latitude: lat,
+                        //longitude: lon
                     };
                     var docStr = JSON.stringify(doc);
                     //Build request
