@@ -237,7 +237,7 @@ module.exports.joinGroup = function(req, res, next) {
     });
 };
 // rebuilding with promises and closures
-module.exports.groups = (function() {
+module.exports.groups = (function(req, res, next) {
     var url = "",
         competition = "",
         groupname = "",
