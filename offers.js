@@ -137,7 +137,10 @@ module.exports.addOffer = function(req, res, next) {
                         return next(new restify.InternalServerError('Cant create document in CouchDB'));
                     }
                     // document has been inserted into database
-                    // now send url and document back to user
+                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.statusCode(201)
                     var sendBack = {
                         Added: 'OK',
                         Offer_Title: offertitle,
