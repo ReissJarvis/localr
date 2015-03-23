@@ -120,7 +120,8 @@
              var url = 'http://localhost:8080/groups';
              var doc = {
                  username: "testuser",
-                 description: "testgroup",
+                 groupname:"testgroup",
+                 description: "This is a Test Group",
                  competition: "freshers"
              };
              // getting params
