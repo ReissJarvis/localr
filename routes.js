@@ -62,7 +62,7 @@ exports.getRoutes = function(server){
     });
     //Update User
     server.put({
-        path: users + "/update"
+        path: users + "/:username"
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
@@ -73,7 +73,7 @@ exports.getRoutes = function(server){
     });
     //Update Business
     server.put({
-        path: business + "/update"
+        path: business + "/:businessname"
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
