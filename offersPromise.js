@@ -138,6 +138,8 @@ module.exports.offers = (function() {
             var d = new Date(),
                 date = d.toUTCString(),
                 txID = uuid.v1();
+            //Get back to here
+            var that = this;
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
@@ -165,13 +167,12 @@ module.exports.offers = (function() {
                             return next(new restify.NotFoundError('User Not Found'));
                         };
                         if(response.statusCode === 200) {
-                            user = JSON.parse(doc);
+                            that.user = JSON.parse(doc);
                         }
                     })
                 }
             }).then(function() {
-                console.log('user' + user)
-                console.log('offer' + offer)
+                //Checks to see if user has enough points
                 if((user.points - cost) < 0) {
                     console.log("You don't have enough points sunshine - come back another day :D")
                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
