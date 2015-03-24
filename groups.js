@@ -267,7 +267,7 @@ module.exports.groups = (function() {
         groupid = 0,
         userid = 0,
         competitionid = "";
-    return :{
+    return {
         createGroup: function(req, res, next) {
             console.log("group create started")
             console.log("POST " + req.params.groupname)
