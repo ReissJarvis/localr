@@ -20,7 +20,6 @@ module.exports.creategroup = function(req, res, next) {
     catch(function(err) {
         return next(new restify.InternalServerError('Error has occured'));
     }).then(function(call) {
-
         if(response.statusCode === 200) {
             return next(new restify.ConflictError('Group Already Created'));
         }
@@ -66,7 +65,6 @@ module.exports.creategroup = function(req, res, next) {
             console.log(relationship._end);
         })
     }).then(function() {
-
         db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
             if(err) throw err;
             console.log('name = ' + Results.data[0])
@@ -213,7 +211,6 @@ module.exports.joinGroup = function(req, res, next) {
         };
         if(response.statusCode === 200) {
             body = JSON.parse(body);
-
             userid = body.nodeid;
             //check group exists
             db.cypherQuery("match n where n.name='" + groupname + "' return n", function(err, Results) {
@@ -252,7 +249,6 @@ module.exports.groups = (function() {
         db = new neo4j('http://localhost:7474');
     return {
         createGroup: function(req, res, next) {
- 
             console.log("POST " + req.params.groupname)
             url = 'http://localhost:5984/groups/' + req.params.groupname
             var competition = req.params.competition;
@@ -269,97 +265,111 @@ module.exports.groups = (function() {
                 if(call.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
-                db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
-                    if(err) throw err;
-                    console.log('CHECKING COMPETITION')
-                    if(result.data.length == 0) {
-                        return next(new restify.InternalServerError('no competition found'));
-                    }
-                    competitionid = result.data[0]._id
-                    return competitionid
+                return new Promise(function(resolve, reject) {
+                    db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+                        if(err) throw err;
+                        console.log('CHECKING COMPETITION')
+                        if(result.data.length == 0) {
+                            return next(new restify.InternalServerError('no competition found'));
+                        }
+                        competitionid = result.data[0]._id
+                        resolve(competitionid)
+                    })
+                }).then(function(id) {
+                    return new Promise(function(resolve, reject) {
+                        db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
+                            console.log('CHECKING GROUP')
+                            console.log(results)
+                            if(err) throw err;
+                            if(results.data.length == 0) {
+                                resolve(results.data)
+                            } else {
+                                console.log(results.data[0])
+                                reject(next(new restify.ConflictError('Group already created')));
+                            }
+                        })
+                    }).then(function(data) {
+                        return new Promise(function(resolve, reject) {
+                            db.insertNode({
+                                name: groupname,
+                                description: description
+                            }, ['Group', competition], function(err, node) {
+                                if(err) throw err;
+                                // Output node properties.
+                                console.log('New neo4j node created with Groupname  = ' + node.name);
+                                groupid = node._id
+                                console.log('group id = ' + groupid)
+                                resolve(node._id)
+                            });
+                        }).then(function(nodeid) {
+                            return new Promise(function(resolve, reject) {
+                                console.log("CHECKING RELATIONSHIP")
+                                db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
+                                    description: 'competiting in this competition'
+                                }, function(err, relationship) {
+                                    if(err) throw err;
+                                    console.log("RELATIONSHIP= " + relationship)
+                                    resolve(relationship._id)
+                                })
+                            }).then(function(id) {
+                                return new Promise(function(resolve, reject) {
+                                    db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
+                                        if(err) throw err;
+                                        userid = Results.data[0]._id
+                                        resolve(Results.data[0]._id)
+                                    })
+                                }).then(function(id) {
+                                    return new Promise(function(resolve, reject) {
+                                        db.insertRelationship(id, groupid, 'IN_GROUP', {
+                                            description: 'Created this group'
+                                        }, function(err, relationship) {
+                                            if(err) throw err;
+                                            console.log('CHECKING USER RELATIONSHIP')
+                                            console.log(relationship)
+                                            resolve(relationship._id)
+                                        })
+                                    }).then(function(id) {
+                                        return new Promise(function(resolve, reject) {
+                                            var d = new Date(),
+                                                date = d.toUTCString();
+                                            console.log(date);
+                                            var doc = {
+                                                groupname: groupname,
+                                                description: description,
+                                                date_joined: date,
+                                                last_modified: date,
+                                                createdby: req.authorization.basic.username,
+                                                grouppoints: 0,
+                                                transactions: [],
+                                                usersjoined: [req.authorization.basic.username],
+                                                competition: competition,
+                                                groupnodeid: groupid
+                                            };
+                                            var params = {
+                                                uri: url,
+                                                body: JSON.stringify(doc)
+                                            };
+                                            resolve(params)
+                                        }).then(function(params) {
+                                            request.put(params, function(err, response, body) {
+                                                if(err) {
+                                                    return next(new restify.InternalServerError('Cant create document'));
+                                                }
+                                                // document has been inserted into database
+                                                body = JSON.parse(body);
+                                                console.log('about to sent res')
+                                                res.send(201, {
+                                                    Group: params
+                                                });
+                                                res.end();
+                                            });
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
                 })
-            }).then(function(id) {
-                db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
-                    console.log('CHECKING GROUP')
-                    console.log(results)
-                    if(err) throw err;
-                    if(results.data.length == 0) {
-                        return results.data
-                    } else {
-                        console.log(results.data[0])
-                        return next(new restify.ConflictError('Group already created'));
-                    }
-                })
-            }).then(function(data) {
-                db.insertNode({
-                    name: groupname,
-                    description: description
-                }, ['Group', competition], function(err, node) {
-                    if(err) throw err;
-                    // Output node properties.
-                    console.log('New neo4j node created with Groupname  = ' + node.name);
-                    groupid = node._id
-                    console.log('group id = ' + groupid)
-                    return node._id
-                });
-            }).then(function(nodeid) {
-                console.log("CHECKING RELATIONSHIP")
-                db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
-                    description: 'competiting in this competition'
-                }, function(err, relationship) {
-                    if(err) throw err;
-                    console.log(relationship)
-                    return relationship._id
-                })
-            }).then(function(id) {
-                db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
-                    if(err) throw err;
-                    userid = Results.data[0]._id
-                    return userid
-                })
-            }).then(function(id) {
-                db.insertRelationship(id, groupid, 'IN_GROUP', {
-                    description: 'Created this group'
-                }, function(err, relationship) {
-                    if(err) throw err;
-                    console.log('CHECKING USER RELATIONSHIP')
-                    console.log(relationship)
-                    return relationship._id
-                })
-            }).then(function(id) {
-                var d = new Date(),
-                    date = d.toUTCString();
-                console.log(date);
-                var doc = {
-                    groupname: groupname,
-                    description: description,
-                    date_joined: date,
-                    last_modified: date,
-                    createdby: req.authorization.basic.username,
-                    grouppoints: 0,
-                    transactions: [],
-                    usersjoined: [req.authorization.basic.username],
-                    competition: competition,
-                    groupnodeid: groupid
-                };
-                var params = {
-                    uri: url,
-                    body: JSON.stringify(doc)
-                };
-                return params
-            }).then(function(params) {
-                request.put(params, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant create document'));
-                    }
-                    // document has been inserted into database
-                    body = JSON.parse(body);
-                    console.log('about to sent res')
-                    res.send(201, {
-                        Group: params
-                    });
-                    res.end();
-                });
             })
         },
         getRequest: function(url) {
@@ -389,8 +399,7 @@ module.exports.groups = (function() {
                 })
             });
         },
-        deletegroup : function(req, res, next) {
-        }
+        deletegroup: function(req, res, next) {}
     }
 })();
 module.exports.delgroup = function(req, res, next) {
