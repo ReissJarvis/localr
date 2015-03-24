@@ -284,7 +284,7 @@ module.exports.groups = (function() {
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
                 console.log("in first then")
-                console.log(call)
+                console.log(call.response)
                 if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
@@ -403,10 +403,16 @@ module.exports.groups = (function() {
                     if(err) reject(err);
                     // if the document isnt found it will create it from sratch
                     console.log('code ' + response.statusCode)
-                    resolve({
-                        response: response,
-                        body: body
-                    })
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    } else {
+                        resolve({
+                            response: response
+                        })
+                    }
                 })
             });
         },
