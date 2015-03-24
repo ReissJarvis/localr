@@ -97,10 +97,7 @@ exports.getRoutes = function(server){
     server.post({
         path: group
     }, function(req, res, next) {
-        console.log(req.params)
-        console.log(req.body)
-        console.log("finished in route")
-        groups.creategroup(req, res, next);
+        groups.groups.createGroup(req, res, next);
     });
     //?username=username&groupname=test21
     server.get({

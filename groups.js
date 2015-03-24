@@ -135,10 +135,9 @@ module.exports.creategroup = function(req, res, next) {
                 });
             })
 };
-
-
-module.exports.getRequest = function(url) {
+getRequest = function(url) {
             // set up initial get request. 
+            console.log("start of promise")
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
@@ -389,6 +388,7 @@ module.exports.groups = (function() {
         },
         getRequest: function(url) {
             // set up initial get request. 
+            console.log("get promise started")
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
