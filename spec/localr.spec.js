@@ -139,6 +139,7 @@
          it("be able to join a group", function(done) {
              var url = 'http://localhost:8080/users/groups/testgroup';
              // getting params
+             // 
              var params = {
                  uri: url,
                  headers: {
@@ -162,6 +163,7 @@
                  competition: "freshers"
              };
              // getting params
+             // 
              var params = {
                  uri: url,
                  headers: {
@@ -260,7 +262,7 @@
      })
      it("be able to check what offers youve redeemed", function() {})
      describe('delete all', function() {
-         it("be able delete the user", function(done) {
+         it("be able to delete the user", function(done) {
              var url = 'http://localhost:8080/users';
              // getting params
              // 
@@ -291,15 +293,49 @@
              };
              request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(body).toBe('"Deleted Business!"')
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
              })
          })
-         it('delete offers', function() {})
-         it('delete group', function() {})
-     })
+         it('delete offers', function(done) {
+          var url = 'http://localhost:8080/business/offers';
+             // getting the parameters
+             // 
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.del(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+                  })
+         })
+         it('delete group', function(done) {
+         var url = 'http://localhost:8080/business';
+             // getting the parameters
+             // 
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.del(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+                  })
+         })
  });
  getBasic = function(username, password) {
      return "Basic " + new Buffer(username + ":" + password).toString('base64')
