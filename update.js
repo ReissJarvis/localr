@@ -21,19 +21,19 @@ module.exports.update = function(req, res, next, type) {
             };
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
-                if(typeof req.params.firstname != "undefined") {
+                if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
                     body.firstname = req.params.firstname;
                 };
-                if(typeof req.params.surname != "undefined") {
+                if(typeof req.params.surname !== "undefined" && req.params.surname) {
                     body.surname = req.params.surname;
                 };
-                if(typeof req.params.city != "undefined") {
+                if(typeof req.params.city !== "undefined" && req.params.city) {
                     body.city = req.params.city;
                 };
-                if(typeof req.params.dob != "undefined") {
+                if(typeof req.params.dob !== "undefined" && req.params.dob) {
                     body.dob = req.params.dob;
                 };
-                if(typeof req.params.password != "undefined") {
+                if(typeof req.params.password !== "undefined" && req.params.password) {
                     body.password = sha1(req.params.password + salt);
                 };
                 var params = {
@@ -65,7 +65,7 @@ module.exports.update = function(req, res, next, type) {
             url = 'http://localhost:5984/business/' + businessname,
             salt = rand(160, 36);
         if(businessname !== req.authorization.basic.username){
-            return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
+            return next(new restify.UnauthorizedError("You do not have permission to edit this business!"))
         };
         console.log("Updating: " + businessname);
         request.get(url, function(err, response, body) {
