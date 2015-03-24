@@ -79,7 +79,7 @@ exports.getRoutes = function(server){
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
             failed = true;
         } else {
-            update.update(req, res, next, 'business');
+            update.updateBusiness(req, res, next);
         }
     });
     // Delete user
