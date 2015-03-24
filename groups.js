@@ -286,14 +286,14 @@ module.exports.groups = (function() {
                 if(response.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
-            }).then(db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+                db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
                 console.log("in the cypher request")
                 if(err) throw err;
                 if(result.data.length == 0) {
                     return next(new restify.InternalServerError('no competition found'));
                 }
                 return competitionid = result.data[0]._id
-            })).then(function(i1d) {
+            }).then(function(id) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
                     console.log("in next cypher request")
                     if(err) throw err;
