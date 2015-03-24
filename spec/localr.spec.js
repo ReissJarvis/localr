@@ -163,10 +163,6 @@
              };
              // make a new user
              request.post(params, function(error, response, body) {
-                 if(error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 var db = new neo4j('http://localhost:7474');
                  var url = 'http://localhost:8080/groups'
                  var doc = {
                      username: "testuser2",
@@ -183,8 +179,6 @@
                      },
                      body: JSON.stringify(doc)
                  };
-                 // create the competition node
-                 if(err) throw err;
                  request.post(params, function(error, response, body) {
                      var params = {
                          uri: url,
