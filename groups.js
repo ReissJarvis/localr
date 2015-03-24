@@ -225,10 +225,10 @@ module.exports.joinGroup = function(req, res, next) {
     request.get(url, function(err, response, body) {
         console.log("request started")
         // if user is not found will send 404 error
-        if(response.statusCode == 404) {
+        if(response.statusCode === 404) {
             return next(new restify.BadRequestError('User Not Found'))
         };
-        if(response.statusCode == 200) {
+        if(response.statusCode === 200) {
             body = JSON.parse(body);
             console.log('set user id')
             userid = body.nodeid;
@@ -324,7 +324,7 @@ module.exports.groups = (function() {
                 });
             }).then(function(nodeid) {
                 console.log("insert relationship")
-                db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
+                db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
                     if(err) throw err;
@@ -377,7 +377,6 @@ module.exports.groups = (function() {
                     competition: competition,
                     groupnodeid: groupid
                 };
-                var docStr = JSON.stringify(doc);
                 var params = {
                     uri: url,
                     body: JSON.stringify(doc)
@@ -391,8 +390,8 @@ module.exports.groups = (function() {
                     // document has been inserted into database
                     body = JSON.parse(body);
                     console.log('about to sent res')
-                    res.send({
-                        Group: req.params
+                    res.send(201, {
+                        Group: params
                     });
                     res.end();
                 });

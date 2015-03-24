@@ -111,6 +111,7 @@
      })
      describe("groups", function() {
          it("be able to create a group", function(done) {
+             var db = new neo4j('http://localhost:7474');
              var url = 'http://localhost:8080/groups'
              var doc = {
                  username: "testuser",
@@ -132,7 +133,12 @@
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
-                 done();
+                 db.cypherQuery(" MATCH (n:Group) WHERE n.name ='testgroup' RETURN n", function(err, Results) {
+                    if(err) throw err;
+                     console.log(Results)
+                    done();
+                })
+                
              })
          })
          it("be able to join a group", function(done) {
