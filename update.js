@@ -48,7 +48,7 @@ module.exports.update = (function(){
                     if(err) {
                         return next(new restify.InternalServerError('Cant Update CouchDB document'));
                     }
-                    res.setHeader('Last-Modified', body.last_modified);
+                    res.setHeader('Last-Modified', mainBody.last_modified);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'PUT');
                     var sendBack = {
