@@ -131,8 +131,7 @@
              };
              // create the competition node
              db.insertNode({
-                 name: "freshers",
-                 description: description
+                 name: "freshers"
              }, ['competition'], function(err, node) {
                  if(err) throw err;
                  request.post(params, function(error, response, body) {
