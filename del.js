@@ -30,7 +30,7 @@ module.exports.del = (function(){
                     });
                 };
             }).then(function(){
-                request.del(url + "?rev=" + mainBody.rev, function (err, response) {
+                request.del(url + "?rev=" + mainBody._rev, function (err, response) {
                     if (err) {
                         return next(new restify.InternalServerError('Cant delete CouchDB document.'));
                     };
@@ -61,7 +61,7 @@ module.exports.del = (function(){
                     });
                 };
             }).then(function(){
-                request.del(url + "?rev=" + mainBody.rev, function (err, response) {
+                request.del(url + "?rev=" + mainBody._rev, function (err, response) {
                     if (err) {
                         return next(new restify.InternalServerError('Cant delete CouchDB document.'));
                     };
