@@ -8,9 +8,12 @@ var validateHTTP = require("./validateHTTP.js"),
 
 module.exports.update = function(req, res, next, type) {
     if(type == "users") {
-        var username = req.authorization.basic.username,
+        var username = req.params.username,
             url = 'http://localhost:5984/users/' + username,
             salt = rand(160, 36);
+        if(username !== req.authorization.basic.username){
+            return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
+        };
         console.log("Updating: " + username);
         request.get(url, function(err, response, body) {
             if(response.statusCode === 404) {
@@ -58,9 +61,12 @@ module.exports.update = function(req, res, next, type) {
             };
         });
     } else if(type == "business") {
-        var businessname = req.authorization.basic.username,
+        var businessname = req.params.businessname,
             url = 'http://localhost:5984/business/' + businessname,
             salt = rand(160, 36);
+        if(businessname !== req.authorization.basic.username){
+            return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
+        };
         console.log("Updating: " + businessname);
         request.get(url, function(err, response, body) {
             if(response.statusCode === 404) {
