@@ -197,28 +197,26 @@ module.exports.update = (function(){
                     console.log("runnin param tests")
                     mainBody = JSON.parse(body.body);
                     console.log(mainBody);
-                    if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
+                    if(typeof req.params.firstname != "undefined") {
                         mainBody.firstname = req.params.firstname;
                     };
-                    if(typeof req.params.surname !== "undefined" && req.params.surname) {
+                    if(typeof req.params.surname != "undefined") {
                         mainBody.surname = req.params.surname;
                     };
-                    if(typeof req.params.city !== "undefined" && req.params.city) {
+                    if(typeof req.params.city != "undefined") {
                         mainBody.city = req.params.city;
                     };
-                    if(typeof req.params.dob !== "undefined" && req.params.dob) {
+                    if(typeof req.params.dob != "undefined") {
                         mainBody.dob = req.params.dob;
                     };
-                    if(typeof req.params.password !== "undefined" && req.params.password) {
+                    if(typeof req.params.password != "undefined") {
                         mainBody.password = sha1(req.params.password + salt);
                     };
                     var params = {
                         uri: url,
                         body: JSON.stringify(mainBody)
                     };
-                    console.log(params);
                 }
-                console.log("param tests finished" + params);
                 return params;
             }).then(function(params){
                 request.put(params, function(err, response, content) {
