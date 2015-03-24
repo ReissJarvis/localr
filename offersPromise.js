@@ -138,6 +138,8 @@ module.exports.offers = (function() {
             var d = new Date(),
                 date = d.toUTCString(),
                 txID = uuid.v1();
+            //Get back to here
+            var that = this;
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
@@ -148,28 +150,29 @@ module.exports.offers = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
-                console.log(call.body)
                 //If offer not found
-                if(response.statusCode === 404) {
+                if(call.response.statusCode === 404) {
                     return next(new restify.NotFoundError('Offer Not Found'));
                 };
-                if(response.statusCode === 200) {
+                if(call.response.statusCode === 200) {
                     //Set offer variable as whats returned from the GET Offer
                     offer = JSON.parse(call.body);
                     //Take some values from the offer
                     businessName = offer.businessname;
                     cost = offer.cost;
+                    request.get(userUrl, function(err, response, doc) {
+                        //If no user exists
+                        if(response.statusCode === 404) {
+                            return next(new restify.NotFoundError('User Not Found'));
+                        };
+                        if(response.statusCode === 200) {
+                            user = JSON.parse(doc);
+                            console.log(user)
+                        }
+                    })
                 }
-                request.get(userUrl, function(err, response, doc) {
-                    //If no user exists
-                    if(response.statusCode === 404) {
-                        return next(new restify.NotFoundError('User Not Found'));
-                    };
-                    if(response.statusCode === 200) {
-                        user = JSON.parse(doc);
-                    }
-                })
             }).then(function() {
+                //Checks to see if user has enough points
                 if((user.points - cost) < 0) {
                     console.log("You don't have enough points sunshine - come back another day :D")
                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
