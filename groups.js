@@ -7,149 +7,150 @@ var validateHTTP = require("./validateHTTP.js"),
     neo4j = require('node-neo4j'),
     Promise = require('promise');
 module.exports.creategroup = function(req, res, next) {
-            console.log(req.params);
-            console.log("group create started")
-            console.log("POST "  + req.params.groupname )
-            var url = 'http://localhost:5984/groups/' + req.params.groupname
-            var competition = req.params.competition;
-            var groupname = req.params.groupname;
-            var description = req.params.description;
-            console.log(competition + " Group :"  + groupname + " Description: " + description)
-            var groupid = 0;
-            var userid = 0;
-            getRequest(url).
-            catch(function(err) {
-                console.log("get request error")
-                return next(new restify.InternalServerError('Error has occured'));
-            }).then(function(call) { console.log("next then")
-                if(response.statusCode === 200) {
-                    return next(new restify.ConflictError('Group Already Created'));
-                }
-            }).then(db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
-                console.log("then cypher query")
-                if(err) throw err;
-                if(result.data.length == 0) {
-                    return next(new restify.InternalServerError('no competition found'));
-                }
-                return competitionid = result.data[0]._id
-            })).then(function(id) {
-                db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
-                    console.log("next cypher query")
-                    if(err) throw err;
-                    if(results.data.length == 0) {
-                        return results.data
-                    } else {
-                        console.log(result.data[0])
-                        return next(new restify.ConflictError('Group already created'));
-                    }
-                })
-            }).then(function(data) {
-                console.log("insert node")
-                db.insertNode({
-                    name: groupname,
-                    description: description
-                }, ['Group', competition], function(err, node) {
-                    if(err) throw err;
-                    // Output node properties.
-                    console.log('New neo4j node created with Groupname  = ' + node.name);
-                    groupid = node._id
-                    console.log('group id = ' + groupid)
-                    return node._id
-                });
-            }).then(function(nodeid) {
-                console.log("insert relationship")
-                db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
-                    description: 'competiting in this competition'
-                }, function(err, relationship) {
-                    if(err) throw err;
-                    console.log('relationship made')
-                    // Output relationship id.
-                    console.log(relationship._id);
-                    // Output relationship start_node_id.
-                    console.log(relationship._start);
-                    // Output relationship end_node_id.
-                    console.log(relationship._end);
-                })
-            }).then(function() {
-                console.log("next cypher query")
-                db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
-                    if(err) throw err;
-                    console.log('name = ' + Results.data[0])
-                    console.log('user = ' + Results.data[0]._id)
-                    userid = Results.data[0]._id
-                    console.log('userid =' + userid)
-                    console.log(groupid)
-                    return userid
-                })
-            }).then(function(id) {
-                console.log("next relationship")
-                db.insertRelationship(userid, groupid, 'IN_GROUP', {
-                    description: 'Created this group'
-                }, function(err, relationship) {
-                    if(err) throw err;
-                    console.log('relationship made')
-                    // Output relationship id.
-                    console.log(relationship._id);
-                    // Output relationship start_node_id.
-                    console.log(relationship._start);
-                    // Output relationship end_node_id.
-                    console.log(relationship._end);
-                    return relationship._id
-                })
-            }).then(function(id) {
-                console.log("create doc")
-                var d = new Date(),
-                    date = d.toUTCString();
-                console.log(date);
-                var doc = {
-                    groupname: groupname,
-                    description: description,
-                    date_joined: date,
-                    last_modified: date,
-                    createdby: req.authorization.basic.username,
-                    grouppoints: 0,
-                    transactions: [],
-                    usersjoined: [req.authorization.basic.username],
-                    competition: competition,
-                    groupnodeid: groupid
-                };
-                var docStr = JSON.stringify(doc);
-                var params = {
-                    uri: url,
-                    body: JSON.stringify(doc)
-                };
-                return params
-            }).then(function(params) {
-                console.log("insert couch doc")
-                request.put(params, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant create document'));
-                    }
-                    // document has been inserted into database
-                    body = JSON.parse(body);
-                    console.log('about to sent res')
-                    res.send(201, {
-                        Group: req.params
-                    });
-                    res.end();
-                });
-            })
+    console.log(req.params);
+    console.log("group create started")
+    console.log("POST " + req.params.groupname)
+    var url = 'http://localhost:5984/groups/' + req.params.groupname
+    var competition = req.params.competition;
+    var groupname = req.params.groupname;
+    var description = req.params.description;
+    console.log(competition + " Group :" + groupname + " Description: " + description)
+    var groupid = 0;
+    var userid = 0;
+    getRequest(url).
+    catch(function(err) {
+        console.log("get request error")
+        return next(new restify.InternalServerError('Error has occured'));
+    }).then(function(call) {
+        console.log("next then")
+        if(response.statusCode === 200) {
+            return next(new restify.ConflictError('Group Already Created'));
+        }
+    }).then(db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+        console.log("then cypher query")
+        if(err) throw err;
+        if(result.data.length == 0) {
+            return next(new restify.InternalServerError('no competition found'));
+        }
+        return competitionid = result.data[0]._id
+    })).then(function(id) {
+        db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
+            console.log("next cypher query")
+            if(err) throw err;
+            if(results.data.length == 0) {
+                return results.data
+            } else {
+                console.log(result.data[0])
+                return next(new restify.ConflictError('Group already created'));
+            }
+        })
+    }).then(function(data) {
+        console.log("insert node")
+        db.insertNode({
+            name: groupname,
+            description: description
+        }, ['Group', competition], function(err, node) {
+            if(err) throw err;
+            // Output node properties.
+            console.log('New neo4j node created with Groupname  = ' + node.name);
+            groupid = node._id
+            console.log('group id = ' + groupid)
+            return node._id
+        });
+    }).then(function(nodeid) {
+        console.log("insert relationship")
+        db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
+            description: 'competiting in this competition'
+        }, function(err, relationship) {
+            if(err) throw err;
+            console.log('relationship made')
+            // Output relationship id.
+            console.log(relationship._id);
+            // Output relationship start_node_id.
+            console.log(relationship._start);
+            // Output relationship end_node_id.
+            console.log(relationship._end);
+        })
+    }).then(function() {
+        console.log("next cypher query")
+        db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
+            if(err) throw err;
+            console.log('name = ' + Results.data[0])
+            console.log('user = ' + Results.data[0]._id)
+            userid = Results.data[0]._id
+            console.log('userid =' + userid)
+            console.log(groupid)
+            return userid
+        })
+    }).then(function(id) {
+        console.log("next relationship")
+        db.insertRelationship(userid, groupid, 'IN_GROUP', {
+            description: 'Created this group'
+        }, function(err, relationship) {
+            if(err) throw err;
+            console.log('relationship made')
+            // Output relationship id.
+            console.log(relationship._id);
+            // Output relationship start_node_id.
+            console.log(relationship._start);
+            // Output relationship end_node_id.
+            console.log(relationship._end);
+            return relationship._id
+        })
+    }).then(function(id) {
+        console.log("create doc")
+        var d = new Date(),
+            date = d.toUTCString();
+        console.log(date);
+        var doc = {
+            groupname: groupname,
+            description: description,
+            date_joined: date,
+            last_modified: date,
+            createdby: req.authorization.basic.username,
+            grouppoints: 0,
+            transactions: [],
+            usersjoined: [req.authorization.basic.username],
+            competition: competition,
+            groupnodeid: groupid
+        };
+        var docStr = JSON.stringify(doc);
+        var params = {
+            uri: url,
+            body: JSON.stringify(doc)
+        };
+        return params
+    }).then(function(params) {
+        console.log("insert couch doc")
+        request.put(params, function(err, response, body) {
+            if(err) {
+                return next(new restify.InternalServerError('Cant create document'));
+            }
+            // document has been inserted into database
+            body = JSON.parse(body);
+            console.log('about to sent res')
+            res.send(201, {
+                Group: req.params
+            });
+            res.end();
+        });
+    })
 };
 getRequest = function(url) {
-            // set up initial get request. 
-            console.log("start of promise")
-            return new Promise(function(resolve, reject) {
-                request.get(url, function(err, response, body) {
-                    if(err) reject(err);
-                    // if the document isnt found it will create it from sratch
-                    console.log('code' + response.statusCode)
-                    resolve({
-                        response: response,
-                        body: body
-                    })
-                })
-            });
-        }
+    // set up initial get request. 
+    console.log("start of promise")
+    return new Promise(function(resolve, reject) {
+        request.get(url, function(err, response, body) {
+            if(err) reject(err);
+            // if the document isnt found it will create it from sratch
+            console.log('code' + response.statusCode)
+            resolve({
+                response: response,
+                body: body
+            })
+        })
+    });
+}
 module.exports.showgroup = function(req, res, next) {
     db = new neo4j('http://localhost:7474');
     console.log('GET');
@@ -266,15 +267,15 @@ module.exports.groups = (function() {
         groupid = 0,
         userid = 0,
         competitionid = "";
-    return {
+    return :{
         createGroup: function(req, res, next) {
             console.log("group create started")
-            console.log("POST "  + req.params.groupname )
+            console.log("POST " + req.params.groupname)
             url = 'http://localhost:5984/groups/' + req.params.groupname
             var competition = req.params.competition;
             var groupname = req.params.groupname;
             var description = req.params.description;
-            console.log(competition + " Group :"  + groupname + " Description: " + description)
+            console.log(competition + " Group :" + groupname + " Description: " + description)
             var groupid = 0;
             var userid = 0;
             getRequest(url).
@@ -288,12 +289,13 @@ module.exports.groups = (function() {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
-                console.log("in the cypher request")
-                if(err) throw err;
-                if(result.data.length == 0) {
-                    return next(new restify.InternalServerError('no competition found'));
-                }
-                return competitionid = result.data[0]._id
+                    console.log("in the cypher request")
+                    if(err) throw err;
+                    if(result.data.length == 0) {
+                        return next(new restify.InternalServerError('no competition found'));
+                    }
+                    return competitionid = result.data[0]._id
+                })
             }).then(function(id) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
                     console.log("in next cypher request")
