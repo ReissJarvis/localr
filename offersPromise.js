@@ -29,12 +29,13 @@ module.exports.offers = (function() {
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
                 // if the document isnt found it will create it from sratch
-                console.log('CouchDB request statuscode - ' + response.statusCode)
+                console.log('CouchDB request statuscode - ' + call.response.statusCode)
                 if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Offer has already been created with the same name'));
                 }
                 return call
             }).then(function(call) {
+                console.log(call)
                 //Insert node into neo4j
                 if(call.response.statusCode === 404) {
                     //Insert node into neo4j
