@@ -80,6 +80,7 @@
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(response.body).toBe("{'Points added':'10'}")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
@@ -112,7 +113,8 @@
              var url = 'http://localhost:8080/groups';
              var doc = {
                  username: "testuser",
-                 description: "testgroup",
+                 groupname: "testgroup",
+                 description: "This is a Test Group",
                  competition: "freshers"
              };
              // getting params
@@ -123,6 +125,7 @@
                  },
                  body: JSON.stringify(doc)
              };
+             console.log('jasmine params: ' + params)
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  if(error) {
@@ -201,7 +204,6 @@
                  description: 'description',
                  title: 'test offer',
                  cost: 50
-                 
              }
              // getting params
              var params = {

@@ -13,9 +13,9 @@ module.exports.creategroup = function(req, res, next) {
         console.log('PUT: ' + req.params.groupname)
         console.log('FOR COMPETITION: ' + req.params.competition)
         var url = 'http://localhost:5984/groups/' + req.params.groupname;
-        var competition = req.params.competition
-        var groupname = req.params.groupname
-        var description = req.params.description
+        var competition = req.body.competition
+        var groupname = req.body.groupname
+        var description = req.body.description
         var groupid = 0;
         var userid = 0;
         validateHTTP.validateHTTP(req, res, next, 'users')
@@ -237,7 +237,7 @@ module.exports.joinGroup = function(req, res, next) {
     });
 };
 // rebuilding with promises and closures
-module.exports.groups = (function() {
+module.exports.groups = (function(req, res, next) {
     var url = "",
         competition = "",
         groupname = "",

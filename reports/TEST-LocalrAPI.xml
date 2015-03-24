@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
+<<<<<<< HEAD
 <testsuite name="Localr API" errors="0" tests="1" failures="0" time="0.026" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API" name="be able to check what offers youve redeemed" time="0"></testcase>
 </testsuite>
@@ -9,6 +10,17 @@
 <testsuite name="Localr API.Users" errors="0" tests="0" failures="0" time="0" timestamp="2015-03-23T13:17:46">
 </testsuite>
 <testsuite name="Localr API.Users.create the user" errors="0" tests="2" failures="2" time="0.03" timestamp="2015-03-23T13:17:46">
+=======
+<testsuite name="Localr API" errors="0" tests="1" failures="0" time="0.028" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API" name="be able to check what offers youve redeemed" time="0"></testcase>
+</testsuite>
+<testsuite name="Localr API.test local connection" errors="0" tests="1" failures="0" time="0.032" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.test local connection" name="make connection to server" time="0.031"></testcase>
+</testsuite>
+<testsuite name="Localr API.Users" errors="0" tests="0" failures="0" time="0" timestamp="2015-03-23T12:56:40">
+</testsuite>
+<testsuite name="Localr API.Users.create the user" errors="0" tests="2" failures="2" time="0.032" timestamp="2015-03-23T12:56:40">
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
   <testcase classname="Localr API.Users.create the user" name="be able to create a user" time="0.013"><failure type="expect" message="Expected 500 to be 201.">Error: Expected 500 to be 201.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
@@ -40,7 +52,7 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
-  <testcase classname="Localr API.Users.create the user" name="be not able to create duplicate user" time="0.014"><failure type="expect" message="Expected 500 to be 409.">Error: Expected 500 to be 409.
+  <testcase classname="Localr API.Users.create the user" name="be not able to create duplicate user" time="0.015"><failure type="expect" message="Expected 500 to be 409.">Error: Expected 500 to be 409.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:57:50)
@@ -52,8 +64,13 @@
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
 </testsuite>
+<<<<<<< HEAD
 <testsuite name="Localr API.checkin" errors="0" tests="3" failures="2" time="0.024" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API.checkin" name="be able to checkin" time="0.011"><failure type="expect" message="Expected 406 to be 200.">Error: Expected 406 to be 200.
+=======
+<testsuite name="Localr API.checkin" errors="0" tests="3" failures="2" time="0.027" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.checkin" name="be able to checkin" time="0.013"><failure type="expect" message="Expected 406 to be 200.">Error: Expected 406 to be 200.
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:82:46)
@@ -87,11 +104,19 @@
     at _stream_readable.js:943:16</failure></testcase>
   <testcase classname="Localr API.checkin" name="be able to see where you&amp;apos;ve checked in" time="0"></testcase>
 </testsuite>
+<<<<<<< HEAD
 <testsuite name="Localr API.groups" errors="0" tests="3" failures="3" time="0.039" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API.groups" name="be able to create a group" time="0.012"><failure type="expect" message="Expected 500 to be 201.">Error: Expected 500 to be 201.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:127:46)
+=======
+<testsuite name="Localr API.groups" errors="0" tests="3" failures="3" time="0.043" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.groups" name="be able to create a group" time="0.014"><failure type="expect" message="Expected 500 to be 201.">Error: Expected 500 to be 201.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:136:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -99,10 +124,14 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
-  <testcase classname="Localr API.groups" name="be able to join a group" time="0.012"><failure type="expect" message="Expected 404 to be 200.">Error: Expected 404 to be 200.
+  <testcase classname="Localr API.groups" name="be able to join a group" time="0.013"><failure type="expect" message="Expected 404 to be 200.">Error: Expected 404 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+<<<<<<< HEAD
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:144:46)
+=======
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:153:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -113,7 +142,11 @@
   <testcase classname="Localr API.groups" name="be able to delete a group" time="0.012"><failure type="expect" message="Expected 404 to be 200.">Error: Expected 404 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+<<<<<<< HEAD
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:168:46)
+=======
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:177:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -122,11 +155,19 @@
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
 </testsuite>
+<<<<<<< HEAD
 <testsuite name="Localr API.businesses" errors="0" tests="1" failures="1" time="0.013" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API.businesses" name="able to create new business" time="0.013"><failure type="expect" message="Expected 404 to be 201.">Error: Expected 404 to be 201.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:188:46)
+=======
+<testsuite name="Localr API.businesses" errors="0" tests="3" failures="3" time="0.039" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.businesses" name="able to create new business" time="0.013"><failure type="expect" message="Expected 404 to be 201.">Error: Expected 404 to be 201.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:198:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -134,12 +175,16 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
+<<<<<<< HEAD
 </testsuite>
 <testsuite name="Localr API.Offers" errors="0" tests="3" failures="3" time="0.043" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API.Offers" name="Be able to add an offer" time="0.012"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
+=======
+  <testcase classname="Localr API.businesses" name="be able to create an offer" time="0.012"><failure type="expect" message="Expected 404 to be 201.">Error: Expected 404 to be 201.
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
-    at Request._callback (/home/codio/workspace/spec/localr.spec.js:215:46)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:216:46)
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -147,10 +192,17 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
+<<<<<<< HEAD
   <testcase classname="Localr API.Offers" name="Be able to get the latest offers" time="0.013"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:232:46)
+=======
+  <testcase classname="Localr API.businesses" name="cant create duplicate offer" time="0.012"><failure type="expect" message="Expected 404 to be 200.">Error: Expected 404 to be 200.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:234:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -158,10 +210,30 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
+<<<<<<< HEAD
   <testcase classname="Localr API.Offers" name="be able to get a businesses offers" time="0.013"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:249:46)
+=======
+</testsuite>
+<testsuite name="Localr API.Offers" errors="0" tests="2" failures="2" time="0.029" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.Offers" name="Be able to get the latest offers" time="0.016"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:254:46)
+    at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
+    at Request.emit (events.js:98:17)
+    at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
+    at Request.emit (events.js:117:20)
+    at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
+    at IncomingMessage.emit (events.js:117:20)
+    at _stream_readable.js:943:16</failure></testcase>
+  <testcase classname="Localr API.Offers" name="be able to get a businesses offers" time="0.011"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:271:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -170,11 +242,19 @@
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
 </testsuite>
+<<<<<<< HEAD
 <testsuite name="Localr API.delete all" errors="0" tests="4" failures="2" time="0.026" timestamp="2015-03-23T13:17:46">
   <testcase classname="Localr API.delete all" name="be able delete the user" time="0.011"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:270:46)
+=======
+<testsuite name="Localr API.delete all" errors="0" tests="4" failures="2" time="0.028" timestamp="2015-03-23T12:56:40">
+  <testcase classname="Localr API.delete all" name="be able delete the user" time="0.011"><failure type="expect" message="Expected 500 to be 200.">Error: Expected 500 to be 200.
+    at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:293:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -184,7 +264,11 @@
     at _stream_readable.js:943:16</failure><failure type="expect" message="Expected &amp;apos;{&amp;quot;code&amp;quot;:&amp;quot;InternalError&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;Cannot read property &amp;apos;statusCode&amp;apos; of undefined&amp;quot;}&amp;apos; to be &amp;apos;&amp;quot;Deleted User!&amp;quot;&amp;apos;.">Error: Expected &amp;apos;{&amp;quot;code&amp;quot;:&amp;quot;InternalError&amp;quot;,&amp;quot;message&amp;quot;:&amp;quot;Cannot read property &amp;apos;statusCode&amp;apos; of undefined&amp;quot;}&amp;apos; to be &amp;apos;&amp;quot;Deleted User!&amp;quot;&amp;apos;.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+<<<<<<< HEAD
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:271:31)
+=======
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:294:31)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
@@ -192,10 +276,14 @@
     at IncomingMessage.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1187:12)
     at IncomingMessage.emit (events.js:117:20)
     at _stream_readable.js:943:16</failure></testcase>
-  <testcase classname="Localr API.delete all" name="be able to delete the business" time="0.013"><failure type="expect" message="Expected 403 to be 200.">Error: Expected 403 to be 200.
+  <testcase classname="Localr API.delete all" name="be able to delete the business" time="0.014"><failure type="expect" message="Expected 403 to be 200.">Error: Expected 403 to be 200.
     at new jasmine.ExpectationResult (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
     at null.toBe (/home/codio/.nvm/v0.10.33/lib/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+<<<<<<< HEAD
     at Request._callback (/home/codio/workspace/spec/localr.spec.js:289:46)
+=======
+    at Request._callback (/home/codio/workspace/spec/localr.spec.js:313:46)
+>>>>>>> b4ef9a0589203d94fa9f47fcf9ade7fbc3620457
     at Request.self.callback (/home/codio/workspace/node_modules/request/request.js:344:22)
     at Request.emit (events.js:98:17)
     at Request.&amp;lt;anonymous&amp;gt; (/home/codio/workspace/node_modules/request/request.js:1239:14)
