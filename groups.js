@@ -227,13 +227,12 @@ module.exports.groups = (function() {
                 db.cypherQuery("MATCH (n { name: '" + req.params.groupname + "' })-[r]-() DELETE n, r", function(err, result) {
                     if(err) throw err;
                     console.log('IN DELETE')
-                    if(result.data.length == 0) {
-                        return next(new restify.InternalServerError('No group found'));
-                    }
+                    console.log(result)
                     resolve();
                 })
             }).then(function() {
                 return new Promise(function(resolve, reject) {
+                    console.log("getting groups")
                     url = 'http://localhost:5984/groups/' + req.params.groupname
                     request.get(url, function(err, response, body) {
                         if(err) reject(err);
@@ -241,6 +240,7 @@ module.exports.groups = (function() {
                         console.log('code' + response.statusCode)
                         var body = JSON.parse(body),
                             rev = body._rev
+                        console.log(body)
                             resolve(rev)
                     })
                 }).then(function(rev) {
