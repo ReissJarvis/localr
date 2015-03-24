@@ -1,5 +1,5 @@
  var request = require('request');
-var neo4j = require('node-neo4j'),
+var neo4j = require('node-neo4j');
  require('../testserver.js').startserver();
  describe('Localr API', function() {
      describe('test local connection', function() {
