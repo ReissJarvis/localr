@@ -298,12 +298,14 @@ module.exports.groups = (function() {
                         }
                     })
                 }).then(function() {
+                    var d = new Date(),
+                        date = d.toUTCString();
                     db.insertRelationship(userid, groupid, 'IN_GROUP', {
                         datejoined: date,
                     }, function(err, relationship) {
                         if(err) throw err;
                         console.log("sent data");
-                        res.send(201,"relationship created @ " + date);
+                        res.send(201, "relationship created @ " + date);
                         res.end();
                     });
                 })
