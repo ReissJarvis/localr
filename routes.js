@@ -97,7 +97,7 @@ exports.getRoutes = function(server){
     server.post({
         path: group
     }, function(req, res, next) {
-        groups.groups.createGroup(req, res, next);
+        groups.creategroup(req, res, next);
     });
     //?username=username&groupname=test21
     server.get({

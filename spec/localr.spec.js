@@ -125,7 +125,7 @@
                  },
                  body: JSON.stringify(doc)
              };
-             console.log('jasmine params: ' + params)
+             console.log('jasmine params: ' + params.body)
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  if(error) {
