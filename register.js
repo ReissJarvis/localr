@@ -96,7 +96,7 @@ function register(req, res, next, type) {
         //The amount of points a user will get for checking in
         var points = req.params.points;
         //Start of extra details of Business
-        var address = req.params.city,
+        var address = req.params.address,
             city = req.params.city,
             postcode = req.params.postcode,
             longitude = req.params.longitude,

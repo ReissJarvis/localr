@@ -125,7 +125,7 @@
                  },
                  body: JSON.stringify(doc)
              };
-             console.log('jasmine params: ' + params)
+             console.log('jasmine params: ' + params.body)
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  if(error) {
@@ -189,41 +189,6 @@
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
-                 if(error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 done();
-             })
-         })
-         it('be able to create an offer', function(done) {
-             var url = 'http://localhost:8080/';
-             // getting the parameters
-             // 
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-             };
-             request.put(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(201);
-                 if(error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 done();
-             })
-         })
-         it('cant create duplicate offer', function(done) {
-             var url = 'http://localhost:8080/';
-             // getting the parameters
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-             };
-             request.get(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }

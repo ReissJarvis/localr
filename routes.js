@@ -62,7 +62,7 @@ exports.getRoutes = function(server){
     });
     //Update User
     server.put({
-        path: users + "/update"
+        path: users + "/:username"
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
@@ -73,7 +73,7 @@ exports.getRoutes = function(server){
     });
     //Update Business
     server.put({
-        path: business + "/update"
+        path: business + "/:businessname"
     }, function(req, res, next) {
         if(req.authorization.scheme !== 'Basic') {
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
@@ -97,14 +97,7 @@ exports.getRoutes = function(server){
     server.post({
         path: group
     }, function(req, res, next) {
-        console.log("IN THE ROUTE")
-        console.log(req)
-        console.log("")
-        console.log("")
-        console.log("")
-        console.log("")
-        console.log("body " + req.body)
-        groups.groups.createGroup(req, res, next);
+        groups.creategroup(req, res, next);
     });
     //?username=username&groupname=test21
     server.get({

@@ -8,9 +8,12 @@ var validateHTTP = require("./validateHTTP.js"),
 
 module.exports.update = function(req, res, next, type) {
     if(type == "users") {
-        var username = req.authorization.basic.username,
+        var username = req.params.username,
             url = 'http://localhost:5984/users/' + username,
             salt = rand(160, 36);
+        if(username !== req.authorization.basic.username){
+            return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
+        };
         console.log("Updating: " + username);
         request.get(url, function(err, response, body) {
             if(response.statusCode === 404) {
@@ -18,7 +21,6 @@ module.exports.update = function(req, res, next, type) {
             };
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
-                url = "http://localhost:5984/users/" + body._rev;
                 if(typeof req.params.firstname != "undefined") {
                     body.firstname = req.params.firstname;
                 };
@@ -38,7 +40,7 @@ module.exports.update = function(req, res, next, type) {
                     uri: url,
                     body: JSON.stringify(body)
                 };
-                request.put(params, function(err, response, body) {
+                request.put(params, function(err, response, content) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant Update CouchDB document'));
                     }
@@ -53,15 +55,18 @@ module.exports.update = function(req, res, next, type) {
                             city: body.city,
                             dob: body.dob
                         };
-                    res.send(200, sendBack);
+                    res.send(202, sendBack);
                     res.end();
                 });
             };
         });
     } else if(type == "business") {
-        var businessname = req.authorization.basic.username,
+        var businessname = req.params.businessname,
             url = 'http://localhost:5984/business/' + businessname,
             salt = rand(160, 36);
+        if(businessname !== req.authorization.basic.username){
+            return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
+        };
         console.log("Updating: " + businessname);
         request.get(url, function(err, response, body) {
             if(response.statusCode === 404) {
@@ -69,7 +74,7 @@ module.exports.update = function(req, res, next, type) {
             };
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
-                url = "http://localhost:5984/business/" + body._rev;
+                url = "http://localhost:5984/business/" + businessname;
                 if(typeof req.params.password !== "undefined" && req.params.password) {
                     body.password = sha1(req.params.password + salt);
                 };
@@ -92,7 +97,7 @@ module.exports.update = function(req, res, next, type) {
                     uri: url,
                     body: JSON.stringify(body)
                 };
-                request.put(params, function(err, response, body) {
+                request.put(params, function(err, response, content) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant Update CouchDB document'));
                     }
@@ -108,7 +113,7 @@ module.exports.update = function(req, res, next, type) {
                             longitude: body.longitude,
                             latitude: body.latitude
                         };
-                    res.send(200, sendBack);
+                    res.send(202, sendBack);
                     res.end();
                 });
             };
