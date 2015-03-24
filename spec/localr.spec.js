@@ -110,7 +110,7 @@
      })
      describe("groups", function() {
          it("be able to create a group", function(done) {
-             var url = 'http://localhost:8080/groups
+             var url = 'http://localhost:8080/groups'
              var doc = {
                  username: "testuser",
                  groupname: "testgroup",
@@ -121,7 +121,8 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type":"application/json"
                  },
                  body: JSON.stringify(doc)
              };
