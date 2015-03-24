@@ -266,7 +266,8 @@ module.exports.groups = (function() {
         description = "",
         groupid = 0,
         userid = 0,
-        competitionid = "";
+        competitionid = "",
+        db = new neo4j('http://localhost:7474');
     return {
         createGroup: function(req, res, next) {
             console.log("group create started")
@@ -304,7 +305,7 @@ module.exports.groups = (function() {
                     if(results.data.length == 0) {
                         return results.data
                     } else {
-                        console.log(result.data[0])
+                        console.log(results.data[0])
                         return next(new restify.ConflictError('Group already created'));
                     }
                 })
@@ -334,8 +335,9 @@ module.exports.groups = (function() {
                     console.log(relationship._start);
                     // Output relationship end_node_id.
                     console.log(relationship._end);
+                    return relationship._id
                 })
-            }).then(function() {
+            }).then(function(id) {
                 db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
                     if(err) throw err;
                     console.log('name = ' + Results.data[0])

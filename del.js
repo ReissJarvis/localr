@@ -16,10 +16,10 @@ function del(req, res, next, type) {
         request.get(url, function(err, response, body) {
             console.log("request started");
             // if user is not found will send 404 error
-            if (response.statusCode == 404) {
+            if (response.statusCode === 404) {
                 return next(new restify.NotFoundError('User Not Found'));
             };
-            if (response.statusCode == 200) {
+            if (response.statusCode === 200) {
                 console.log("Everything 200");
                 var body = JSON.parse(body),
                     rev = body._rev,
@@ -98,10 +98,10 @@ function del(req, res, next, type) {
         request.get(url, function(err, response, body) {
             console.log("request started");
             // if business is not found will send 404 error
-            if (response.statusCode == 404) {
+            if (response.statusCode === 404) {
                 return next(new restify.NotFoundError('Business Not Found'));
             };
-            if (response.statusCode == 200) {
+            if (response.statusCode === 200) {
                 console.log("Everything 200");
                 var body = JSON.parse(body),
                     rev = body._rev;
