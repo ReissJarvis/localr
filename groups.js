@@ -227,8 +227,6 @@ module.exports.groups = (function() {
                 db.cypherQuery("MATCH (n { name: '" + req.params.groupname + "' })-[r]-() DELETE n, r", function(err, result) {
                     if(err) throw err;
                     console.log('IN DELETE')
-                    console.log(err)
-                    console.log(result)
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('No group found'));
                     }
@@ -276,6 +274,7 @@ module.exports.groups = (function() {
                     if(response.statusCode === 200) {
                         body = JSON.parse(body);
                         userid = body.nodeid;
+                        console.log(body)
                     }
                     resolve()
                 })
@@ -283,15 +282,18 @@ module.exports.groups = (function() {
                 return new Promise(function(resolve, reject) {
                     db.cypherQuery("match n where n.name='" + groupname + "' return n", function(err, Results) {
                         if(err) throw err;
+                        console.log(Results)
                         if(Results.data == 0) {
                             return next(new restify.NotFoundError('Group not found'));
                         } else {
                             groupid = Results.data[0]._id
                             console.log("Group ID set");
+                            console.log(groupid)
                             var d = new Date(),
                                 date = d.toUTCString();
                             console.log(date);
                             //make relationship
+                            console.log("resolving")
                             resolve();
                         }
                     })
@@ -300,8 +302,8 @@ module.exports.groups = (function() {
                         datejoined: date,
                     }, function(err, relationship) {
                         if(err) throw err;
-                        res.send(201,"relationship created @ " + date);
                         console.log("sent data");
+                        res.send(201,"relationship created @ " + date);
                         res.end();
                     });
                 })
