@@ -97,8 +97,7 @@ module.exports.offers = (function() {
             }).then(function(call) {
                 if(call.response.statusCode === 404) {
                     return next(new restify.InternalServerError('No Offers Found'));
-                };
-                else if(call.response.statusCode === 200) {
+                } else if(call.response.statusCode === 200) {
                     var resp = JSON.parse(call.body)
                     var allOffers = [];
                     resp.rows.forEach(function(i) {
