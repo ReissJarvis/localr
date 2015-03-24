@@ -138,8 +138,6 @@ module.exports.offers = (function() {
             var d = new Date(),
                 date = d.toUTCString(),
                 txID = uuid.v1();
-            //Get back to here
-            var that = this;
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
@@ -167,7 +165,6 @@ module.exports.offers = (function() {
                         };
                         if(response.statusCode === 200) {
                             user = JSON.parse(doc);
-                            console.log(user)
                         }
                     })
                 }
@@ -180,7 +177,9 @@ module.exports.offers = (function() {
             }).then(function() {
                 //Get users transaction and points
                 user.points = user.points - cost;
+                console.log(user.points);
                 totalPoints = user.points;
+                console.log(totalPoints);
                 user.transactions.push({
                     transactionid: txID,
                     date: date,
