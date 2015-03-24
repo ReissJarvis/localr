@@ -158,17 +158,17 @@ module.exports.offers = (function() {
                     //Take some values from the offer
                     businessName = offer.businessname;
                     cost = offer.cost;
+                    request.get(userUrl, function(err, response, doc) {
+                        console.log(doc)
+                        //If no user exists
+                        if(response.statusCode === 404) {
+                            return next(new restify.NotFoundError('User Not Found'));
+                        };
+                        if(response.statusCode === 200) {
+                            user = JSON.parse(doc);
+                        }
+                    })
                 }
-                request.get(userUrl, function(err, response, doc) {
-                    console.log(doc)
-                    //If no user exists
-                    if(response.statusCode === 404) {
-                        return next(new restify.NotFoundError('User Not Found'));
-                    };
-                    if(response.statusCode === 200) {
-                        user = JSON.parse(doc);
-                    }
-                })
             }).then(function() {
                 console.log('user' + user)
                 console.log('offer' + offer)
