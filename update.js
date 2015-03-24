@@ -216,8 +216,9 @@ module.exports.update = (function(){
                         uri: url,
                         body: JSON.stringify(mainBody)
                     };
+                    console.log(params);
                 }
-                console.log("param tests finished");
+                console.log("param tests finished" + params);
                 return params;
             }).then(function(params){
                 request.put(params, function(err, response, content) {

@@ -284,10 +284,11 @@ module.exports.groups = (function() {
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
                 console.log("in first then")
-                console.log(call.response)
-                if(call.response.statusCode === 200) {
+                if(call.statusCode === 200) {
+                    console.log("in 200")
                     return next(new restify.ConflictError('Group Already Created'));
                 }
+                console.log("not in 200")
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
                     console.log("in the cypher request")
                     if(err) throw err;
@@ -404,14 +405,7 @@ module.exports.groups = (function() {
                     // if the document isnt found it will create it from sratch
                     console.log('code ' + response.statusCode)
                     if(body) {
-                        resolve({
-                            response: response,
-                            body: body
-                        })
-                    } else {
-                        resolve({
-                            response: response
-                        })
+                        resolve(response)
                     }
                 })
             });
