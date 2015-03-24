@@ -196,6 +196,7 @@ module.exports.update = (function(){
                 if(body.statusCode !== 200){
                     console.log("runnin param tests")
                     mainBody = JSON.parse(body.body);
+                    console.log(mainBody);
                     if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
                         mainBody.firstname = req.params.firstname;
                     };
