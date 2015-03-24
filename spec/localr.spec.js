@@ -179,7 +179,7 @@
      });
      describe('businesses', function() {
          it('able to create new business', function(done) {
-             var url = 'http://localhost:8080/';
+             var url = 'http://localhost:8080/business';
              // getting the parameters
              // 
              var params = {
