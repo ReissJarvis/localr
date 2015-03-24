@@ -19,19 +19,19 @@ module.exports.update = function(req, res, next, type) {
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
                 url = "http://localhost:5984/users/" + body._rev;
-                if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
+                if(typeof req.params.firstname != "undefined") {
                     body.firstname = req.params.firstname;
                 };
-                if(typeof req.params.surname !== "undefined" && req.params.surname) {
+                if(typeof req.params.surname != "undefined") {
                     body.surname = req.params.surname;
                 };
-                if(typeof req.params.city !== "undefined" && req.params.city) {
+                if(typeof req.params.city != "undefined") {
                     body.city = req.params.city;
                 };
-                if(typeof req.params.dob !== "undefined" && req.params.dob) {
+                if(typeof req.params.dob != "undefined") {
                     body.dob = req.params.dob;
                 };
-                if(typeof req.params.password !== "undefined" && req.params.password) {
+                if(typeof req.params.password != "undefined") {
                     body.password = sha1(req.params.password + salt);
                 };
                 var params = {
