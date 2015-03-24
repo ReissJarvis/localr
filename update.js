@@ -137,7 +137,7 @@ module.exports.update = (function(){
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(body){
-                if(body.statusCode !== 200){
+                if(body.response.statusCode === 200){
                     mainBody = JSON.parse(body.body);
                     if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
                         mainBody.firstname = req.params.firstname;
@@ -193,24 +193,27 @@ module.exports.update = (function(){
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(body){
-                if(body.statusCode !== 200){
+                if(body.response.statusCode === 200){
                     console.log("runnin param tests")
                     mainBody = JSON.parse(body.body);
                     console.log(mainBody);
-                    if(typeof req.params.firstname != "undefined") {
-                        mainBody.firstname = req.params.firstname;
+                    if(typeof req.params.password !== "undefined" && req.params.password) {
+                        mainBody.password = sha1(req.params.password + salt);
                     };
-                    if(typeof req.params.surname != "undefined") {
-                        mainBody.surname = req.params.surname;
+                    if(typeof req.params.address !== "undefined" && req.params.address) {
+                        mainBody.address = req.params.address;
                     };
-                    if(typeof req.params.city != "undefined") {
+                    if(typeof req.params.city !== "undefined" && req.params.city) {
                         mainBody.city = req.params.city;
                     };
-                    if(typeof req.params.dob != "undefined") {
-                        mainBody.dob = req.params.dob;
+                    if(typeof req.params.postcode !== "undefined" && req.params.postcode) {
+                        mainBody.postcode = req.params.postcode;
                     };
-                    if(typeof req.params.password != "undefined") {
-                        mainBody.password = sha1(req.params.password + salt);
+                    if(typeof req.params.longitude !== "undefined" && req.params.longitude) {
+                        mainBody.longitude = req.params.longitude;
+                    };
+                    if(typeof req.params.latitude !== "undefined" && req.params.latitude) {
+                        mainBody.latitude = req.params.latitude;
                     };
                     var params = {
                         uri: url,
