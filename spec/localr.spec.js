@@ -1,7 +1,7 @@
  var request = require('request');
  var neo4j = require('node-neo4j');
  require('../testserver.js').startserver();
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+jasmine.getEnv().defaultTimeoutInterval = 99999;
  describe('Localr API', function() {
      describe('test local connection', function() {
          it('make connection to server', function(done) {
