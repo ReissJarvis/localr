@@ -272,14 +272,16 @@ module.exports.groups = (function() {
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
                     if(err) throw err;
                     console.log('CHECKING COMPETITION')
-                    console.log(result)
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('no competition found'));
                     }
-                    return competitionid = result.data[0]._id
+                    competitionid = result.data[0]._id
+                    return competitionid
                 })
             }).then(function(id) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
+                    console.log('CHECKING GROUP')
+                    console.log(results)
                     if(err) throw err;
                     if(results.data.length == 0) {
                         return results.data
@@ -301,10 +303,12 @@ module.exports.groups = (function() {
                     return node._id
                 });
             }).then(function(nodeid) {
+                console.log("CHECKING RELATIONSHIP")
                 db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
                     if(err) throw err;
+                    console.log(relationship)
                     return relationship._id
                 })
             }).then(function(id) {
@@ -318,6 +322,8 @@ module.exports.groups = (function() {
                     description: 'Created this group'
                 }, function(err, relationship) {
                     if(err) throw err;
+                    console.log('CHECKING USER RELATIONSHIP')
+                    console.log(relationship)
                     return relationship._id
                 })
             }).then(function(id) {
