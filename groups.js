@@ -283,7 +283,8 @@ module.exports.groups = (function() {
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
                 console.log("in first then")
-                if(response.statusCode === 200) {
+                console.log(call)
+                if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
