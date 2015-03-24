@@ -68,7 +68,7 @@ exports.getRoutes = function(server){
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
             failed = true;
         } else {
-            update.update(req, res, next, 'users');
+            update.update.updateUser(req, res, next);
         }
     });
     //Update Business
@@ -79,7 +79,7 @@ exports.getRoutes = function(server){
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
             failed = true;
         } else {
-            update.updateBusiness(req, res, next);
+            update.update.updateBusiness(req, res, next);
         }
     });
     // Delete user

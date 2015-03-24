@@ -129,18 +129,9 @@ module.exports.update = (function(){
             var username = req.params.username,
                 url = 'http://localhost:5984/users/' + username,
                 salt = rand(160, 36),
-                mainBody;
+                mainBody = {};
             if(username !== req.authorization.basic.username){
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
-            };
-        },
-        updateBusiness: function(req, res, next){
-            var businessname = req.params.businessname,
-                url = 'http://localhost:5984/business/' + businessname,
-                salt = rand(160, 36),
-                mainBody = {};
-            if(businessname !== req.authorization.basic.username){
-                return next(new restify.UnauthorizedError("You do not have permission to edit this business!"))
             };
             getRequest(url).catch(function(err) {
                 console.log("get request error")
@@ -168,6 +159,64 @@ module.exports.update = (function(){
                         body: JSON.stringify(mainBody)
                     };
                 }
+                return params;
+            }).then(function(params){
+                putRequest(params).catch(function(err) {
+                    console.log("get request error")
+                    return next(new restify.InternalServerError('Error has occured'));
+                });
+            }).then(function(){
+                res.setHeader('Last-Modified', body.last_modified);
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Accepts', 'PUT');
+                var sendBack = {
+                    update: 'OK',
+                    username: username,
+                    firstname: mainBody.firstname,
+                    surname: mainBody.surname,
+                    city: mainBody.city,
+                    dob: mainBody.dob
+                };
+                res.send(202, sendBack);
+                res.end();
+            });
+        },
+        updateBusiness: function(req, res, next){
+            var businessname = req.params.businessname,
+                url = 'http://localhost:5984/business/' + businessname,
+                salt = rand(160, 36),
+                mainBody = {};
+            if(businessname !== req.authorization.basic.username){
+                return next(new restify.UnauthorizedError("You do not have permission to edit this business!"))
+            };
+            getRequest(url).catch(function(err) {
+                console.log("get request error")
+                return next(new restify.InternalServerError('Error has occured'));
+            }).then(function(body){
+                if(body.statusCode !== 200){
+                    console.log("runnin param tests")
+                    mainBody = JSON.parse(body.body);
+                    if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
+                        mainBody.firstname = req.params.firstname;
+                    };
+                    if(typeof req.params.surname !== "undefined" && req.params.surname) {
+                        mainBody.surname = req.params.surname;
+                    };
+                    if(typeof req.params.city !== "undefined" && req.params.city) {
+                        mainBody.city = req.params.city;
+                    };
+                    if(typeof req.params.dob !== "undefined" && req.params.dob) {
+                        mainBody.dob = req.params.dob;
+                    };
+                    if(typeof req.params.password !== "undefined" && req.params.password) {
+                        mainBody.password = sha1(req.params.password + salt);
+                    };
+                    var params = {
+                        uri: url,
+                        body: JSON.stringify(mainBody)
+                    };
+                }
+                console.log("param tests finished");
                 return params;
             }).then(function(params){
                 putRequest(params).catch(function(err) {
