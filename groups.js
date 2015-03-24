@@ -227,6 +227,7 @@ module.exports.groups = (function() {
                 db.cypherQuery("MATCH (n { name: '" + req.params.groupname + "' })-[r]-() DELETE n, r", function(err, result) {
                     if(err) throw err;
                     console.log('IN DELETE')
+                    console.log(err)
                     console.log(result)
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('No group found'));

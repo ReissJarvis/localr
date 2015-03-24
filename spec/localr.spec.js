@@ -161,8 +161,8 @@
                      authorization: getBasic('testuser2', 'test')
                  }
              };
-             // make a new user
              request.post(params, function(error, response, body) {
+                 //create group
                  var url = 'http://localhost:8080/groups'
                  var doc = {
                      username: "testuser2",
@@ -170,7 +170,6 @@
                      description: "This is a Test Group 2",
                      competition: "freshers"
                  };
-                 // getting the parameters
                  var params = {
                      uri: url,
                      headers: {
@@ -180,6 +179,8 @@
                      body: JSON.stringify(doc)
                  };
                  request.post(params, function(error, response, body) {
+                     //join the group
+                     url = 'http://localhost:8080/groups/join/testgroup2'
                      var params = {
                          uri: url,
                          headers: {
@@ -187,15 +188,12 @@
                          },
                      };
                      request.post(params, function(error, response, body) {
-                         url = 'http://localhost:8080/groups/join/testgroup2'
-                         request.post(params, function(error, response, body) {
-                             expect(response.statusCode).toBe(201);
-                             console.log("join group" + body)
-                             if(error) {
-                                 expect(error.code).not.toBe('ECONNREFUSED');
-                             }
-                             done()
-                         })
+                         expect(response.statusCode).toBe(201);
+                         console.log("join group" + body)
+                         if(error) {
+                             expect(error.code).not.toBe('ECONNREFUSED');
+                         }
+                         done()
                      })
                  })
              });
