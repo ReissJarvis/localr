@@ -18,7 +18,6 @@ module.exports.update = function(req, res, next, type) {
             };
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
-                url = "http://localhost:5984/users/" + body._rev;
                 if(typeof req.params.firstname != "undefined") {
                     body.firstname = req.params.firstname;
                 };
