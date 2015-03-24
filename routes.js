@@ -84,13 +84,13 @@ exports.getRoutes = function(server){
     });
     // Delete user
     server.del({
-        path: users + "/:username";
+        path: users + "/:username"
     }, function(req, res, next) {
         del.del.deleteUser(req, res, next);
     });
     // Delete business
     server.del({
-        path: business + "/:businessname";
+        path: business + "/:businessname"
     }, function(req, res, next) {
         del.del.deletebusiness(req, res, next);
     });
@@ -99,11 +99,16 @@ exports.getRoutes = function(server){
     }, function(req, res, next) {
         groups.groups.createGroup(req, res, next);
     });
+    server.del({
+        path: group + "/:groupname"
+    }, function(req, res, next) {
+        groups.groups.deleteGroup(req, res, next);
+    });
     //?username=username&groupname=test21
     server.get({
         path: group +"/:groupname"
     }, function(req, res, next) {
-        groups.showgroup(req, res, next);
+        groups.groups.showgroup(req, res, next);
     });
     //?username=username&competition=freshers
     server.get({
@@ -113,10 +118,10 @@ exports.getRoutes = function(server){
         groups.showcompetitiongroup(req, res, next);
     });
     //?username=username&groupname=test21
-    server.put({
-        path: users + "/joingroup"
+    server.post({
+        path: group + "/join/:groupname"
     }, function(req, res, next) {
-        groups.joinGroup(req, res, next);
+        groups.groups.joinGroup(req, res, next);
     });
     //Create Offer
     server.post({

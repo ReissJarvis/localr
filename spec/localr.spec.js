@@ -135,59 +135,85 @@
              }, ['competition'], function(err, node) {
                  if(err) throw err;
                  request.post(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(201);
-                 if(error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 db.cypherQuery(" MATCH (n:Group) WHERE n.name ='testgroup' RETURN n", function(err, Results) {
-                     if(err) throw err;
-                     expect(Results.data[0].name).toBe('testgroup');
-                     db.cypherQuery(" MATCH n-[r]->m RETURN n,r,m", function(err, Results) {
+                     expect(response.statusCode).toBe(201);
+                     if(error) {
+                         expect(error.code).not.toBe('ECONNREFUSED');
+                     }
+                     db.cypherQuery(" MATCH (n:Group) WHERE n.name ='testgroup' RETURN n", function(err, Results) {
                          if(err) throw err;
-                         console.log("getting relationships")
-                         console.log(Results)
-                         done();
+                         expect(Results.data[0].name).toBe('testgroup');
+                         db.cypherQuery(" MATCH n-[r]->m RETURN n,r,m", function(err, Results) {
+                             if(err) throw err;
+                             console.log("getting relationships")
+                             console.log(Results)
+                             done();
+                         })
                      })
                  })
-             })
              });
-             
          })
          it("be able to join a group", function(done) {
-             var url = 'http://localhost:8080/users/groups/testgroup';
-             // getting the parameters
+             var url = 'http://localhost:8080/users';
+             // create new user first
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
+                     authorization: getBasic('testuser2', 'test')
+                 }
              };
-             request.put(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
+             // make a new group
+             request.post(params, function(error, response, body) {
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
-                 done();
+                 var db = new neo4j('http://localhost:7474');
+                 var url = 'http://localhost:8080/groups'
+                 var doc = {
+                     username: "testuser2",
+                     groupname: "testgroup2",
+                     description: "This is a Test Group 2",
+                     competition: "freshers"
+                 };
+                 // getting the parameters
+                 var params = {
+                     uri: url,
+                     headers: {
+                         authorization: getBasic('testuser2', 'test'),
+                         "content-type": "application/json"
+                     },
+                     body: JSON.stringify(doc)
+                 };
+                 // create the competition node
+                 db.insertNode({
+                     name: "freshers"
+                 }, ['competition'], function(err, node) {
+                     if(err) throw err;
+                      var params = {
+                     uri: url,
+                     headers: {
+                         authorization: getBasic('testuser', 'test'),
+                     },
+                 };
+                     request.post(params, function(error, response, body) {
+                         url = 'http://localhost:8080/groups/join/testgroup2'
+                         request.post(params, function(error, response, body) {
+                             expect(response.statusCode).toBe(201);
+                             console.log("join group" + body)
+                             if(error) {
+                                 expect(error.code).not.toBe('ECONNREFUSED');
+                             }
+                             // join the group
+                         })
+                     })
+                 });
              })
          })
          it("be able to delete a group", function(done) {
-             var url = 'http://localhost:8080/users/groups';
-             var doc = {
-                 username: "testuser",
-                 groupname: "testgroup",
-                 description: "testgroup",
-                 competition: "freshers"
-             };
+             var url = 'http://localhost:8080/groups/testgroup';
              // getting the parameters
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-                 body: JSON.stringify(doc)
-             };
-             request.del(params, function(error, response, body) {
+             request.del(url, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(response.body).toBe("group deleted")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
