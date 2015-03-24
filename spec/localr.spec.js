@@ -110,14 +110,14 @@
      })
      describe("groups", function() {
          it("be able to create a group", function(done) {
-             var url = 'http://localhost:8080/groups';
+             var url = 'http://localhost:8080/groups
              var doc = {
                  username: "testuser",
                  groupname: "testgroup",
                  description: "This is a Test Group",
                  competition: "freshers"
              };
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -134,6 +134,8 @@
                  done();
              })
          })
+         
+         
          it("be able to join a group", function(done) {
              var url = 'http://localhost:8080/users/groups/testgroup';
              // getting params
