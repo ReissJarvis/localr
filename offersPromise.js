@@ -171,10 +171,10 @@ module.exports.offers = (function() {
             }).then(function() {
                 console.log('checking points')
                 //Checks to see if user has enough points
-                if((user.points - cost) < 0) {
-                    console.log("You don't have enough points sunshine - come back another day :D")
-                    return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
-                }
+//                 if((user.points - cost) < 0) {
+//                     console.log("You don't have enough points sunshine - come back another day :D")
+//                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
+//                 }
                 console.log('checking points')
             }).then(function() {
                 //Get users transaction and points
