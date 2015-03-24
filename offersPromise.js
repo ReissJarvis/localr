@@ -133,13 +133,12 @@ module.exports.offers = (function() {
             var offerUrl = 'http://localhost:5984/offers/' + offerTitle;
             var userUrl = 'http://localhost:5984/users/' + username;
             //Create the offer variables which are used in promises
-            var offer, user, cost, businessName, totalPoints;
+            var offer, cost, businessName, totalPoints;
+            var user = {};
             //Build the transaction variables
             var d = new Date(),
                 date = d.toUTCString(),
                 txID = uuid.v1();
-            //Get back to here
-            var that = this;
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
@@ -167,20 +166,23 @@ module.exports.offers = (function() {
                         };
                         if(response.statusCode === 200) {
                             user = JSON.parse(doc);
-                            console.log(user)
                         }
                     })
                 }
             }).then(function() {
+                console.log('checking points')
                 //Checks to see if user has enough points
                 if((user.points - cost) < 0) {
                     console.log("You don't have enough points sunshine - come back another day :D")
                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
                 }
+                console.log('checking points 2')
             }).then(function() {
                 //Get users transaction and points
                 user.points = user.points - cost;
+                console.log(user.points);
                 totalPoints = user.points;
+                console.log(totalPoints);
                 user.transactions.push({
                     transactionid: txID,
                     date: date,
