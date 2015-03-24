@@ -18,12 +18,15 @@ module.exports.offers = (function() {
             var offertitle = req.params.title + ' - ' + businessName;
             var offerCost = req.params.cost;
             var nodeid = 0;
+            //Build date and time
             var d = new Date();
             var date = d.toUTCString();
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
+            //Make a new promise by getting the URL
             getRequest(url).
             catch(function(err) {
+                //If there is a error getting the document from within the promise
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
@@ -78,7 +81,7 @@ module.exports.offers = (function() {
                         Offer_Description: description,
                         Date_Added: date
                     }
-                    res.send(201,sendBack);
+                    res.send(201, sendBack);
                     res.end();
                 })
             })
@@ -121,7 +124,112 @@ module.exports.offers = (function() {
                 }
             })
         },
-        redeemOffer: function(req, res, next) {},
+        redeemOffer: function(req, res, next) {
+            console.log('REDEEM OFFER!');
+            //Set username from auth header
+            var username = req.authorization.basic.username;
+            //Get offerTitle from params
+            var offerTitle = req.params.offerTitle;
+            var offerUrl = 'http://localhost:5984/offers/' + offerTitle;
+            var userUrl = 'http://localhost:5984/users/' + username;
+            //Create the offer variables which are used in promises
+            var offer, user, cost, businessName, totalPoints;
+            //Build the transaction variables
+            var d = new Date(),
+                date = d.toUTCString(),
+                txID = uuid.v1();
+            //Check to make sure offer title has been sent in the body params
+            if(typeof offerTitle == 'undefined') {
+                return next(new restify.NotAcceptableError('Please supply an offer title'));
+            };
+            //Get the offer URL
+            getRequest(offerUrl).
+            catch(function(err) {
+                console.log("GET request error on couchDB document")
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
+            }).then(function(call) {
+                //If offer not found
+                if(response.statusCode === 404) {
+                    return next(new restify.NotFoundError('Offer Not Found'));
+                };
+                if(response.statusCode === 200) {
+                    //Set offer variable as whats returned from the GET Offer
+                    var offer = JSON.parse(call.body);
+                    businessName = offer.businessname;
+                    cost = offer.cost;
+                    //Take some values from the offer
+                    var businessName = offer.businessname;
+                    var cost = offer.offer_cost;
+                    //Get the users document so we can add the transaction
+                }
+                request.get(userUrl, function(err, response, doc) {
+                    //If no user exists
+                    if(response.statusCode === 404) {
+                        return next(new restify.NotFoundError('User Not Found'));
+                    };
+                    if(response.statusCode === 200) {
+                        user = JSON.parse(doc);
+                    }
+                })
+            }).then(function() {
+                if((user.points - cost) < 0) {
+                    console.log("You don't have enough points sunshine - come back another day :D")
+                    return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
+                }
+            }).then(function() {
+                //Get users transaction and points
+                user.points = user.points - cost;
+                totalPoints = user.points;
+                user.transactions.push({
+                    transactionid: txID,
+                    date: date,
+                    amount_of_points: (cost - (cost * 2)),
+                    business_redeemed: businessName
+                })
+                console.log(username + " now has " + totalPoints + " points");
+                //Build the object for sending to couchDB
+                var userParams = {
+                    uri: userUrl,
+                    body: JSON.stringify(user)
+                };
+                //Add the transaction to couchDB for user
+                request.put(userParams, function(err, response, body) {
+                    if(err) {
+                        return next(new restify.InternalServerError('Cant Update users CouchDB document'));
+                    }
+                    console.log("Added new transaction for" + username)
+                })
+            }).then(function() {
+                offer.redeems.push({
+                    transactionid: txID,
+                    date: date,
+                    amount_of_points: (cost - (cost * 2)),
+                    user_redeemed: username
+                })
+                var redeemParams = {
+                    uri: offerUrl,
+                    body: JSON.stringify(offer)
+                };
+                request.put(redeemParams, function(err, response, body) {
+                    if(err) {
+                        return next(new restify.InternalServerError('Cant Update CouchDB document'));
+                    }
+                    // document has been inserted into database
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'PUT');
+                    var sendBack = {
+                        Redeem: 'OK',
+                        username: username,
+                        business: businessName,
+                        points_taken: cost,
+                        total_points: totalPoints
+                    }
+                    res.send(202, sendBack);
+                    res.end();
+                })
+            })
+        },
         getRequest: function(url) {
             // set up initial get request. 
             return new Promise(function(resolve, reject) {
@@ -148,9 +256,6 @@ module.exports.offers = (function() {
                     })
                 })
             });
-        },
-        nodequery: function(query) {
-            return new Promise(function(resolve, reject) {})
         }
     }
 })();
