@@ -49,7 +49,7 @@ function register(req, res, next, type) {
                     var doc = {
                         date_joined: date,
                         last_modified: date,
-                        password: password,]
+                        password: password,
                         salt: salt,
                         points: 0,
                         transactions: [],
