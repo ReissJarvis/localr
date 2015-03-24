@@ -36,8 +36,7 @@ module.exports.update = function(req, res, next, type) {
                 var params = {
                     uri: url,
                     body: JSON.stringify(body)
-                },
-                    sentData = body;
+                };
                 request.put(params, function(err, response, content) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant Update CouchDB document'));
@@ -91,7 +90,7 @@ module.exports.update = function(req, res, next, type) {
                 var params = {
                     uri: url,
                     body: JSON.stringify(body)
-                },
+                };
                 request.put(params, function(err, response, content) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant Update CouchDB document'));
