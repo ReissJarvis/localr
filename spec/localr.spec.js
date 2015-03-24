@@ -205,7 +205,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
          // getting the parameters
          request.del(url, function(error, response, body) {
              expect(response.statusCode).toBe(200);
-             expect(response.body).toBe("group deleted")
+             expect(response.body).toBe('group deleted')
              if(error) {
                  expect(error.code).not.toBe('ECONNREFUSED');
              }
