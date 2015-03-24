@@ -226,7 +226,8 @@ module.exports.groups = (function() {
             return new Promise(function(resolve, reject) {
                 db.cypherQuery("MATCH (n { name: '" + req.params.groupname + "' })-[r]-() DELETE n, r", function(err, result) {
                     if(err) throw err;
-                    console.log('CHECKING COMPETITION')
+                    console.log('IN DELETE')
+                    console.log(result)
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('No group found'));
                     }
@@ -234,7 +235,7 @@ module.exports.groups = (function() {
                 })
             }).then(function() {
                 return new Promise(function(resolve, reject) {
-                    url = url = 'http://localhost:5984/groups/' + req.params.groupname
+                    url = 'http://localhost:5984/groups/' + req.params.groupname
                     request.get(url, function(err, response, body) {
                         if(err) reject(err);
                         // if the document isnt found it will create it from sratch
@@ -259,7 +260,7 @@ module.exports.groups = (function() {
             return new Promise(function(resolve, reject) {
                 var db = new neo4j('http://localhost:7474');
                 console.log('PUT');
-                console.log('JOIN GROUP: ' + req.params.username + ' ' + req.params.groupname)
+                console.log('JOIN GROUP: ' + req.authorization.basic.username + ' ' + req.params.groupname)
                 var url = 'http://localhost:5984/users/' + req.authorization.basic.username;
                 var groupurl = 'http://localhost:5984/groups/' + req.params.groupname;
                 var groupname = req.params.groupname,
@@ -298,7 +299,7 @@ module.exports.groups = (function() {
                         datejoined: date,
                     }, function(err, relationship) {
                         if(err) throw err;
-                        res.send("relationship created @ " + date);
+                        res.send(201,"relationship created @ " + date);
                         console.log("sent data");
                         res.end();
                     });
