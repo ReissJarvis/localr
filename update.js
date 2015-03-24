@@ -52,7 +52,7 @@ module.exports.update = function(req, res, next, type) {
                             city: body.city,
                             dob: body.dob
                         };
-                    res.send(200, sendBack);
+                    res.send(202, sendBack);
                     res.end();
                 });
             };
@@ -68,7 +68,7 @@ module.exports.update = function(req, res, next, type) {
             };
             if(response.statusCode === 200) {
                 body = JSON.parse(body);
-                url = "http://localhost:5984/business/" + body._rev;
+                url = "http://localhost:5984/business/" + businessname;
                 if(typeof req.params.password !== "undefined" && req.params.password) {
                     body.password = sha1(req.params.password + salt);
                 };
@@ -107,7 +107,7 @@ module.exports.update = function(req, res, next, type) {
                             longitude: body.longitude,
                             latitude: body.latitude
                         };
-                    res.send(200, sendBack);
+                    res.send(202, sendBack);
                     res.end();
                 });
             };
