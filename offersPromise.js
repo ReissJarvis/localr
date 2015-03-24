@@ -133,7 +133,8 @@ module.exports.offers = (function() {
             var offerUrl = 'http://localhost:5984/offers/' + offerTitle;
             var userUrl = 'http://localhost:5984/users/' + username;
             //Create the offer variables which are used in promises
-            var offer, user, cost, businessName, totalPoints;
+            var offer, cost, businessName, totalPoints;
+            var user = {};
             //Build the transaction variables
             var d = new Date(),
                 date = d.toUTCString(),
@@ -171,11 +172,11 @@ module.exports.offers = (function() {
             }).then(function() {
                 console.log('checking points')
                 //Checks to see if user has enough points
-//                 if((user.points - cost) < 0) {
-//                     console.log("You don't have enough points sunshine - come back another day :D")
-//                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
-//                 }
-                console.log('checking points')
+                if((user.points - cost) < 0) {
+                    console.log("You don't have enough points sunshine - come back another day :D")
+                    return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
+                }
+                console.log('checking points 2')
             }).then(function() {
                 //Get users transaction and points
                 user.points = user.points - cost;
