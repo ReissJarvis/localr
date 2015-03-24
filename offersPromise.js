@@ -18,7 +18,6 @@ module.exports.offers = (function() {
             var offertitle = req.params.title + ' - ' + businessName;
             var offerCost = req.params.cost;
             var nodeid = 0;
-            var doc = {};
             var d = new Date();
             var date = d.toUTCString();
             //URL for when offer will be stored in CouchDB
@@ -46,19 +45,21 @@ module.exports.offers = (function() {
                         // Output node properties.
                         console.log('New neo4j node created with name = ' + node.name);
                         nodeid = node._id
-                        doc = {
-                            date_created: date,
-                            last_modified: date,
-                            offer_title: offertitle,
-                            offer_description: description,
-                            offer_cost: offerCost,
-                            businessname: businessName,
-                            redeems: [],
-                            nodeid: nodeid
-                        };
                     })
+                    var doc = {
+                        date_created: date,
+                        last_modified: date,
+                        offer_title: offertitle,
+                        offer_description: description,
+                        offer_cost: offerCost,
+                        businessname: businessName,
+                        redeems: [],
+                        nodeid: nodeid
+                    };
+                    return doc
                 }
-            }).then(function() {
+            }).then(function(doc) {
+                console.log(doc)
                 var params = {
                     uri: url,
                     body: JSON.stringify(doc)
