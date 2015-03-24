@@ -207,14 +207,13 @@ module.exports.joinGroup = function(req, res, next) {
     var topres = res
     //check user exists
     request.get(url, function(err, response, body) {
-        console.log("request started")
         // if user is not found will send 404 error
         if(response.statusCode === 404) {
             return next(new restify.BadRequestError('User Not Found'))
         };
         if(response.statusCode === 200) {
             body = JSON.parse(body);
-            console.log('set user id')
+
             userid = body.nodeid;
             //check group exists
             db.cypherQuery("match n where n.name='" + groupname + "' return n", function(err, Results) {
@@ -232,7 +231,6 @@ module.exports.joinGroup = function(req, res, next) {
                         datejoined: date,
                     }, function(err, relationship) {
                         if(err) throw err;
-                        console.log("set user");
                         res.send("relationship created @ " + date);
                         console.log("sent data");
                         res.end();
@@ -254,7 +252,7 @@ module.exports.groups = (function() {
         db = new neo4j('http://localhost:7474');
     return {
         createGroup: function(req, res, next) {
-            console.log("group create started")
+ 
             console.log("POST " + req.params.groupname)
             url = 'http://localhost:5984/groups/' + req.params.groupname
             var competition = req.params.competition;
@@ -268,14 +266,10 @@ module.exports.groups = (function() {
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
-                console.log("in first then")
                 if(call.statusCode === 200) {
-                    console.log("in 200")
                     return next(new restify.ConflictError('Group Already Created'));
                 }
-                console.log("not in 200")
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
-                    console.log("in the cypher request")
                     if(err) throw err;
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('no competition found'));
@@ -284,7 +278,6 @@ module.exports.groups = (function() {
                 })
             }).then(function(id) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
-                    console.log("in next cypher request")
                     if(err) throw err;
                     if(results.data.length == 0) {
                         return results.data
@@ -294,7 +287,6 @@ module.exports.groups = (function() {
                     }
                 })
             }).then(function(data) {
-                console.log("db insert")
                 db.insertNode({
                     name: groupname,
                     description: description
@@ -307,28 +299,16 @@ module.exports.groups = (function() {
                     return node._id
                 });
             }).then(function(nodeid) {
-                console.log("insert relationship")
                 db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
                     if(err) throw err;
-                    console.log('relationship made')
-                    // Output relationship id.
-                    console.log(relationship._id);
-                    // Output relationship start_node_id.
-                    console.log(relationship._start);
-                    // Output relationship end_node_id.
-                    console.log(relationship._end);
                     return relationship._id
                 })
             }).then(function(id) {
                 db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
                     if(err) throw err;
-                    console.log('name = ' + Results.data[0])
-                    console.log('user = ' + Results.data[0]._id)
                     userid = Results.data[0]._id
-                    console.log('userid =' + userid)
-                    console.log(groupid)
                     return userid
                 })
             }).then(function(id) {
@@ -336,13 +316,6 @@ module.exports.groups = (function() {
                     description: 'Created this group'
                 }, function(err, relationship) {
                     if(err) throw err;
-                    console.log('relationship made')
-                    // Output relationship id.
-                    console.log(relationship._id);
-                    // Output relationship start_node_id.
-                    console.log(relationship._start);
-                    // Output relationship end_node_id.
-                    console.log(relationship._end);
                     return relationship._id
                 })
             }).then(function(id) {

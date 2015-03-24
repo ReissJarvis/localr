@@ -139,6 +139,7 @@ var neo4j = require('node-neo4j');
                      expect(Results.data[0].name).toBe('testgroup');
                        db.cypherQuery(" MATCH n RETURN n", function(err, Results) {
                     if(err) throw err;
+                     console.log("getting relationships")
                      console.log(Results)
                     done();
                 })
