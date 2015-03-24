@@ -266,7 +266,8 @@ module.exports.groups = (function() {
         description = "",
         groupid = 0,
         userid = 0,
-        competitionid = "";
+        competitionid = "",
+        db = new neo4j('http://localhost:7474');
     return {
         createGroup: function(req, res, next) {
             console.log("group create started")
