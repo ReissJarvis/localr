@@ -324,7 +324,7 @@ module.exports.groups = (function() {
                 });
             }).then(function(nodeid) {
                 console.log("insert relationship")
-                db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
+                db.insertRelationship(nodeid, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
                     if(err) throw err;
