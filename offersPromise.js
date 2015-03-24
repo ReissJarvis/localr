@@ -161,13 +161,13 @@ module.exports.offers = (function() {
                     businessName = offer.businessname;
                     cost = offer.cost;
                     request.get(userUrl, function(err, response, doc) {
-                        console.log(doc)
                         //If no user exists
                         if(response.statusCode === 404) {
                             return next(new restify.NotFoundError('User Not Found'));
                         };
                         if(response.statusCode === 200) {
-                            that.user = JSON.parse(doc);
+                            user = JSON.parse(doc);
+                            console.log(user)
                         }
                     })
                 }
