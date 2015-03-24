@@ -149,10 +149,10 @@ module.exports.offers = (function() {
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
                 //If offer not found
-                if(response.statusCode === 404) {
+                if(call.response.statusCode === 404) {
                     return next(new restify.NotFoundError('Offer Not Found'));
                 };
-                if(response.statusCode === 200) {
+                if(call.response.statusCode === 200) {
                     //Set offer variable as whats returned from the GET Offer
                     offer = JSON.parse(call.body);
                     //Take some values from the offer
