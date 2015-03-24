@@ -84,13 +84,13 @@ exports.getRoutes = function(server){
     });
     // Delete user
     server.del({
-        path: users + "/:username";
+        path: users + "/:username"
     }, function(req, res, next) {
         del.del.deleteUser(req, res, next);
     });
     // Delete business
     server.del({
-        path: business + "/:businessname";
+        path: business + "/:businessname"
     }, function(req, res, next) {
         del.del.deletebusiness(req, res, next);
     });
