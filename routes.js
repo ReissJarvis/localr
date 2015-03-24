@@ -134,6 +134,6 @@ exports.getRoutes = function(server){
     server.put({
         path: business + offers + '/redeem'
     }, function(req, res, next) {
-        offer.redeemOffer(req, res, next);
+        offer.offers.redeemOffer(req, res, next);
     }); 
  }
