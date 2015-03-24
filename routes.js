@@ -1,6 +1,6 @@
 var checkin = require('./checkin.js'),
     getDetails = require('./getDetails.js'),
-    offer = require('./offers.js'),
+    offer = require('./offersPromise.js'),
     register = require('./register.js'),
     del = require('./del.js'),
     groups = require('./groups.js'),
@@ -122,13 +122,13 @@ exports.getRoutes = function(server){
     server.post({
         path: business + offers
     }, function(req, res, next) {
-        offer.addOffer(req, res, next);
+        offer.offers.addOffer(req, res, next);
     });
     //Get all Offers
     server.get({
         path: business + offers + '/:businessname'
     }, function(req, res, next) {
-        offer.getAllOffers(req, res, next);
+        offer.offers.getAllOffers(req, res, next);
     });
     //Redeem Offer
     server.put({

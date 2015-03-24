@@ -196,6 +196,7 @@ module.exports.update = (function(){
                 if(body.statusCode !== 200){
                     console.log("runnin param tests")
                     mainBody = JSON.parse(body.body);
+                    console.log(mainBody);
                     if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
                         mainBody.firstname = req.params.firstname;
                     };
@@ -219,44 +220,31 @@ module.exports.update = (function(){
                 console.log("param tests finished");
                 return params;
             }).then(function(params){
-                putRequest(params).catch(function(err) {
-                    console.log("get request error")
-                    return next(new restify.InternalServerError('Error has occured'));
+                request.put(params, function(err, response, content) {
+                    if(err) {
+                        return next(new restify.InternalServerError('Cant Update CouchDB document'));
+                    }
+                    res.setHeader('Last-Modified', mainBody.last_modified);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'PUT');
+                    var sendBack = {
+                        Update: 'OK',
+                        businessname: businessname,
+                        address: mainBody.address,
+                        city: mainBody.surname,
+                        postcode: mainBody.postcode,
+                        longitude: mainBody.longitude,
+                        latitude: mainBody.latitude
+                    };
+                    res.send(202, sendBack);
+                    res.end();
                 });
-            }).then(function(){
-                res.setHeader('Last-Modified', mainBody.last_modified);
-                res.setHeader('Content-Type', 'application/json');
-                res.setHeader('Accepts', 'PUT');
-                var sendBack = {
-                    Update: 'OK',
-                    businessname: businessname,
-                    address: mainBody.address,
-                    city: mainBody.surname,
-                    postcode: mainBody.postcode,
-                    longitude: mainBody.longitude,
-                    latitude: mainBody.latitude
-                };
-                res.send(202, sendBack);
-                res.end();
             });
         },
         getRequest: function(url) {
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
-                    console.log('code' + response.statusCode)
-                    resolve({
-                        response: response,
-                        body: body
-                    })
-                })
-            });
-        },
-        putRequest: function(params) {
-            return new Promise(function(resolve, reject) {
-                request.put(params, function(err, response, body) {
-                    if(err) reject(err);
-                    // if the document isnt found it will create it from sratch
                     console.log('code' + response.statusCode)
                     resolve({
                         response: response,
