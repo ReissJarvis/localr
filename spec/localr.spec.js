@@ -122,7 +122,7 @@
                  uri: url,
                  headers: {
                      authorization: getBasic('testuser', 'test'),
-                     "content-type":"application/json"
+                     "content-type": "application/json"
                  },
                  body: JSON.stringify(doc)
              };
@@ -134,8 +134,6 @@
                  done();
              })
          })
-         
-         
          it("be able to join a group", function(done) {
              var url = 'http://localhost:8080/users/groups/testgroup';
              // getting params
@@ -188,7 +186,7 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testBusinesses', 'test')
                  },
              };
              request.put(params, function(error, response, body) {
@@ -288,7 +286,7 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testBusiness', 'test')
                  },
              };
              request.del(params, function(error, response, body) {
@@ -301,7 +299,7 @@
              })
          })
          it('delete offers', function(done) {
-          var url = 'http://localhost:8080/business/offers';
+             var url = 'http://localhost:8080/business/offers';
              // getting the parameters
              // 
              var params = {
@@ -316,10 +314,10 @@
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
-                  })
+             })
          })
          it('delete group', function(done) {
-         var url = 'http://localhost:8080/business';
+             var url = 'http://localhost:8080/business';
              // getting the parameters
              // 
              var params = {
@@ -334,9 +332,10 @@
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
-                  })
+             })
          })
- });
+     });
+ })
  getBasic = function(username, password) {
      return "Basic " + new Buffer(username + ":" + password).toString('base64')
  };
