@@ -148,7 +148,6 @@ module.exports.offers = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
-                console.log(call.body)
                 //If offer not found
                 if(response.statusCode === 404) {
                     return next(new restify.NotFoundError('Offer Not Found'));
@@ -170,6 +169,8 @@ module.exports.offers = (function() {
                     }
                 })
             }).then(function() {
+                console.log('user' + user)
+                console.log('offer' + offer)
                 if((user.points - cost) < 0) {
                     console.log("You don't have enough points sunshine - come back another day :D")
                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
