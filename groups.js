@@ -7,8 +7,7 @@ var validateHTTP = require("./validateHTTP.js"),
     neo4j = require('node-neo4j'),
     Promise = require('promise');
 module.exports.creategroup = function(req, res, next) {
-    if((validateHTTP.validateHTTP(req, res, next, 'users')) === true) {
-        console.log(req);
+            console.log(req.params);
             console.log("group create started")
             console.log("POST "  + req.params.groupname )
             var url = 'http://localhost:5984/groups/' + req.params.groupname
@@ -120,13 +119,12 @@ module.exports.creategroup = function(req, res, next) {
                     // document has been inserted into database
                     body = JSON.parse(body);
                     console.log('about to sent res')
-                    res.send({
+                    res.send(201, {
                         Group: req.params
                     });
                     res.end();
                 });
             })
-    }
 };
 
 
