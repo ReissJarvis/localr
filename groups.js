@@ -237,14 +237,7 @@ module.exports.joinGroup = function(req, res, next) {
     });
 };
 // rebuilding with promises and closures
-module.exports.groups = (function(req, res, next) {
-    
-    console.log("top of closure")
-    console.log();
-    console.log(req.params);
-    console.log();
-    console.log(req.body);
-    console.log();
+module.exports.groups = (function() {
     var url = "",
         competition = "",
         groupname = "",
@@ -254,6 +247,7 @@ module.exports.groups = (function(req, res, next) {
         competitionid = "";
     return {
         createGroup: function(req, res, next) {
+            console.log(req.params)
             console.log("group create started")
             console.log("POST "  + req.params.groupname )
             url = 'http://localhost:5984/groups/' + req.params.groupname
