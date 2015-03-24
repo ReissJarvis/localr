@@ -183,7 +183,7 @@ module.exports.del = (function(){
             if(username !== req.authorization.basic.username){
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
-            getRequest(url)catch(function(err) {
+            getRequest(url).catch(function(err) {
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(body){
