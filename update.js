@@ -194,6 +194,7 @@ module.exports.update = (function(){
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(body){
                 if(body.statusCode !== 200){
+                    console.log("runnin param tests")
                     mainBody = JSON.parse(body.body);
                     if(typeof req.params.firstname !== "undefined" && req.params.firstname) {
                         mainBody.firstname = req.params.firstname;
@@ -215,6 +216,7 @@ module.exports.update = (function(){
                         body: JSON.stringify(mainBody)
                     };
                 }
+                console.log("param tests finished");
                 return params;
             }).then(function(params){
                 putRequest(params).catch(function(err) {
