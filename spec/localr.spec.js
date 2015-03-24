@@ -111,6 +111,7 @@
      })
      describe("groups", function() {
          it("be able to create a group", function(done) {
+             var db = new neo4j('http://localhost:7474');
              var url = 'http://localhost:8080/groups'
              var doc = {
                  username: "testuser",

@@ -391,7 +391,7 @@ module.exports.groups = (function() {
                     body = JSON.parse(body);
                     console.log('about to sent res')
                     res.send(201, {
-                        Group: req.params
+                        Group: params
                     });
                     res.end();
                 });
