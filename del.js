@@ -47,7 +47,6 @@ module.exports.del = (function(){
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
             getRequest(url).catch(function(err) {
-                console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(body){
                 if(body.response.statusCode === 200){
