@@ -160,6 +160,7 @@ module.exports.offers = (function() {
                     cost = offer.cost;
                 }
                 request.get(userUrl, function(err, response, doc) {
+                    console.log(doc)
                     //If no user exists
                     if(response.statusCode === 404) {
                         return next(new restify.NotFoundError('User Not Found'));
