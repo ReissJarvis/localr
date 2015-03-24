@@ -337,7 +337,7 @@ module.exports.groups = (function() {
                     return userid
                 })
             }).then(function(id) {
-                db.insertRelationship(userid, groupid, 'IN_GROUP', {
+                db.insertRelationship(id, groupid, 'IN_GROUP', {
                     description: 'Created this group'
                 }, function(err, relationship) {
                     if(err) throw err;
@@ -348,8 +348,9 @@ module.exports.groups = (function() {
                     console.log(relationship._start);
                     // Output relationship end_node_id.
                     console.log(relationship._end);
+                    return relationship._id
                 })
-            }).then(function() {
+            }).then(function(id) {
                 var d = new Date(),
                     date = d.toUTCString();
                 console.log(date);
