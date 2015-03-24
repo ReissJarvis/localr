@@ -99,7 +99,11 @@ exports.getRoutes = function(server){
     }, function(req, res, next) {
         console.log("IN THE ROUTE")
         console.log(req)
-        console.log("OUT OF THE ROUTE")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("")
+        console.log("body " + req.body)
         groups.groups.createGroup(req, res, next);
     });
     //?username=username&groupname=test21

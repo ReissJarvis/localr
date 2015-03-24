@@ -80,6 +80,7 @@
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(response.body).toBe("{'Points added':'10'}")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
@@ -124,6 +125,7 @@
                  },
                  body: JSON.stringify(doc)
              };
+             console.log('jasmine params: ' + params)
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  if(error) {
