@@ -271,6 +271,8 @@ module.exports.groups = (function() {
                 }
                 db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
                     if(err) throw err;
+                    console.log('CHECKING COMPETITION')
+                    console.log(result)
                     if(result.data.length == 0) {
                         return next(new restify.InternalServerError('no competition found'));
                     }
@@ -381,8 +383,7 @@ module.exports.groups = (function() {
                 })
             });
         },
-        nodequery: function(query) {
-            return new Promise(function(resolve, reject) {})
+        deletegroup : function(req, res, next) {
         }
     }
 })();
