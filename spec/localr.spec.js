@@ -4,7 +4,7 @@
      describe('test local connection', function() {
          it('make connection to server', function(done) {
              var url = 'http://localhost:8080/users/test';
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -27,6 +27,7 @@
          describe('create the user', function() {
              it("be able to create a user", function(done) {
                  var url = 'http://localhost:8080/users';
+                 // getting the parameters
                  var params = {
                      uri: url,
                      headers: {
@@ -46,7 +47,7 @@
              })
              it("be not able to create duplicate user", function(done) {
                  var url = 'http://localhost:8080/users';
-                 // getting params
+                 // getting the parameters
                  var params = {
                      uri: url,
                      headers: {
@@ -70,7 +71,7 @@
                  username: "testuser",
                  points: 10
              };
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -89,7 +90,7 @@
          })
          it("check points have been added", function(done) {
              var url = 'http://localhost:8080/users/testuser';
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -136,8 +137,7 @@
          })
          it("be able to join a group", function(done) {
              var url = 'http://localhost:8080/users/groups/testgroup';
-             // getting params
-             // 
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -160,8 +160,7 @@
                  description: "testgroup",
                  competition: "freshers"
              };
-             // getting params
-             // 
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -182,7 +181,6 @@
          it('able to create new business', function(done) {
              var url = 'http://localhost:8080/business';
              // getting the parameters
-             // 
              var params = {
                  uri: url,
                  headers: {
@@ -207,7 +205,7 @@
                  title: 'test offer',
                  cost: 50
              }
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -225,7 +223,7 @@
          })
          it("Be able to get the latest offers", function(done) {
              var url = 'http://localhost:8080/business/offers/all';
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -242,7 +240,7 @@
          })
          it("be able to get a businesses offers", function(done) {
              var url = 'http://localhost:8080/business/offers/testbusiness';
-             // getting params
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -262,8 +260,7 @@
      describe('delete all', function() {
          it("be able to delete the user", function(done) {
              var url = 'http://localhost:8080/users';
-             // getting params
-             // 
+             // getting the parameters
              var params = {
                  uri: url,
                  headers: {
@@ -282,7 +279,6 @@
          it('be able to delete the business', function(done) {
              var url = 'http://localhost:8080/business';
              // getting the parameters
-             // 
              var params = {
                  uri: url,
                  headers: {
@@ -301,7 +297,6 @@
          it('delete offers', function(done) {
              var url = 'http://localhost:8080/business/offers';
              // getting the parameters
-             // 
              var params = {
                  uri: url,
                  headers: {
@@ -319,7 +314,6 @@
          it('delete group', function(done) {
              var url = 'http://localhost:8080/business';
              // getting the parameters
-             // 
              var params = {
                  uri: url,
                  headers: {
