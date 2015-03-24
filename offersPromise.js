@@ -148,19 +148,17 @@ module.exports.offers = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(call) {
+                console.log(call.body)
                 //If offer not found
                 if(response.statusCode === 404) {
                     return next(new restify.NotFoundError('Offer Not Found'));
                 };
                 if(response.statusCode === 200) {
                     //Set offer variable as whats returned from the GET Offer
-                    var offer = JSON.parse(call.body);
+                    offer = JSON.parse(call.body);
+                    //Take some values from the offer
                     businessName = offer.businessname;
                     cost = offer.cost;
-                    //Take some values from the offer
-                    var businessName = offer.businessname;
-                    var cost = offer.offer_cost;
-                    //Get the users document so we can add the transaction
                 }
                 request.get(userUrl, function(err, response, doc) {
                     //If no user exists
