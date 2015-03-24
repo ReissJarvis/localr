@@ -8,6 +8,7 @@ var validateHTTP = require("./validateHTTP.js"),
     Promise = require('promise');
 module.exports.creategroup = function(req, res, next) {
     if((validateHTTP.validateHTTP(req, res, next, 'users')) === true) {
+        console.log(req);
             console.log("group create started")
             console.log("POST "  + req.params.groupname )
             var url = 'http://localhost:5984/groups/' + req.params.groupname
