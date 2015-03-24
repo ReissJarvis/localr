@@ -225,10 +225,10 @@ module.exports.joinGroup = function(req, res, next) {
     request.get(url, function(err, response, body) {
         console.log("request started")
         // if user is not found will send 404 error
-        if(response.statusCode == 404) {
+        if(response.statusCode === 404) {
             return next(new restify.BadRequestError('User Not Found'))
         };
-        if(response.statusCode == 200) {
+        if(response.statusCode === 200) {
             body = JSON.parse(body);
             console.log('set user id')
             userid = body.nodeid;
