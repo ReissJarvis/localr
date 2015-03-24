@@ -171,6 +171,8 @@ module.exports.offers = (function() {
                 }
             }).then(function() {
                 console.log('checking points')
+                user.points = Number(user.points);
+                cost = Number(cost);
                 //Checks to see if user has enough points
                 if((user.points - cost) < 0) {
                     console.log("You don't have enough points sunshine - come back another day :D")
