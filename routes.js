@@ -92,7 +92,7 @@ exports.getRoutes = function(server){
     server.del({
         path: business + "/:businessname"
     }, function(req, res, next) {
-        del.del.deletebusiness(req, res, next);
+        del.del.deleteBusiness(req, res, next);
     });
     server.post({
         path: group
