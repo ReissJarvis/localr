@@ -72,14 +72,13 @@ module.exports.offers = (function() {
                     res.setHeader('Location', 'http://' + req.headers.host + req.url);
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
-                    res.statusCode(201)
                     var sendBack = {
                         Added: 'OK',
                         Offer_Title: offertitle,
                         Offer_Description: description,
                         Date_Added: date
                     }
-                    res.send(sendBack);
+                    res.send(201,sendBack);
                     res.end();
                 })
             })
