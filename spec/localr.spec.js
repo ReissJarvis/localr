@@ -1,5 +1,5 @@
  var request = require('request');
-var neo4j = require('node-neo4j');
+ var neo4j = require('node-neo4j');
  require('../testserver.js').startserver();
  describe('Localr API', function() {
      describe('test local connection', function() {
@@ -129,24 +129,30 @@ var neo4j = require('node-neo4j');
                  },
                  body: JSON.stringify(doc)
              };
-             request.post(params, function(error, response, body) {
+             // create the competition node
+             db.insertNode({
+                 name: "freshers",
+                 description: description
+             }, ['competition'], function(err, node) {
+                 if(err) throw err;
+                 request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  db.cypherQuery(" MATCH (n:Group) WHERE n.name ='testgroup' RETURN n", function(err, Results) {
-                    if(err) throw err;
+                     if(err) throw err;
                      expect(Results.data[0].name).toBe('testgroup');
-                       db.cypherQuery(" MATCH n-[r]->m RETURN n,r,m", function(err, Results) {
-                    if(err) throw err;
-                     console.log("getting relationships")
-                     console.log(Results)
-                    done();
-                })
-                })
-               
-                
+                     db.cypherQuery(" MATCH n-[r]->m RETURN n,r,m", function(err, Results) {
+                         if(err) throw err;
+                         console.log("getting relationships")
+                         console.log(Results)
+                         done();
+                     })
+                 })
              })
+             });
+             
          })
          it("be able to join a group", function(done) {
              var url = 'http://localhost:8080/users/groups/testgroup';
