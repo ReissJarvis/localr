@@ -282,10 +282,12 @@ module.exports.groups = (function() {
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
             }).then(function(call) {
+                console.log("in first then")
                 if(response.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
             }).then(db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+                console.log("in the cypher request")
                 if(err) throw err;
                 if(result.data.length == 0) {
                     return next(new restify.InternalServerError('no competition found'));
@@ -293,6 +295,7 @@ module.exports.groups = (function() {
                 return competitionid = result.data[0]._id
             })).then(function(i1d) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
+                    console.log("in next cypher request")
                     if(err) throw err;
                     if(results.data.length == 0) {
                         return results.data
@@ -302,6 +305,7 @@ module.exports.groups = (function() {
                     }
                 })
             }).then(function(data) {
+                console.log("db insert")
                 db.insertNode({
                     name: groupname,
                     description: description
@@ -314,6 +318,7 @@ module.exports.groups = (function() {
                     return node._id
                 });
             }).then(function(nodeid) {
+                console.log("insert relationship")
                 db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
@@ -394,7 +399,7 @@ module.exports.groups = (function() {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
                     // if the document isnt found it will create it from sratch
-                    console.log('code' + response.statusCode)
+                    console.log('code ' + response.statusCode)
                     resolve({
                         response: response,
                         body: body
