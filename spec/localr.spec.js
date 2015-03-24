@@ -132,7 +132,12 @@
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
-                 done();
+                 db.cypherQuery(" MATCH (n:Group) WHERE n.name ='testgroup' RETURN n", function(err, Results) {
+                    if(err) throw err;
+                     console.log(Results)
+                    done();
+                })
+                
              })
          })
          it("be able to join a group", function(done) {

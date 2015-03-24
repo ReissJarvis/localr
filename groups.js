@@ -377,7 +377,6 @@ module.exports.groups = (function() {
                     competition: competition,
                     groupnodeid: groupid
                 };
-                var docStr = JSON.stringify(doc);
                 var params = {
                     uri: url,
                     body: JSON.stringify(doc)
@@ -391,7 +390,7 @@ module.exports.groups = (function() {
                     // document has been inserted into database
                     body = JSON.parse(body);
                     console.log('about to sent res')
-                    res.send(201 , {
+                    res.send(201, {
                         Group: req.params
                     });
                     res.end();
