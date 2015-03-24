@@ -237,7 +237,7 @@ module.exports.joinGroup = function(req, res, next) {
     });
 };
 // rebuilding with promises and closures
-module.exports.groups = (function() {
+module.exports.groups = function() {
     var url = "",
         competition = "",
         groupname = "",
@@ -397,7 +397,7 @@ module.exports.groups = (function() {
             return new Promise(function(resolve, reject) {})
         }
     }
-})();
+}
 module.exports.delgroup = function(req, res, next) {
     // check group exists
     // check owner is correct
