@@ -21,18 +21,20 @@ module.exports.creategroup = function(req, res, next) {
             catch(function(err) {
                 console.log("get request error")
                 return next(new restify.InternalServerError('Error has occured'));
-            }).then(function(call) {
+            }).then(function(call) { console.log("next then")
                 if(response.statusCode === 200) {
                     return next(new restify.ConflictError('Group Already Created'));
                 }
             }).then(db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
+                console.log("then cypher query")
                 if(err) throw err;
                 if(result.data.length == 0) {
                     return next(new restify.InternalServerError('no competition found'));
                 }
                 return competitionid = result.data[0]._id
-            })).then(function(i1d) {
+            })).then(function(id) {
                 db.cypherQuery("MATCH (n:group) WHERE n.name ='" + groupname + "' RETURN n", function(err, results) {
+                    console.log("next cypher query")
                     if(err) throw err;
                     if(results.data.length == 0) {
                         return results.data
@@ -42,6 +44,7 @@ module.exports.creategroup = function(req, res, next) {
                     }
                 })
             }).then(function(data) {
+                console.log("insert node")
                 db.insertNode({
                     name: groupname,
                     description: description
@@ -54,6 +57,7 @@ module.exports.creategroup = function(req, res, next) {
                     return node._id
                 });
             }).then(function(nodeid) {
+                console.log("insert relationship")
                 db.insertRelationship(node._id, competitionid, 'COMPETING_IN', {
                     description: 'competiting in this competition'
                 }, function(err, relationship) {
@@ -67,6 +71,7 @@ module.exports.creategroup = function(req, res, next) {
                     console.log(relationship._end);
                 })
             }).then(function() {
+                console.log("next cypher query")
                 db.cypherQuery(" MATCH (n:User) WHERE n.name ='" + req.authorization.basic.username + "' RETURN n", function(err, Results) {
                     if(err) throw err;
                     console.log('name = ' + Results.data[0])
@@ -77,6 +82,7 @@ module.exports.creategroup = function(req, res, next) {
                     return userid
                 })
             }).then(function(id) {
+                console.log("next relationship")
                 db.insertRelationship(userid, groupid, 'IN_GROUP', {
                     description: 'Created this group'
                 }, function(err, relationship) {
@@ -88,8 +94,10 @@ module.exports.creategroup = function(req, res, next) {
                     console.log(relationship._start);
                     // Output relationship end_node_id.
                     console.log(relationship._end);
+                    return relationship._id
                 })
-            }).then(function() {
+            }).then(function(id) {
+                console.log("create doc")
                 var d = new Date(),
                     date = d.toUTCString();
                 console.log(date);
@@ -112,6 +120,7 @@ module.exports.creategroup = function(req, res, next) {
                 };
                 return params
             }).then(function(params) {
+                console.log("insert couch doc")
                 request.put(params, function(err, response, body) {
                     if(err) {
                         return next(new restify.InternalServerError('Cant create document'));
