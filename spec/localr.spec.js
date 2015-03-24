@@ -188,12 +188,12 @@
                      name: "freshers"
                  }, ['competition'], function(err, node) {
                      if(err) throw err;
-                      var params = {
-                     uri: url,
-                     headers: {
-                         authorization: getBasic('testuser', 'test'),
-                     },
-                 };
+                     var params = {
+                         uri: url,
+                         headers: {
+                             authorization: getBasic('testuser', 'test'),
+                         },
+                     };
                      request.post(params, function(error, response, body) {
                          url = 'http://localhost:8080/groups/join/testgroup2'
                          request.post(params, function(error, response, body) {
@@ -202,7 +202,7 @@
                              if(error) {
                                  expect(error.code).not.toBe('ECONNREFUSED');
                              }
-                             // join the group
+                             done()
                          })
                      })
                  });
