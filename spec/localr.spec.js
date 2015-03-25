@@ -264,7 +264,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test'),
+                     authorization: getBasic('testbusiness', 'test'),
                      "content-type": "application/json"
                  },
                  body: JSON.stringify(doc)
@@ -326,9 +326,9 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(202);
-                 var redeem = JSON.parse(body)
-                 expect(redeem.Redeem).toBe("OK")
-                 expect(redeem.username).toBe("testuser")
+                 body = JSON.parse(body)
+                 expect(body.Redeem).toBe("OK")
+                 expect(body.username).toBe("testuser")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
