@@ -1,3 +1,4 @@
+//Rebuilding to promises
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
