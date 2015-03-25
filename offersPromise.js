@@ -174,6 +174,10 @@ module.exports.offers = (function() {
             //Create the offer variables which are used in promises
             var offer, cost, businessName, totalPoints;
             var user = {};
+            //Build the transaction variables
+            var d = new Date(),
+                date = d.toUTCString(),
+                txID = uuid.v1();
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
@@ -225,10 +229,6 @@ module.exports.offers = (function() {
                     }).then(function() {
                         //Promise to add transaction to user document
                         return new Promise(function(resolve, reject) {
-                            //Build the transaction variables
-                            var d = new Date(),
-                                date = d.toUTCString(),
-                                txID = uuid.v1();
                             //Change points to reflect redemption
                             totalPoints = user.points;
                             //Add tranasaction to array
