@@ -283,7 +283,8 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
                  },
              };
              request.get(params, function(error, response, body) {
@@ -300,7 +301,8 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
                  },
              };
              request.get(params, function(error, response, body) {
