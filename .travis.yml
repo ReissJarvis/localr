@@ -35,7 +35,7 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  - sshpass -f touch.txt -o StrictHostKeyChecking=no couch@api.adam-holt.co.uk 
+  - sshpass -f touch.txt couch@api.adam-holt.co.uk 
   - cd localer
   - git pull origin master
   
