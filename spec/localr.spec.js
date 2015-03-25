@@ -220,18 +220,6 @@
              });
          })
      })
-     it("be able to delete a group", function(done) {
-         var url = 'http://localhost:8080/groups/testgroup';
-         // getting the parameters
-         request.del(url, function(error, response, body) {
-             expect(response.statusCode).toBe(200);
-             expect(response.body).toBe('"group deleted"')
-             if(error) {
-                 expect(error.code).not.toBe('ECONNREFUSED');
-             }
-             done();
-         })
-     })
      describe('businesses', function() {
          it('able to create new business', function(done) {
              var url = 'http://localhost:8080/business';
@@ -337,24 +325,24 @@
                  done();
              })
          })
-     })
-     it("be able to check what offers youve redeemed", function(done) {
-         var url = 'http://localhost:8080/users/testuser';
-         var params = {
-             uri: url,
-             headers: {
-                 authorization: getBasic('testuser', 'test')
-             },
-         };
-         request.get(params, function(error, response, body) {
-             expect(response.statusCode).toBe(200);
-             body = JSON.parse(body);
-             expect(body.transactions[0].checked_in_at).toBe("coventry")
-             expect(body.transactions[1].business_redeemed).toBe("testbusiness")
-             if(error) {
-                 expect(error.code).not.toBe('ECONNREFUSED');
-             }
-             done();
+         it("be able to check what offers youve redeemed", function(done) {
+             var url = 'http://localhost:8080/users/testuser';
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 body = JSON.parse(body);
+                 expect(body.transactions[0].checked_in_at).toBe("coventry")
+                 expect(body.transactions[1].business_redeemed).toBe("testbusiness")
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
          })
      })
      describe('delete all', function() {
@@ -412,16 +400,11 @@
              })
          })
          it('delete group', function(done) {
-             var url = 'http://localhost:8080/business';
+             var url = 'http://localhost:8080/groups/testgroup';
              // getting the parameters
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-             };
-             request.del(params, function(error, response, body) {
+             request.del(url, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
+                 expect(response.body).toBe('"group deleted"')
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
