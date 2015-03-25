@@ -323,10 +323,12 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                      authorization: getBasic('testuser', 'test'),
                      "content-type": "application/json"
                  },
+                 body: JSON.stringify(doc)
              };
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(202);
                  body = JSON.parse(body)
+                 console.log(body)
                  expect(body.Redeem).toBe("OK")
                  expect(body.username).toBe("testuser")
                  if(error) {
