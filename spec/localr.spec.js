@@ -110,7 +110,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                  done();
              })
          })
-         it("be able to see where you've checked in", function() {
+         it("be able to see where you've checked in", function(done) {
              var url = 'http://localhost:8080/users/get/testuser';
              // getting the parameters
              var params = {
