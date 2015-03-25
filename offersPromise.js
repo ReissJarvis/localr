@@ -124,7 +124,6 @@ module.exports.offers = (function() {
                             businessname: i.value.businessname,
                             last_modified: i.value.last_modified
                         };
-                        console.log(offer)
                         allOffers.push(offer);
                     });
                     var offers = {
@@ -132,11 +131,11 @@ module.exports.offers = (function() {
                         offers: allOffers
                     };
                     //Time and date for header
-                    var d = new Date();
-                    var date = d.toUTCString();
-                    res.setHeader('Last-Modified', date);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.setHeader('Accepts', 'GET');
+//                     var d = new Date();
+//                     var date = d.toUTCString();
+//                     res.setHeader('Last-Modified', date);
+//                     res.setHeader('Content-Type', 'application/json');
+//                     res.setHeader('Accepts', 'GET');
                     res.send(offers);
                     res.end()
                 }
