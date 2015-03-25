@@ -38,14 +38,14 @@ module.exports.offers = (function() {
                 //If there is a error getting the document from within the promise
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
-            }).then(function(response) {
+            }).then(function(call) {
                 // if the document isnt found it will create it from sratch
-                console.log('CouchDB request statuscode - ' + response.response.statusCode)
-                if(response.response.statusCode === 200) {
+                console.log('CouchDB request statuscode - ' + call.response.statusCode)
+                if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Offer has already been created with the same name'));
                 }
                 return new Promise(function(resolve, reject) {
-                    if(response.response.statusCode === 404) {
+                    if(call.response.statusCode === 404) {
                         //Insert node into neo4j
                         db.insertNode({
                             name: offertitle
@@ -69,17 +69,17 @@ module.exports.offers = (function() {
                             resolve(doc)
                         }
                     }
-                }).then(function(doc) {
+                }).then(function(couch) {
                     var params = {
                         uri: url,
-                        body: JSON.stringify(doc)
+                        body: JSON.stringify(couch)
                     };
                     request.put(params, function(err, response, body) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant create document in CouchDB'));
                         }
                         // document has been inserted into database
-                        res.setHeader('Location', 'http://' + req.headers.host + req.url);
+                        res.setHeader('Location', 'http://' + req.headers.host + 'offers/' + businessName);
                         res.setHeader('Last-Modified', date);
                         res.setHeader('Content-Type', 'application/json');
                         var sendBack = {
