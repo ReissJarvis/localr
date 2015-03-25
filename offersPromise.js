@@ -9,9 +9,6 @@ module.exports.offers = (function() {
     //Some handy variables
     var rand = uuid.v1(),
         db = new neo4j('http://localhost:7474');
-    //Build date and time
-    var d = new Date();
-    var date = d.toUTCString();
     return {
         addOffer: function(req, res, next) {
             console.log('NEW OFFER!');
@@ -21,20 +18,13 @@ module.exports.offers = (function() {
             var offertitle = req.params.title + ' - ' + businessName;
             var offerCost = req.params.cost;
             var nodeid = 0;
+            //Build date and time
+            var d = new Date();
+            var date = d.toUTCString();
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
             //Make a new promise by getting the URL
-            return new Promise(function(resolve, reject) {
-                request.get(url, function(err, response, body) {
-                    if(err) reject(err);
-                    // if the document isnt found it will create it from sratch
-                    console.log('code ' + response.statusCode)
-                    if(body) {
-                        console.log('body is ok')
-                        resolve(response)
-                    }
-                })
-            }).
+            getRequest(url).
             catch(function(err) {
                 //If there is a error getting the document from within the promise
                 console.log("GET request error on couchDB document")
@@ -45,53 +35,54 @@ module.exports.offers = (function() {
                 if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Offer has already been created with the same name'));
                 }
-                return new Promise(function(resolve, reject) {
-                    if(call.response.statusCode === 404) {
-                        //Insert node into neo4j
-                        db.insertNode({
-                            name: offertitle
-                        }, ['Offer', businessName], function(err, node) {
-                            if(err) throw err;
-                            // Output node properties.
-                            console.log('New neo4j node created with name = ' + node.name);
-                            nodeid = node._id
-                        })
-                        var doc = {
-                            date_created: date,
-                            last_modified: date,
-                            offer_title: offertitle,
-                            offer_description: description,
-                            offer_cost: offerCost,
-                            businessname: businessName,
-                            redeems: [],
-                            nodeid: nodeid
-                        }
-                        if(doc) {
-                            resolve(doc)
-                        }
-                    }
-                }).then(function(couch) {
-                    var params = {
-                        uri: url,
-                        body: JSON.stringify(couch)
-                    };
-                    request.put(params, function(err, response, body) {
-                        if(err) {
-                            return next(new restify.InternalServerError('Cant create document in CouchDB'));
-                        }
-                        // document has been inserted into database
-                        res.setHeader('Location', 'http://' + req.headers.host + 'offers/' + businessName);
-                        res.setHeader('Last-Modified', date);
-                        res.setHeader('Content-Type', 'application/json');
-                        var sendBack = {
-                            Added: 'OK',
-                            Offer_Title: offertitle,
-                            Offer_Description: description,
-                            Date_Added: date
-                        }
-                        res.send(201, sendBack);
-                        res.end();
+                return call
+            }).then(function(call) {
+                console.log(call)
+                //Insert node into neo4j
+                if(call.response.statusCode === 404) {
+                    //Insert node into neo4j
+                    db.insertNode({
+                        name: offertitle
+                    }, ['Offer', businessName], function(err, node) {
+                        if(err) throw err;
+                        // Output node properties.
+                        console.log('New neo4j node created with name = ' + node.name);
+                        nodeid = node._id
                     })
+                    var doc = {
+                        date_created: date,
+                        last_modified: date,
+                        offer_title: offertitle,
+                        offer_description: description,
+                        offer_cost: offerCost,
+                        businessname: businessName,
+                        redeems: [],
+                        nodeid: nodeid
+                    };
+                    return doc
+                }
+            }).then(function(doc) {
+                console.log(doc)
+                var params = {
+                    uri: url,
+                    body: JSON.stringify(doc)
+                };
+                request.put(params, function(err, response, body) {
+                    if(err) {
+                        return next(new restify.InternalServerError('Cant create document in CouchDB'));
+                    }
+                    // document has been inserted into database
+                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    var sendBack = {
+                        Added: 'OK',
+                        Offer_Title: offertitle,
+                        Offer_Description: description,
+                        Date_Added: date
+                    }
+                    res.send(201, sendBack);
+                    res.end();
                 })
             })
         },
