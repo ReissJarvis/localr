@@ -34,7 +34,4 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  - sshpass -p 'Localer2015/' couch@api.adam-holt.co.uk 
-  - cd localer
-  - git pull origin master
-  
+  #Add hook here for CI soon
