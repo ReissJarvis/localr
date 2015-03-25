@@ -241,8 +241,10 @@ module.exports.offers = (function() {
                             user.transactions.push({
                                 transactionid: txID,
                                 date: date,
+                                offer: offerTitle,
                                 amount_of_points: (cost - (cost * 2)),
                                 business_redeemed: businessName
+                                
                             });
                             console.log(username + " now has " + totalPoints + " points");
                             //Build the object for sending to couchDB
