@@ -30,6 +30,7 @@ module.exports.offers = (function() {
                     // if the document isnt found it will create it from sratch
                     console.log('code ' + response.statusCode)
                     if(body) {
+                        console.log('body is ok')
                         resolve(response)
                     }
                 })
