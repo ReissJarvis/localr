@@ -172,8 +172,8 @@ module.exports.offers = (function() {
             var offerUrl = 'http://localhost:5984/offers/' + offerTitle;
             var userUrl = 'http://localhost:5984/users/' + username;
             //Create the offer variables which are used in promises
-            var offer, cost, businessName, totalPoints;
-            var user = {};
+            var offer, cost, businessName, totalPoints, user;
+            
             //Build the transaction variables
             var d = new Date(),
                 date = d.toUTCString(),
@@ -212,17 +212,18 @@ module.exports.offers = (function() {
                     offer = JSON.parse(call.body);
                     //Take some values from the offer
                     businessName = offer.businessname;
-                    cost = offer.cost;
+                    cost = offer.offer_cost;
                     //Promise to get user doc
                     return new Promise(function(resolve, reject) {
-                        request.get(userUrl, function(err, response, doc) {
+                        request.get(userUrl, function(err, response, userdoc) {
                             //If no user exists
                             if(response.statusCode === 404) {
                                 return next(new restify.NotFoundError('User Not Found'));
                                 reject(err)
                             };
                             if(response.statusCode === 200) {
-                                user = JSON.parse(doc);
+                                user = JSON.parse(userdoc);
+                                console.log('user points' + user.points)
                                 resolve()
                             }
                         })
