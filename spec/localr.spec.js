@@ -348,7 +348,7 @@
              request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  body = JSON.parse(body);
-                 expect(body.transactions[0].checked_in_at).toBe("coventry")
+                 expect(body.transactions[0].checked_in_at).toBe("testbusiness")
                  expect(body.transactions[1].business_redeemed).toBe("testbusiness")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
