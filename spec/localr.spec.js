@@ -311,7 +311,7 @@
                  done();
              })
          })
-         it("be able to reddem an offer", function(done) {
+         it("be able to redeem an offer", function(done) {
              var url = 'http://localhost:8080/business/offers/redeem';
              var doc = {
                  offerTitle: 'test offer - testbusiness'

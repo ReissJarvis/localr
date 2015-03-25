@@ -109,6 +109,7 @@ module.exports.offers = (function() {
         getAllOffers: function(req, res, next) {
             //Set business name
             var business = req.params.businessname;
+            console.log('Getting' + business + 'offers');
             if(business == 'all') {
                 var url = 'http://localhost:5984/offers/_design/offers/_view/all';
             } else {
@@ -137,7 +138,8 @@ module.exports.offers = (function() {
                 if(doc.response.statusCode === 404) {
                     return next(new restify.InternalServerError('No Offers Found'));
                 } else if(doc.response.statusCode === 200) {
-                    var resp = JSON.parse(doc.body)
+                    var resp = JSON.parse(doc.body);
+                    console.log(resp.rows);
                     var allOffers = [];
                     resp.rows.forEach(function(i) {
                         var offer = {
@@ -244,7 +246,6 @@ module.exports.offers = (function() {
                                 offer: offerTitle,
                                 amount_of_points: (cost - (cost * 2)),
                                 business_redeemed: businessName
-                                
                             });
                             console.log(username + " now has " + totalPoints + " points");
                             //Build the object for sending to couchDB
