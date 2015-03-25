@@ -109,7 +109,26 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                  done();
              })
          })
-         it("be able to see where you've checked in", function() {})
+         it("be able to see where you've checked in", function() {
+             var url = 'http://localhost:8080/users/testuser';
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test')
+                 }
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 body = JSON.parse(body);
+                 var trans = body.transactions;
+                 expect(trans.length).toBe(1);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
      })
      describe("groups", function() {
          it("be able to create a group", function(done) {
