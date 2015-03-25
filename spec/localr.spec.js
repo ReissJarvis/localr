@@ -311,6 +311,30 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                  done();
              })
          })
+         it("be able to reddem an offer", function(done) {
+             var url = 'http://localhost:8080/business/offers/redeem';
+             var doc = {
+                 offerTitle: 'test offer - testbusiness'
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
+                 },
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(202);
+                 var redeem = JSON.parse(body)
+                 expect(redeem.Redeem).toBe("OK")
+                 expect(redeem.username).toBe("testuser")
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
      })
      it("be able to check what offers youve redeemed", function() {})
      describe('delete all', function() {
