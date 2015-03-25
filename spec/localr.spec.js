@@ -264,12 +264,13 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test')
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
                  },
                  body: JSON.stringify(doc)
              };
              request.post(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
+                 expect(response.statusCode).toBe(201);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
