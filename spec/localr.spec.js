@@ -338,7 +338,7 @@
              })
          })
          it("be able to check what offers youve redeemed", function(done) {
-             var url = 'http://localhost:8080/users/testuser';
+             var url = 'http://localhost:8080/users/get/testuser';
              var params = {
                  uri: url,
                  headers: {
