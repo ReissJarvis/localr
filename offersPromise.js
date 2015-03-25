@@ -230,6 +230,7 @@ module.exports.offers = (function() {
                         //Promise to add transaction to user document
                         return new Promise(function(resolve, reject) {
                             //Change points to reflect redemption
+                            user.points = user.points - cost;
                             totalPoints = user.points;
                             //Add tranasaction to array
                             user.transactions.push({
