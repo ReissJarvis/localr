@@ -123,7 +123,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                  expect(response.statusCode).toBe(200);
                  body = JSON.parse(body);
                  var trans = body.transactions;
-                 expect(trans.length).toBe(1);
+                 expect(trans.length).toBeGreaterThan(0);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
