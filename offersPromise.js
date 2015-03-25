@@ -95,15 +95,30 @@ module.exports.offers = (function() {
             } else {
                 var url = 'http://localhost:5984/offers/_design/offers/_view/business?startkey="' + business + '"&endkey="' + business + '"';
             };
-            getRequest(url).
+            //Create a promise for the get request
+            return new Promise(function(resolve, reject) {
+                request.get(url, function(err, response, body) {
+                    if(err) {
+                        reject(err)
+                    };
+                    // if the document isnt found it will create it from sratch
+                    console.log('code ' + response.statusCode)
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    }
+                })
+            }).
             catch(function(err) {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
-            }).then(function(call) {
-                if(call.response.statusCode === 404) {
+            }).then(function(doc) {
+                if(doc.response.statusCode === 404) {
                     return next(new restify.InternalServerError('No Offers Found'));
-                } else if(call.response.statusCode === 200) {
-                    var resp = JSON.parse(call.body)
+                } else if(doc.response.statusCode === 200) {
+                    var resp = JSON.parse(doc.body)
                     var allOffers = [];
                     resp.rows.forEach(function(i) {
                         var offer = {
@@ -113,13 +128,18 @@ module.exports.offers = (function() {
                             businessname: i.value.businessname,
                             last_modified: i.value.last_modified
                         };
-                        console.log(offer)
                         allOffers.push(offer);
                     });
                     var offers = {
                         total_Offers: resp.rows.length,
                         offers: allOffers
-                    }
+                    };
+                    //Time and date for header
+                    var d = new Date();
+                    var date = d.toUTCString();
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'GET');
                     res.send(offers);
                     res.end()
                 }
@@ -235,33 +255,6 @@ module.exports.offers = (function() {
                     res.end();
                 })
             })
-        },
-        getRequest: function(url) {
-            // set up initial get request. 
-            return new Promise(function(resolve, reject) {
-                request.get(url, function(err, response, body) {
-                    if(err) reject(err);
-                    // if the document isnt found it will create it from sratch
-                    console.log('code' + response.statusCode)
-                    resolve({
-                        response: response,
-                        body: body
-                    })
-                })
-            });
-        },
-        putRequest: function(params) {
-            return new Promise(function(resolve, reject) {
-                request.put(params, function(err, response, body) {
-                    if(err) reject(err);
-                    // if the document isnt found it will create it from sratch
-                    console.log('code' + response.statusCode)
-                    resolve({
-                        response: response,
-                        body: body
-                    })
-                })
-            });
         }
     }
 })();
