@@ -103,7 +103,10 @@ module.exports.offers = (function() {
                     // if the document isnt found it will create it from sratch
                     console.log('code ' + response.statusCode)
                     if(body) {
-                        resolve(response)
+                        resolve({
+                            response: response,
+                            body: body
+                        })
                     }
                 })
             }).
@@ -131,11 +134,11 @@ module.exports.offers = (function() {
                         offers: allOffers
                     };
                     //Time and date for header
-//                     var d = new Date();
-//                     var date = d.toUTCString();
-//                     res.setHeader('Last-Modified', date);
-//                     res.setHeader('Content-Type', 'application/json');
-//                     res.setHeader('Accepts', 'GET');
+                    var d = new Date();
+                    var date = d.toUTCString();
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'GET');
                     res.send(offers);
                     res.end()
                 }
