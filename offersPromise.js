@@ -1,4 +1,3 @@
-//Rebuilding to promises
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
@@ -175,16 +174,27 @@ module.exports.offers = (function() {
             //Create the offer variables which are used in promises
             var offer, cost, businessName, totalPoints;
             var user = {};
-            //Build the transaction variables
-            var d = new Date(),
-                date = d.toUTCString(),
-                txID = uuid.v1();
             //Check to make sure offer title has been sent in the body params
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
             };
             //Get the offer URL
-            getRequest(offerUrl).
+            //Create a promise for the get request
+            return new Promise(function(resolve, reject) {
+                request.get(offerUrl, function(err, response, body) {
+                    if(err) {
+                        reject(err)
+                    };
+                    // if the document isnt found it will create it from sratch
+                    console.log('code ' + response.statusCode)
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    }
+                })
+            }).
             catch(function(err) {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
@@ -199,80 +209,86 @@ module.exports.offers = (function() {
                     //Take some values from the offer
                     businessName = offer.businessname;
                     cost = offer.cost;
-                    request.get(userUrl, function(err, response, doc) {
-                        //If no user exists
-                        if(response.statusCode === 404) {
-                            return next(new restify.NotFoundError('User Not Found'));
-                        };
-                        if(response.statusCode === 200) {
-                            user = JSON.parse(doc);
-                        }
+                    //Promise to get user doc
+                    return new Promise(function(resolve, reject) {
+                        request.get(userUrl, function(err, response, doc) {
+                            //If no user exists
+                            if(response.statusCode === 404) {
+                                return next(new restify.NotFoundError('User Not Found'));
+                                reject(err)
+                            };
+                            if(response.statusCode === 200) {
+                                user = JSON.parse(doc);
+                                resolve()
+                            }
+                        })
+                    }).then(function() {
+                        //Promise to add transaction to user document
+                        return new Promise(function(resolve, reject) {
+                            //Build the transaction variables
+                            var d = new Date(),
+                                date = d.toUTCString(),
+                                txID = uuid.v1();
+                            //Change points to reflect redemption
+                            totalPoints = user.points;
+                            //Add tranasaction to array
+                            user.transactions.push({
+                                transactionid: txID,
+                                date: date,
+                                amount_of_points: (cost - (cost * 2)),
+                                business_redeemed: businessName
+                            });
+                            console.log(username + " now has " + totalPoints + " points");
+                            //Build the object for sending to couchDB
+                            var userParams = {
+                                uri: userUrl,
+                                body: JSON.stringify(user)
+                            };
+                            //Update user document with new points total and added transaction
+                            request.put(userParams, function(err, response, body) {
+                                if(err) {
+                                    return next(new restify.InternalServerError('Cant Update CouchDB document'));
+                                    reject(err)
+                                };
+                                offer.redeems.push({
+                                    transactionid: txID,
+                                    date: date,
+                                    amount_of_points: (cost - (cost * 2)),
+                                    user_redeemed: username
+                                });
+                                var redeemParams = {
+                                    uri: offerUrl,
+                                    body: JSON.stringify(offer)
+                                };
+                                resolve(redeemParams);
+                            })
+                        }).then(function(redeem) {
+                            return new Promise(function(resolve, reject) {
+                                request.put(redeem, function(err, response, body) {
+                                    if(err) {
+                                        return next(new restify.InternalServerError('Cant Update CouchDB document'));
+                                        reject(err)
+                                    }
+                                    // document has been inserted into database
+                                    resolve()
+                                }).then(function() {
+                                    res.setHeader('Last-Modified', date);
+                                    res.setHeader('Content-Type', 'application/json');
+                                    res.setHeader('Accepts', 'PUT');
+                                    var sendBack = {
+                                        Redeem: 'OK',
+                                        username: username,
+                                        business: businessName,
+                                        points_taken: cost,
+                                        total_points: totalPoints
+                                    }
+                                    res.send(202, sendBack);
+                                    res.end();
+                                })
+                            })
+                        })
                     })
                 }
-            }).then(function() {
-                console.log('checking points')
-                user.points = Number(user.points);
-                cost = Number(cost);
-                //Checks to see if user has enough points
-                if((user.points - cost) < 0) {
-                    console.log("You don't have enough points sunshine - come back another day :D")
-                    return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
-                }
-                console.log('checking points 2')
-            }).then(function() {
-                //Get users transaction and points
-                user.points = user.points - cost;
-                console.log(user.points);
-                totalPoints = user.points;
-                console.log(totalPoints);
-                user.transactions.push({
-                    transactionid: txID,
-                    date: date,
-                    amount_of_points: (cost - (cost * 2)),
-                    business_redeemed: businessName
-                })
-                console.log(username + " now has " + totalPoints + " points");
-                //Build the object for sending to couchDB
-                var userParams = {
-                    uri: userUrl,
-                    body: JSON.stringify(user)
-                };
-                //Add the transaction to couchDB for user
-                request.put(userParams, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant Update users CouchDB document'));
-                    }
-                    console.log("Added new transaction for" + username)
-                })
-            }).then(function() {
-                offer.redeems.push({
-                    transactionid: txID,
-                    date: date,
-                    amount_of_points: (cost - (cost * 2)),
-                    user_redeemed: username
-                })
-                var redeemParams = {
-                    uri: offerUrl,
-                    body: JSON.stringify(offer)
-                };
-                request.put(redeemParams, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant Update CouchDB document'));
-                    }
-                    // document has been inserted into database
-                    res.setHeader('Last-Modified', date);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.setHeader('Accepts', 'PUT');
-                    var sendBack = {
-                        Redeem: 'OK',
-                        username: username,
-                        business: businessName,
-                        points_taken: cost,
-                        total_points: totalPoints
-                    }
-                    res.send(202, sendBack);
-                    res.end();
-                })
             })
         }
     }
