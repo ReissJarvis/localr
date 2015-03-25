@@ -76,7 +76,7 @@ function checkin(req, res, next) {
                         points_added: points,
                         total_points: totalPoints
                     }
-                    res.send(sendBack);
+                    res.send(202,sendBack);
                     res.end();
                 });
             };

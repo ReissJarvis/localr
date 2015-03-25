@@ -68,10 +68,9 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
      })
      describe('checkin', function() {
          it("be able to checkin", function(done) {
-             var url = 'http://localhost:8080/users/checkin?username=testuser&points=10';
+             var url = 'http://localhost:8080/users/checkin';
              var doc = {
-                 username: "testuser",
-                 points: 10
+                 business: "coventry",
              };
              // getting the parameters
              var params = {
@@ -82,8 +81,9 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
                  body: JSON.stringify(doc)
              };
              request.put(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
-                 expect(response.body).toBe("{'Points added':'10'}")
+                 expect(response.statusCode).toBe(202);
+                 body = JSON.parse(body);
+                 expect(body.CheckIn).toBe("Ok")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
@@ -102,7 +102,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  body = JSON.parse(body);
-                 expect(body.points).toBe(10);
+                 expect(body.points).toBe(50);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
