@@ -1,7 +1,7 @@
  var request = require('request');
  var neo4j = require('node-neo4j');
  require('../testserver.js').startserver();
-jasmine.getEnv().defaultTimeoutInterval = 99999;
+ jasmine.getEnv().defaultTimeoutInterval = 99999;
  describe('Localr API', function() {
      describe('test local connection', function() {
          it('make connection to server', function(done) {
@@ -338,7 +338,25 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              })
          })
      })
-     it("be able to check what offers youve redeemed", function() {})
+     it("be able to check what offers youve redeemed", function(done) {
+         var url = 'http://localhost:8080/users/testuser';
+         var params = {
+             uri: url,
+             headers: {
+                 authorization: getBasic('testuser', 'test')
+             },
+         };
+         request.get(params, function(error, response, body) {
+             expect(response.statusCode).toBe(200);
+             body = JSON.parse(body);
+             expect(body.transactions[0].checked_in_at).toBe("coventry")
+             expect(body.transactions[1].business_redeemed).toBe("testbusiness")
+             if(error) {
+                 expect(error.code).not.toBe('ECONNREFUSED');
+             }
+             done();
+         })
+     })
      describe('delete all', function() {
          it("be able to delete the user", function(done) {
              var url = 'http://localhost:8080/users';
