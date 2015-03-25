@@ -9,6 +9,9 @@ module.exports.offers = (function() {
     //Some handy variables
     var rand = uuid.v1(),
         db = new neo4j('http://localhost:7474');
+    //Build date and time
+    var d = new Date();
+    var date = d.toUTCString();
     return {
         addOffer: function(req, res, next) {
             console.log('NEW OFFER!');
@@ -18,9 +21,6 @@ module.exports.offers = (function() {
             var offertitle = req.params.title + ' - ' + businessName;
             var offerCost = req.params.cost;
             var nodeid = 0;
-            //Build date and time
-            var d = new Date();
-            var date = d.toUTCString();
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
             //Make a new promise by getting the URL
@@ -50,10 +50,7 @@ module.exports.offers = (function() {
                         db.insertNode({
                             name: offertitle
                         }, ['Offer', businessName], function(err, node) {
-                            if(err) {
-                                throw err;
-                                reject(err);
-                            };
+                            if(err) throw err;
                             // Output node properties.
                             console.log('New neo4j node created with name = ' + node.name);
                             nodeid = node._id
