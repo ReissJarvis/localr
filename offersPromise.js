@@ -105,7 +105,7 @@ module.exports.offers = (function() {
                         })
                     })
                 })
-            })
+            }
     }, getAllOffers: function(req, res, next) {
         //Set business name
         var business = req.params.businessname;
