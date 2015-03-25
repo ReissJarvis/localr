@@ -18,6 +18,7 @@ before_script:
   - curl -X PUT localhost:5984/groups
   - curl -X PUT localhost:5984/business
   - curl -X PUT localhost:5984/offers
+  - curl -X PUT http://api.adam-holt.co.uk:5984/offers/_design/offers --data-binary @offersView.json
 jdk:
   - oraclejdk7  
   

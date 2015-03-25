@@ -1,0 +1,11 @@
+{
+   "_id": "_design/offers",
+   "views": {
+       "all": {
+           "map": "function(doc){if (doc.title !== '_design/example'){emit([doc.date, doc.time, doc.username], doc)}}"
+       },
+       "business": {
+           "map": "function(doc){if (doc.title !== '_design/example'){emit(doc.businessname, doc)}}"
+       }
+   }
+}
