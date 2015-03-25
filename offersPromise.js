@@ -263,16 +263,12 @@ module.exports.offers = (function() {
                                 resolve(redeemParams);
                             })
                         }).then(function(redeem) {
-                            return new Promise(function(resolve, reject) {
-                                request.put(redeem, function(err, response, body) {
-                                    if(err) {
-                                        return next(new restify.InternalServerError('Cant Update CouchDB document'));
-                                        reject(err)
-                                    }
-                                    // document has been inserted into database
-                                    resolve()
-                                })
-                            }).then(function() {
+                            request.put(redeem, function(err, response, body) {
+                                if(err) {
+                                    return next(new restify.InternalServerError('Cant Update CouchDB document'));
+                                    reject(err)
+                                }
+                                // document has been inserted into database
                                 res.setHeader('Last-Modified', date);
                                 res.setHeader('Content-Type', 'application/json');
                                 res.setHeader('Accepts', 'PUT');
