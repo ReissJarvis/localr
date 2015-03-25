@@ -40,12 +40,12 @@ module.exports.offers = (function() {
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(response) {
                 // if the document isnt found it will create it from sratch
-                console.log('CouchDB request statuscode - ' + call.response.statusCode)
+                console.log('CouchDB request statuscode - ' + response.response.statusCode)
                 if(response.response.statusCode === 200) {
                     return next(new restify.ConflictError('Offer has already been created with the same name'));
                 }
                 return new Promise(function(resolve, reject) {
-                    if(call.response.statusCode === 404) {
+                    if(response.response.statusCode === 404) {
                         //Insert node into neo4j
                         db.insertNode({
                             name: offertitle
