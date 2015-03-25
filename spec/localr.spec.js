@@ -66,11 +66,42 @@
              })
          })
      })
+     describe('businesses', function() {
+         it('able to create new business', function(done) {
+             var url = 'http://localhost:8080/business';
+             var doc = {
+                 points: 50,
+                 city: "coventry",
+                 address: "blahhh",
+                 postcode: "B23 5XR",
+                 longitude: 40.000,
+                 latitude: 1.020
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testbusiness', 'test'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(201);
+                 body = JSON.parse(body);
+                 expect(body.Registered).toBe('OK');
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
+     })
      describe('checkin', function() {
          it("be able to checkin", function(done) {
              var url = 'http://localhost:8080/users/checkin';
              var doc = {
-                 business: "coventry",
+                 business: "testbusiness",
              };
              // getting the parameters
              var params = {
@@ -220,26 +251,6 @@
              });
          })
      })
-//      describe('businesses', function() {
-//          it('able to create new business', function(done) {
-//              var url = 'http://localhost:8080/business';
-//              // getting the parameters
-//              var params = {
-//                  uri: url,
-//                  headers: {
-//                      authorization: getBasic('testBusinesses', 'test')
-//                  },
-//              };
-//              request.put(params, function(error, response, body) {
-//                  expect(response.statusCode).toBe(201);
-//                  if(error) {
-//                      expect(error.code).not.toBe('ECONNREFUSED');
-//                  }
-//                  done();
-//              })
-//          })
-//      })
->>>>>>> 0806c78d95a7da29a6374d715a00ce689bdd3879
      describe('Offers', function() {
          it("Be able to add an offer", function(done) {
              var url = 'http://localhost:8080/business/offers';
@@ -346,75 +357,73 @@
              })
          })
      })
-
-//      describe('delete all', function() {
-//          it("be able to delete the user", function(done) {
-//              var url = 'http://localhost:8080/users';
-//              // getting the parameters
-//              var params = {
-//                  uri: url,
-//                  headers: {
-//                      authorization: getBasic('testuser', 'test')
-//                  },
-//              };
-//              request.del(params, function(error, response, body) {
-//                  expect(response.statusCode).toBe(200);
-//                  expect(body).toBe('"Deleted User!"')
-//                  if(error) {
-//                      expect(error.code).not.toBe('ECONNREFUSED');
-//                  }
-//                  done();
-//              })
-//          })
-//          it('be able to delete the business', function(done) {
-//              var url = 'http://localhost:8080/business';
-//              // getting the parameters
-//              var params = {
-//                  uri: url,
-//                  headers: {
-//                      authorization: getBasic('testBusiness', 'test')
-//                  },
-//              };
-//              request.del(params, function(error, response, body) {
-//                  expect(response.statusCode).toBe(200);
-//                  expect(body).toBe('"Deleted Business!"')
-//                  if(error) {
-//                      expect(error.code).not.toBe('ECONNREFUSED');
-//                  }
-//                  done();
-//              })
-//          })
-//          it('delete offers', function(done) {
-//              var url = 'http://localhost:8080/business/offers';
-//              // getting the parameters
-//              var params = {
-//                  uri: url,
-//                  headers: {
-//                      authorization: getBasic('testuser', 'test')
-//                  },
-//              };
-//              request.del(params, function(error, response, body) {
-//                  expect(response.statusCode).toBe(200);
-//                  if(error) {
-//                      expect(error.code).not.toBe('ECONNREFUSED');
-//                  }
-//                  done();
-//              })
-//          })
-//          it('delete group', function(done) {
-//              var url = 'http://localhost:8080/groups/testgroup';
-//              // getting the parameters
-//              request.del(url, function(error, response, body) {
-//                  expect(response.statusCode).toBe(200);
-//                  expect(response.body).toBe('"group deleted"')
-//                  if(error) {
-//                      expect(error.code).not.toBe('ECONNREFUSED');
-//                  }
-//                  done();
-//              })
-//          })
-
-//      });
+     //      describe('delete all', function() {
+     //          it("be able to delete the user", function(done) {
+     //              var url = 'http://localhost:8080/users';
+     //              // getting the parameters
+     //              var params = {
+     //                  uri: url,
+     //                  headers: {
+     //                      authorization: getBasic('testuser', 'test')
+     //                  },
+     //              };
+     //              request.del(params, function(error, response, body) {
+     //                  expect(response.statusCode).toBe(200);
+     //                  expect(body).toBe('"Deleted User!"')
+     //                  if(error) {
+     //                      expect(error.code).not.toBe('ECONNREFUSED');
+     //                  }
+     //                  done();
+     //              })
+     //          })
+     //          it('be able to delete the business', function(done) {
+     //              var url = 'http://localhost:8080/business';
+     //              // getting the parameters
+     //              var params = {
+     //                  uri: url,
+     //                  headers: {
+     //                      authorization: getBasic('testBusiness', 'test')
+     //                  },
+     //              };
+     //              request.del(params, function(error, response, body) {
+     //                  expect(response.statusCode).toBe(200);
+     //                  expect(body).toBe('"Deleted Business!"')
+     //                  if(error) {
+     //                      expect(error.code).not.toBe('ECONNREFUSED');
+     //                  }
+     //                  done();
+     //              })
+     //          })
+     //          it('delete offers', function(done) {
+     //              var url = 'http://localhost:8080/business/offers';
+     //              // getting the parameters
+     //              var params = {
+     //                  uri: url,
+     //                  headers: {
+     //                      authorization: getBasic('testuser', 'test')
+     //                  },
+     //              };
+     //              request.del(params, function(error, response, body) {
+     //                  expect(response.statusCode).toBe(200);
+     //                  if(error) {
+     //                      expect(error.code).not.toBe('ECONNREFUSED');
+     //                  }
+     //                  done();
+     //              })
+     //          })
+     //          it('delete group', function(done) {
+     //              var url = 'http://localhost:8080/groups/testgroup';
+     //              // getting the parameters
+     //              request.del(url, function(error, response, body) {
+     //                  expect(response.statusCode).toBe(200);
+     //                  expect(response.body).toBe('"group deleted"')
+     //                  if(error) {
+     //                      expect(error.code).not.toBe('ECONNREFUSED');
+     //                  }
+     //                  done();
+     //              })
+     //          })
+     //      });
  })
  getBasic = function(username, password) {
      return "Basic " + new Buffer(username + ":" + password).toString('base64')

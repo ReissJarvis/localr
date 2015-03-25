@@ -144,7 +144,6 @@ function register(req, res, next, type) {
                         latitude: latitude,
                         longitude: longitude
                     };
-                    var docStr = JSON.stringify(doc);
                     //Build request
                     var params = {
                         uri: url,
@@ -162,7 +161,7 @@ function register(req, res, next, type) {
                             Date_Joined: date
                         }
                         //Send back successful response
-                        res.send(sendBack);
+                        res.send(201,sendBack);
                         res.end();
                         // end of couch db callback
                     });
