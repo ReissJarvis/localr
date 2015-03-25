@@ -92,7 +92,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              })
          })
          it("check points have been added", function(done) {
-             var url = 'http://localhost:8080/users/testuser';
+             var url = 'http://localhost:8080/users/get/testuser';
              // getting the parameters
              var params = {
                  uri: url,
@@ -111,7 +111,7 @@ jasmine.getEnv().defaultTimeoutInterval = 99999;
              })
          })
          it("be able to see where you've checked in", function() {
-//              var url = 'http://localhost:8080/users/testuser';
+//              var url = 'http://localhost:8080/users/get/testuser';
 //              // getting the parameters
 //              var params = {
 //                  uri: url,
