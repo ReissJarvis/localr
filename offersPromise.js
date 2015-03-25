@@ -1,3 +1,4 @@
+//Rebuilding to promises
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
@@ -24,7 +25,21 @@ module.exports.offers = (function() {
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
             //Make a new promise by getting the URL
-            getRequest(url).
+            return new Promise(function(resolve, reject) {
+                request.get(url, function(err, response, body) {
+                    if(err) {
+                        reject(err)
+                    };
+                    // if the document isnt found it will create it from sratch
+                    console.log('code ' + response.statusCode)
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    }
+                })
+            }).
             catch(function(err) {
                 //If there is a error getting the document from within the promise
                 console.log("GET request error on couchDB document")
@@ -35,54 +50,59 @@ module.exports.offers = (function() {
                 if(call.response.statusCode === 200) {
                     return next(new restify.ConflictError('Offer has already been created with the same name'));
                 }
-                return call
-            }).then(function(call) {
-                console.log(call)
-                //Insert node into neo4j
-                if(call.response.statusCode === 404) {
+                return new Promise(function(resolve, reject) {
                     //Insert node into neo4j
-                    db.insertNode({
-                        name: offertitle
-                    }, ['Offer', businessName], function(err, node) {
-                        if(err) throw err;
-                        // Output node properties.
-                        console.log('New neo4j node created with name = ' + node.name);
-                        nodeid = node._id
+                    if(call.response.statusCode === 404) {
+                        //Insert node into neo4j
+                        db.insertNode({
+                            name: offertitle
+                        }, ['Offer', businessName], function(err, node) {
+                            if(err) throw err;
+                            // Output node properties.
+                            console.log('New neo4j node created with name = ' + node.name);
+                            nodeid = node._id
+                        })
+                        var doc = {
+                            date_created: date,
+                            last_modified: date,
+                            offer_title: offertitle,
+                            offer_description: description,
+                            offer_cost: offerCost,
+                            businessname: businessName,
+                            redeems: [],
+                            nodeid: nodeid
+                        };
+                        resolve(doc)
+                    }
+                }).then(function(doc) {
+                    return new Promise(function(resolve, reject) {
+                        var params = {
+                            uri: url,
+                            body: JSON.stringify(doc)
+                        };
+                        request.put(params, function(err, response, body) {
+                            if(err) {
+                                return next(new restify.InternalServerError('Cant create document in CouchDB'));
+                            }
+                            if(response) {
+                                resolve(response)
+                            }
+                        }).then(function(put) {
+                            // document has been inserted into database
+                            res.setHeader('Location', 'http://' + req.headers.host + req.url);
+                            res.setHeader('Last-Modified', date);
+                            res.setHeader('Content-Type', 'application/json');
+                            //Build body to send back
+                            var sendBack = {
+                                Added: 'OK',
+                                Offer_Title: offertitle,
+                                Offer_Description: description,
+                                Date_Added: date
+                            }
+                            res.send(201, sendBack);
+                            res.end();
+                        })
                     })
-                    var doc = {
-                        date_created: date,
-                        last_modified: date,
-                        offer_title: offertitle,
-                        offer_description: description,
-                        offer_cost: offerCost,
-                        businessname: businessName,
-                        redeems: [],
-                        nodeid: nodeid
-                    };
-                    return doc
-                }
-            }).then(function(doc) {
-                console.log(doc)
-                var params = {
-                    uri: url,
-                    body: JSON.stringify(doc)
-                };
-                request.put(params, function(err, response, body) {
-                    if(err) {
-                        return next(new restify.InternalServerError('Cant create document in CouchDB'));
-                    }
-                    // document has been inserted into database
-                    res.setHeader('Location', 'http://' + req.headers.host + req.url);
-                    res.setHeader('Last-Modified', date);
-                    res.setHeader('Content-Type', 'application/json');
-                    var sendBack = {
-                        Added: 'OK',
-                        Offer_Title: offertitle,
-                        Offer_Description: description,
-                        Date_Added: date
-                    }
-                    res.send(201, sendBack);
-                    res.end();
                 })
             })
         },
