@@ -271,20 +271,20 @@ module.exports.offers = (function() {
                                     }
                                     // document has been inserted into database
                                     resolve()
-                                }).then(function() {
-                                    res.setHeader('Last-Modified', date);
-                                    res.setHeader('Content-Type', 'application/json');
-                                    res.setHeader('Accepts', 'PUT');
-                                    var sendBack = {
-                                        Redeem: 'OK',
-                                        username: username,
-                                        business: businessName,
-                                        points_taken: cost,
-                                        total_points: totalPoints
-                                    }
-                                    res.send(202, sendBack);
-                                    res.end();
                                 })
+                            }).then(function() {
+                                res.setHeader('Last-Modified', date);
+                                res.setHeader('Content-Type', 'application/json');
+                                res.setHeader('Accepts', 'PUT');
+                                var sendBack = {
+                                    Redeem: 'OK',
+                                    username: username,
+                                    business: businessName,
+                                    points_taken: cost,
+                                    total_points: totalPoints
+                                }
+                                res.send(202, sendBack);
+                                res.end();
                             })
                         })
                     })
