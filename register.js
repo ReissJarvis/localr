@@ -174,7 +174,7 @@ function register(req, res, next, type) {
         console.log("Error, Invalid Type!");
     };
 };
-module.exports.reigster = (function() {
+module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
         registerUser: function(req, res, next) {
