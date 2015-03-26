@@ -4,7 +4,7 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     Promise = require('promise');
 //Module to check password is the same
-module.exports.check = (function(username, password, type) {
+module.exports.check = (function(next, username, password, type) {
     if(type == "business") {
         var url = "http://localhost:5984/business/" + username;
     } else {

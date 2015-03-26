@@ -188,7 +188,7 @@ module.exports.offers = (function() {
             };
             //Make sure the user has priveledges to redeem from header credentials
             //Check username and password is correct
-            pwdCheck.check(username, password, 'user').then(function() {
+            pwdCheck.check(next, username, password, 'user').then(function() {
                 //Get the offer URL
                 //Create a promise for the get request
                 return new Promise(function(resolve, reject) {
