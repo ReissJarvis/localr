@@ -188,7 +188,7 @@ module.exports.offers = (function() {
             };
             //Make sure the user has priveledges to redeem from header credentials
             //Check username and password is correct
-            pwdCheck.check(next, username, password, 'user').
+            pwdCheck.check(username, password, 'user').
             catch(function(err) {
                 return next(new restify.UnauthorizedError('Invalid username/password'));
             }).then(function() {
