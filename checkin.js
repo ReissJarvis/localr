@@ -31,8 +31,8 @@ function checkin(req, res, next) {
         //New promise to check if username and password match the document
         pwdCheck.check(username, password, 'user').
         catch(function(err) {
-            return next(new restify.UnauthorizedError('Invalid username/password'));
             credentials = false;
+            return next(new restify.UnauthorizedError('Invalid username/password'));
         }).then(function() {
             if(credentials = true) {
                 console.log('CHECKIN ');
