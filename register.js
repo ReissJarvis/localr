@@ -219,7 +219,7 @@ module.exports.register = (function() {
                 surname = req.params.surname,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + username;
-            if(!(this.checkUser(username, city, dob, firstname, surname))){
+            if(!checkUser(username, city, dob, firstname, surname)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
             getRequest(url).
@@ -291,7 +291,7 @@ module.exports.register = (function() {
                 latitude = req.params.latitude,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + businessname;
-            if(!(this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude))){
+            if(!checkBusiness(businessname, points, address, city, postcode, longitude, latitude)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
             getRequest(url).
