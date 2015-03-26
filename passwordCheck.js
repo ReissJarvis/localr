@@ -23,6 +23,7 @@ module.exports.check = (function(username, password, type) {
             if(pwd != body.password) {
                 //If they don't match then return an error
                 reject()
+                console.log('Wrong Password for' + username)
             } else {
                 //If they do match return true
                 resolve()

@@ -33,7 +33,7 @@ module.exports.offers = (function() {
                 return next(new restify.UnauthorizedError('Invalid username/password'));
                 credentials = false;
             });
-            if(credentials) {
+            if(credentials = true) {
                 return new Promise(function(resolve, reject) {
                     request.get(url, function(err, response, body) {
                         if(err) {
@@ -202,7 +202,7 @@ module.exports.offers = (function() {
             catch(function(err) {
                 return next(new restify.UnauthorizedError('Invalid username/password'));
             });
-            if(credentials) {
+            if(credentials = true) {
                 //Get the offer URL
                 //Create a promise for the get request
                 return new Promise(function(resolve, reject) {

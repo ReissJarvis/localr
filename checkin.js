@@ -34,7 +34,7 @@ function checkin(req, res, next) {
             return next(new restify.UnauthorizedError('Invalid username/password'));
             credentials = false;
         }).then(function() {
-            if(credentials) {
+            if(credentials = true) {
                 console.log('CHECKIN ');
                 console.log('PUT ' + username);
                 request.get(userUrl, function(err, response, body) {
