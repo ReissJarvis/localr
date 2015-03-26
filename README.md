@@ -4,7 +4,7 @@
 
 These all assume you have set the basic auth headers and ('content-type' = 'application/json')
 
-Add New User:
+###Add New User:
 
 PUT - http://api.adam-holt.co.uk/users
 
@@ -12,15 +12,15 @@ headers: authorization: getBasic('testuser', 'test'), "content-type": "applicati
 
 body: JSON.stringify(doc)
 
-Get User:
+###Get User:
 
 GET - http://api.adam-holt.co.uk/users/get?username=USERNAME
 
-Check in user:
+###Check in user:
 
 PUT - http://api.adam-holt.co.uk/users/checkin
 
-Delete User:
+###Delete User:
 
 DEL - http://api.adam-holt.co.uk/users/delete?username=USERNAME
 
@@ -29,7 +29,7 @@ DEL - http://api.adam-holt.co.uk/users/delete?username=USERNAME
 
 These all assume you have set the basic auth headers and ('content-type' = 'application/json')
 
-Add Business:
+###Add Business:
 
 PUT - http://api.adam-holt.co.uk/business/
 
@@ -37,7 +37,7 @@ authorization: getBasic('testbusiness', 'test'), "content-type": "application/js
 
 body: points: 50, city: "coventry", address: "blahhh", postcode: "B23 5XR", longitude: 40.000, latitude: 1.020, email: "adamholt@me.com"
 
-Delete Business
+###Delete Business
 
 DEL - http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
 
@@ -49,40 +49,40 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 http://api.adam-holt.co.uk/business/offers/add?businessname=BUSINESSNAME&offer=OFFER&description=DESCRIPTION
 
-Add Offers
+###Add Offers
 
 PUT - http://api.adam-holt.co.uk/business/offers
 
-Get Offers
+###Get Offers
 
 GET - http://api.adam-holt.co.uk/business/offers/all
 
-Get Businesses Offers
+###Get Businesses Offers
 
 GET - http://api.adam-holt.co.uk/business/offers/testbusiness 
 
-Redeem Offers 
+###Redeem Offers 
 
 GET - http://api.adam-holt.co.uk/business/offers/redeem
 
-Check Offers Redeemed
+###Check Offers Redeemed
 
 GET - http://api.adam-holt.co.uk/users/get/testuser
 
 
 ##Groups
 
-Add Groups
+###Add Groups
 
 PUT - http://api.adam-holt.co.uk/groups
 
-Join Groups
+###Join Groups
 
-Get Groups
+###Get Groups
 
 GET - http://api.adam-holt.co.uk/groups/testgroup
 
-View Groups
+###View Groups
 
 GET - http://api.adam-holt.co.uk/groups?competition=freshers
 
