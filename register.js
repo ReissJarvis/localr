@@ -185,7 +185,7 @@ module.exports.register = (function() {
                 surname = req.params.surname,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + username;
-            if(checkUser(username, city, dob, firstname, surname) != true){
+            if(register.checkUser(username, city, dob, firstname, surname) != true){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
             getRequest(url).
