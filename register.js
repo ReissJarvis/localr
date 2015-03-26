@@ -4,7 +4,8 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
-    neo4j = require('node-neo4j');
+    neo4j = require('node-neo4j'),
+    Promise = require('promise');
 
 function registera(req, res, next, type) {
     if(type == "users") {
