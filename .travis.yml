@@ -38,5 +38,5 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  - sudo bash ./deploy.sh
+  - sudo expect ./deploy.sh
   
