@@ -5,6 +5,7 @@ node_js:
 services:
   - couchdb
 before_script:
+  - sudo apt-get install expect
   - npm install -g jasmine-node
   - npm install -g request
   - npm install -g restify
@@ -36,4 +37,5 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  #Add hook here for CI soon
+  - sudo bash ./deploy.sh
+  
