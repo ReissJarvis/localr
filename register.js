@@ -36,7 +36,8 @@ module.exports.register = (function() {
                     if(err) throw err;
                     nodeid = node._id
                 });
-            }).then(function() {
+                return nodeid;
+            }).then(function(nodeid) {
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
                     d = new Date(),
@@ -110,7 +111,8 @@ module.exports.register = (function() {
                     if(err) throw err;
                     nodeid = node._id
                 });
-            }).then(function() {
+                return nodeid;
+            }).then(function(nodeid) {
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
                     d = new Date(),

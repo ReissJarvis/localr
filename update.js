@@ -4,21 +4,41 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
-    Promise = require('promise');
+    Promise = require('promise'),
+    pwdCheck = require('./passwordCheck.js');
 
 module.exports.update = (function(){
     return {
         updateUser: function(req, res, next){
             var username = req.params.username,
                 url = 'http://localhost:5984/users/' + username,
+                password = req.authorization.basic.password,
                 salt = rand(160, 36),
                 mainBody = {};
             if(username !== req.authorization.basic.username){
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
-            getRequest(url).catch(function(err) {
-                console.log("get request error")
-                return next(new restify.InternalServerError('Error has occured'));
+            pwdCheck.check(username, password, 'user').
+            catch(function(err) {
+                return next(new restify.UnauthorizedError('Invalid username/password'));
+            }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    request.get(url, function(err, response, body) {
+                        if(err) {
+                            reject(err)
+                        };
+                        console.log('code ' + response.statusCode)
+                        if(body) {
+                            resolve({
+                                response: response,
+                                body: body
+                            })
+                        }
+                    })
+                })
+            }).catch(function(err) {
+                console.log("GET request error on couchDB document")
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(body){
                 if(body.response.statusCode === 200){
                     mainBody = JSON.parse(body.body);
@@ -67,14 +87,33 @@ module.exports.update = (function(){
         updateBusiness: function(req, res, next){
             var businessname = req.params.businessname,
                 url = 'http://localhost:5984/business/' + businessname,
+                password = req.authorization.basic.password,
                 salt = rand(160, 36),
                 mainBody = {};
             if(businessname !== req.authorization.basic.username){
                 return next(new restify.UnauthorizedError("You do not have permission to edit this business!"))
             };
-            getRequest(url).catch(function(err) {
-                console.log("get request error")
-                return next(new restify.InternalServerError('Error has occured'));
+            pwdCheck.check(businessname, password, 'user').
+            catch(function(err) {
+                return next(new restify.UnauthorizedError('Invalid username/password'));
+            }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    request.get(url, function(err, response, body) {
+                        if(err) {
+                            reject(err)
+                        };
+                        console.log('code ' + response.statusCode)
+                        if(body) {
+                            resolve({
+                                response: response,
+                                body: body
+                            })
+                        }
+                    })
+                })
+            }).catch(function(err) {
+                console.log("GET request error on couchDB document")
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(body){
                 if(body.response.statusCode === 200){
                     console.log("runnin param tests")
