@@ -1,22 +1,17 @@
-#!/bin/bash
-
-HOST="api.adam-holt.co.uk"
-USER="couch"
-PASS="Localer2015/"
-CMD=$@
-
-VAR=$(expect -c "
-spawn ssh -o StrictHostKeyChecking=no $USER@$HOST $CMD
-match_max 100000
-expect \"*?assword:*\"
-send -- \"$PASS\r\"
-send -- \"\r\"
+#!/usr/bin/expect -f
+spawn ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
+expect "assword:"
+send "Adam15\r"
+set prompt {\$ $}
+expect -re $prompt
+send "cd localer\r"
+expect -re $prompt
+send "forever stop server.js\r"
+expect -re $prompt
+send "git pull origin master\r"
+sleep 10
+expect -re $prompt
+send "forever start server.js\r"
+expect -re $prompt
+send "exit\r"
 expect eof
-")
-echo "==============="
-
-sleep 5
-cd localer
-forever stop server.js
-git pull origin master
-forever start server.js

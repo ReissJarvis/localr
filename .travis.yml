@@ -5,6 +5,7 @@ node_js:
 services:
   - couchdb
 before_script:
+  #These get exectued before npm start!
   - sudo apt-get install expect
   - npm install -g jasmine-node
   - npm install -g request
@@ -19,6 +20,7 @@ before_script:
   - curl -X PUT localhost:5984/groups
   - curl -X PUT localhost:5984/business
   - curl -X PUT localhost:5984/offers
+  #Used for the couchdb design views
   - curl -X PUT http://localhost:5984/offers/_design/offers --data-binary @offersView.json
   - curl -X PUT http://localhost:5984/groups/_design/groups --data-binary @groupsView.json
 jdk:
@@ -37,5 +39,5 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  - sudo bash ./deploy.sh
+  - sudo expect ./deploy.sh
   
