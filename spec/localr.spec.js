@@ -139,7 +139,7 @@
              request.put(params, function(error, response, body) {
                  expect(response.statusCode).toBe(401);
                  body = JSON.parse(body);
-                 expect(body.message).toBe("Invalid username/password.")
+                 expect(body.message).toBe("Invalid username/password")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
