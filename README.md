@@ -1,4 +1,4 @@
-#localr Documentation
+#Localr Documentation
 
 ##Users
 
@@ -7,6 +7,10 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 Add New User:
 
 PUT - http://api.adam-holt.co.uk/users
+headers: authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
+body: JSON.stringify(doc)
+
 
 Get User:
 
