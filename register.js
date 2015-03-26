@@ -92,7 +92,7 @@ module.exports.register = (function() {
                 latitude = req.params.latitude,
                 email = req.params.email,
                 nodeid = 0,
-                url = 'http://localhost:5984/users/' + businessname;
+                url = 'http://localhost:5984/business/' + businessname;
             if(!this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude, email)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
