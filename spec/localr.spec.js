@@ -29,12 +29,20 @@
          describe('create the user', function() {
              it("be able to create a user", function(done) {
                  var url = 'http://localhost:8080/users';
+                 var doc = {
+                     city: "Birmingham",
+                     dob: "31.05.1991",
+                     firstname: "Adam",
+                     surname: "Holt",
+                     email: "adamholt@me.com"
+                 }
                  // getting the parameters
                  var params = {
                      uri: url,
                      headers: {
                          authorization: getBasic('testuser', 'test')
-                     }
+                     },
+                     body: JSON.stringify(doc)
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
@@ -49,12 +57,20 @@
              })
              it("be not able to create duplicate user", function(done) {
                  var url = 'http://localhost:8080/users';
+                 var doc = {
+                     city: "Birmingham",
+                     dob: "31.05.1991",
+                     firstname: "Adam",
+                     surname: "Holt",
+                     email: "adamholt@me.com"
+                 }
                  // getting the parameters
                  var params = {
                      uri: url,
                      headers: {
                          authorization: getBasic('testuser', 'test')
-                     }
+                     },
+                     body: JSON.stringify(doc)
                  };
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(409);
@@ -75,7 +91,8 @@
                  address: "blahhh",
                  postcode: "B23 5XR",
                  longitude: 40.000,
-                 latitude: 1.020
+                 latitude: 1.020,
+                 email: "adamholt@me.com"
              }
              // getting the parameters
              var params = {
@@ -275,7 +292,7 @@
              });
          })
          it("Be able to get a single group", function(done) {
-            var url = 'http://localhost:8080/groups/testgroup';
+             var url = 'http://localhost:8080/groups/testgroup';
              // getting the parameters
              var params = {
                  uri: url,
@@ -291,11 +308,8 @@
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
-             }) 
-             
-             
+             })
          })
-         
          it("Be able to see all groups", function(done) {
              var url = 'http://localhost:8080/groups?competition=freshers';
              // getting the parameters
@@ -314,10 +328,7 @@
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
                  done();
-             }) 
-             
-             
-             
+             })
          })
      })
      describe('Offers', function() {
