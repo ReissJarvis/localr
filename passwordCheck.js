@@ -20,12 +20,10 @@ module.exports.check = (function(next, username, password, type) {
             var pwd = sha1(password + body.salt);
             if(pwd != body.password) {
                 //If they don't match then return an error
-                return next(new restify.UnauthorizedError('Invalid username/password'));
-                resolve()
+                reject(return next(new restify.UnauthorizedError('Invalid username/password'));)
             } else {
                 //If they do match return true
-                return true
-                reject()
+                resolve()
             }
         })
     })
