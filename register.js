@@ -242,7 +242,7 @@ module.exports.register = (function() {
                         city: city,
                         dob: dob
                     };
-                    res.send(202, sendBack);
+                    res.send(201, sendBack);
                     res.end();
                 });
             })
@@ -316,7 +316,7 @@ module.exports.register = (function() {
                         latitude: latitude
                         
                     };
-                    res.send(202, sendBack);
+                    res.send(201, sendBack);
                     res.end();
                 });
             })
