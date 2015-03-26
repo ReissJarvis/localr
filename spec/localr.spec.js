@@ -40,7 +40,8 @@
                  var params = {
                      uri: url,
                      headers: {
-                         authorization: getBasic('testuser', 'test')
+                         authorization: getBasic('testuser', 'test'),
+                         "content-type": "application/json"
                      },
                      body: JSON.stringify(doc)
                  };
