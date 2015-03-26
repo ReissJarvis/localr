@@ -27,16 +27,15 @@ module.exports.register = (function() {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
             }).then(function(body) {
-                if(body.response.statusCode === 200) {
-                    return next(new restify.ConflictError('User already created!'));
-                };
-                db.insertNode({
-                    name: username
-                    }, ['User'], function(err, node) {
-                    if(err) throw err;
-                    nodeid = node._id
-                });
-                return nodeid;
+                return new Promise(function(resolve, reject) {
+                    db.insertNode({
+                        name: username
+                    }, ['User', username], function(err, node) {
+                        if(err) throw err;
+                        nodeid = node._id;
+                        resolve(node._id);
+                    });
+                })
             }).then(function(nodeid) {
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
@@ -103,16 +102,15 @@ module.exports.register = (function() {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
             }).then(function(body) {
-                if(body.response.statusCode === 200) {
-                    return next(new restify.ConflictError('Business already created!'));
-                };
-                db.insertNode({
-                    name: businessname
+                return new Promise(function(resolve, reject) {
+                    db.insertNode({
+                        name: businessname
                     }, ['Business', businessname], function(err, node) {
-                    if(err) throw err;
-                    nodeid = node._id
-                });
-                return nodeid;
+                        if(err) throw err;
+                        nodeid = node._id;
+                        resolve(node._id);
+                    });
+                })
             }).then(function(nodeid) {
                 var salt = rand(160, 36),
                     password = sha1(req.authorization.basic.password + salt),
@@ -175,7 +173,6 @@ module.exports.register = (function() {
             });
         },
         checkUser: function(u, c, d, f, s, e) {
-            console.log(u + "  " + c + " " + d + " " + f + " " + s);
             if(typeof u == "undefined") {
                 return false;
             } else if(typeof c == "undefined") {
