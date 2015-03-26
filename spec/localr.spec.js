@@ -122,6 +122,30 @@
                  done();
              })
          })
+         it("should not be able to checkin with invalid credntials", function(done) {
+             var url = 'http://localhost:8080/users/checkin';
+             var doc = {
+                 business: "testbusiness",
+             };
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'wrongpass'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(401);
+                 body = JSON.parse(body);
+                 expect(body.message).toBe("Invalid username/password.")
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
          it("check points have been added", function(done) {
              var url = 'http://localhost:8080/users/get/testuser';
              // getting the parameters
