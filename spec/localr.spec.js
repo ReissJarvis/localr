@@ -26,60 +26,58 @@
          })
      })
      describe('Users', function() {
-         describe('create the user', function() {
-             it("be able to create a user", function(done) {
-                 var url = 'http://localhost:8080/users';
-                 var doc = {
-                     city: "Birmingham",
-                     dob: "31.05.1991",
-                     firstname: "Adam",
-                     surname: "Holt",
-                     email: "adamholt@me.com"
+         it("be able to create a user", function(done) {
+             var url = 'http://localhost:8080/users';
+             var doc = {
+                 city: "Birmingham",
+                 dob: "31.05.1991",
+                 firstname: "Adam",
+                 surname: "Holt",
+                 email: "adamholt@me.com"
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(201);
+                 body = JSON.parse(body);
+                 expect(body.username).toBe('testuser');
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
                  }
-                 // getting the parameters
-                 var params = {
-                     uri: url,
-                     headers: {
-                         authorization: getBasic('testuser', 'test'),
-                         "content-type": "application/json"
-                     },
-                     body: JSON.stringify(doc)
-                 };
-                 request.post(params, function(error, response, body) {
-                     expect(response.statusCode).toBe(201);
-                     body = JSON.parse(body);
-                     expect(body.username).toBe('testuser');
-                     if(error) {
-                         expect(error.code).not.toBe('ECONNREFUSED');
-                     }
-                     done();
-                 })
+                 done();
              })
-             it("be not able to create duplicate user", function(done) {
-                 var url = 'http://localhost:8080/users';
-                 var doc = {
-                     city: "Birmingham",
-                     dob: "31.05.1991",
-                     firstname: "Adam",
-                     surname: "Holt",
-                     email: "adamholt@me.com"
+         })
+         it("be not able to create duplicate user", function(done) {
+             var url = 'http://localhost:8080/users';
+             var doc = {
+                 city: "Birmingham",
+                 dob: "31.05.1991",
+                 firstname: "Adam",
+                 surname: "Holt",
+                 email: "adamholt@me.com"
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(409);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
                  }
-                 // getting the parameters
-                 var params = {
-                     uri: url,
-                     headers: {
-                         authorization: getBasic('testuser', 'test'),
-                         "content-type": "application/json"
-                     },
-                     body: JSON.stringify(doc)
-                 };
-                 request.post(params, function(error, response, body) {
-                     expect(response.statusCode).toBe(409);
-                     if(error) {
-                         expect(error.code).not.toBe('ECONNREFUSED');
-                     }
-                     done();
-                 })
+                 done();
              })
          })
      })
