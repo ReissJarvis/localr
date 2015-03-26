@@ -1,0 +1,11 @@
+{
+   "_id": "_design/groups",
+   "views": {
+       "all": {
+           "map": "function(doc){if (doc.title !== '_design/example'){emit([doc.date, doc.time, doc.username], doc)}}"
+       },
+       "competition": {
+           "map": "function(doc){if (doc.title !== '_design/example'){emit(doc.competition, doc)}}"
+       }
+   }
+}

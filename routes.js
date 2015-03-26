@@ -104,13 +104,12 @@ exports.getRoutes = function(server){
     }, function(req, res, next) {
         groups.groups.deleteGroup(req, res, next);
     });
-    //?username=username&groupname=test21
     server.get({
         path: group +"/:groupname"
     }, function(req, res, next) {
         groups.groups.showgroup(req, res, next);
     });
-    //?username=username&competition=freshers
+    //?competition=freshers
     server.get({
         path: group
     }, function(req, res, next) {
