@@ -1,6 +1,5 @@
-ssh couch@api.adam-holt.co.uk
+ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
 Localer2015/
-yes
 cd localer
 forever stop server.js
 git pull origin master
