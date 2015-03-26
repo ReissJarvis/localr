@@ -27,6 +27,7 @@ function checkin(req, res, next) {
             body = JSON.parse(body);
             points = body.checkin_points;
         }
+        //New promise to check if username and password match the document
         pwdCheck.check(username, password, 'user').
         catch(function(err) {
             return next(new restify.UnauthorizedError('Invalid username/password'));
@@ -35,21 +36,18 @@ function checkin(req, res, next) {
             console.log('PUT ' + username);
             request.get(userUrl, function(err, response, body) {
                 console.log("Request started.");
-                // if the document isnt found it will create it from sratch
+                // if the document isnt found it will error
                 if(response.statusCode === 404) {
                     return next(new restify.NotFoundError('User Not Found'));
                 };
+                //If document is found it will proceed
                 if(response.statusCode === 200) {
                     console.log('Existing document.');
                     body = JSON.parse(body);
-                    var pwd = sha1(req.authorization.basic.password + body.salt);
-                    if(pwd != body.password) {
-                        return next(new restify.ForbiddenError('Invalid username/password.'));
-                    }
-                    console.log('Passwords match!');
+                    //Create timestamp for transaction
                     var d = new Date(),
                         date = d.toUTCString();
-                    // change what we need in the body e.g the points can probably add to the array aswell
+                    //Change what we need in the body e.g the points can probably add to the array aswell
                     body.last_modified = date;
                     body.points = body.points + points;
                     var totalPoints = body.points;
@@ -60,11 +58,12 @@ function checkin(req, res, next) {
                         amount_of_points: points,
                         checked_in_at: business
                     })
-                    console.log(body.points);
+                    console.log(username + ' Added ' + body.points + ' points');
                     var params = {
                         uri: userUrl,
                         body: JSON.stringify(body)
                     };
+                    //Put the new updated document
                     request.put(params, function(err, response, body) {
                         if(err) {
                             return next(new restify.InternalServerError('Cant create document'));
@@ -81,6 +80,7 @@ function checkin(req, res, next) {
                             points_added: points,
                             total_points: totalPoints
                         }
+                        //Send back accepted with some params about the transaction
                         res.send(202, sendBack);
                         res.end();
                     });
