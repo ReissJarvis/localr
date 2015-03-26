@@ -76,7 +76,18 @@ GET - http://api.adam-holt.co.uk/users/get/testuser
 
 PUT - http://api.adam-holt.co.uk/groups
 
+headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+
+body: username: "testuser", groupname: "testgroup", description: "This is a Test Group", competition: "freshers"
+
 ###Join Groups
+
+PUT - http://api.adam-holt.co.uk/groups
+
+headers: authorization: getBasic('testuser2', 'test'), "content-type": "application/json"
+
+body:  username: "testuser2", groupname: "testgroup2", description: "This is a Test Group 2", competition: "freshers"
+                
 
 ###Get Groups
 
