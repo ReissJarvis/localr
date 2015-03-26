@@ -6,8 +6,7 @@ var restify = require('restify'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j'),
     Promise = require('promise'),
-    pwdCheck = require('./passwordCheck.js')
-    
+    pwdCheck = require('./passwordCheck.js');
 module.exports.offers = (function() {
     //Some handy variables
     var rand = uuid.v1(),
@@ -188,12 +187,14 @@ module.exports.offers = (function() {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
             };
             //Make sure the user has priveledges to redeem from header credentials
+            //Check username and password is correct
+            var testCreds = pwdCheck.check(username, password, 'user')
             return new Promise(function(resolve, reject) {
-                //Check username and password is correct
-                var testCreds = pwdCheck.check(username, password, 'user')
-                if (testCreds = true){
-                    resolve()
-                }
+                function(testCreds, function(){
+                    if (testCreds = true){
+                        resolve()
+                    } else {reject}
+                })
             }).then(function() {
                 //Get the offer URL
                 //Create a promise for the get request
