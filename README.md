@@ -6,7 +6,7 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 Add New User:
 
-PUT - http://api.adam-holt.co.uk/users/register?username=USERNAME
+PUT - http://api.adam-holt.co.uk/users
 
 Get User:
 
@@ -14,7 +14,7 @@ GET - http://api.adam-holt.co.uk/users/get?username=USERNAME
 
 Check in user:
 
-PUT - http://api.adam-holt.co.uk/users/checkin?username=USERNAME&points=POINTS
+PUT - http://api.adam-holt.co.uk/users/checkin
 
 Delete User:
 
@@ -27,11 +27,12 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 Add Business:
 
-PUT - http://api.adam-holt.co.uk/business/register?businessname=BUSINESSNAME
+PUT - http://api.adam-holt.co.uk/business/register
 
 Delete Business
 
 DEL - http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
+
 
 
 ##Offers
