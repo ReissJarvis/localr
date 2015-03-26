@@ -4,13 +4,13 @@ expect "assword:"
 send "Adam15\r"
 set prompt {\$ $}
 expect -re $prompt
-send "cd localer"
+send "cd localer\r"
 expect -re $prompt
-send "forever stop server.js"
+send "forever stop server.js\r"
 expect -re $prompt
-send "git pull origin master"
+send "git pull origin master\r"
 expect -re $prompt
-send "forever start server.js"
+send "forever start server.js\r"
 expect -re $prompt
-send "logout\r"
+send "exit\r"
 expect eof
