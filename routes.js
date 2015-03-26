@@ -107,14 +107,14 @@ exports.getRoutes = function(server){
     server.get({
         path: group +"/:groupname"
     }, function(req, res, next) {
-        groups.groups.showgroup(req, res, next);
+        groups.groups.showGroup(req, res, next);
     });
     //?competition=freshers
     server.get({
         path: group
     }, function(req, res, next) {
 
-        groups.showcompetitiongroup(req, res, next);
+        groups.groupsshowAllGroups(req, res, next);
     });
     //?username=username&groupname=test21
     server.post({

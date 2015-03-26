@@ -250,6 +250,51 @@
                  })
              });
          })
+//          it("Be able to get a single group", function(done) {
+//             var url = 'http://localhost:8080/groups/testgroup';
+//              // getting the parameters
+//              var params = {
+//                  uri: url,
+//                  headers: {
+//                      authorization: getBasic('testbusiness', 'test'),
+//                      "content-type": "application/json"
+//                  },
+//              };
+//              request.get(params, function(error, response, body) {
+//                  expect(response.statusCode).toBe(200);
+//                  console.log(body)
+//                  if(error) {
+//                      expect(error.code).not.toBe('ECONNREFUSED');
+//                  }
+//                  done();
+//              }) 
+             
+             
+//          })
+         
+//          it("Be able to see all groups", function(done) {
+//              var url = 'http://localhost:8080/groups?competition=freshers';
+//              // getting the parameters
+//              var params = {
+//                  uri: url,
+//                  headers: {
+//                      authorization: getBasic('testuser', 'test'),
+//                      "content-type": "application/json"
+//                  },
+//              };
+//              request.get(params, function(error, response, body) {
+//                  expect(response.statusCode).toBe(200);
+//                  console.log(body)
+//                  expect(body.total_groups).toBe(2);
+//                  if(error) {
+//                      expect(error.code).not.toBe('ECONNREFUSED');
+//                  }
+//                  done();
+//              }) 
+             
+             
+             
+//          })
      })
      describe('Offers', function() {
          it("Be able to add an offer", function(done) {
