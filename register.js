@@ -178,7 +178,7 @@ module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
         checkUser: function(u, c, d, f, s) {
-            console.log(u + " + " c + " " + d + " " + f + " " + s);
+            console.log(u + "  " + c + " " + d + " " + f + " " + s);
             if(typeof u == "undefined") {
                 return false;
             } else if(typeof c == "undefined") {
