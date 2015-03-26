@@ -134,8 +134,6 @@
              };
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(409);
-                 body = JSON.parse(body);
-                 expect(body.register).toBe('OK');
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
