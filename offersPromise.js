@@ -25,22 +25,29 @@ module.exports.offers = (function() {
             var date = d.toUTCString();
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
-            //Make a new promise by getting the URL
-            return new Promise(function(resolve, reject) {
-                request.get(url, function(err, response, body) {
-                    if(err) {
-                        reject(err)
-                    };
-                    // if the document isnt found it will create it from sratch
-                    console.log('code ' + response.statusCode)
-                    if(body) {
-                        resolve({
-                            response: response,
-                            body: body
-                        })
-                    }
+            
+            //Check username and password is correct
+            pwdCheck.check(username, password, 'business').
+            catch(function(err) {
+                return next(new restify.UnauthorizedError('Invalid username/password'));
+            }).then(function() {
+                return new Promise(function(resolve, reject) {
+                    request.get(url, function(err, response, body) {
+                        if(err) {
+                            reject(err)
+                        };
+                        // if the document isnt found it will create it from sratch
+                        console.log('code ' + response.statusCode)
+                        if(body) {
+                            resolve({
+                                response: response,
+                                body: body
+                            })
+                        }
+                    })
                 })
             }).
+            //Make a new promise by getting the URL
             catch(function(err) {
                 //If there is a error getting the document from within the promise
                 console.log("GET request error on couchDB document")
