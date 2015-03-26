@@ -178,6 +178,7 @@ module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
         checkUser: function(u, c, d, f, s) {
+            console.log(u + " + " c + " " + d + " " + f + " " + s);
             if(typeof u == "undefined") {
                 return false;
             } else if(typeof c == "undefined") {
@@ -191,6 +192,7 @@ module.exports.register = (function() {
             } else {
                 return true;
             };
+            return true;
         },
         checkBusiness: function(bus, pon, add, cit, pos, lon, lat) {
             if(typeof bus == "undefined") {
