@@ -28,7 +28,7 @@ module.exports.register = (function() {
             }).then(function(body) {
                 if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
-                } else if(body.response.statusCode === 401) {
+                } else if(body.response.statusCode === 404) {
                     return new Promise(function(resolve, reject) {
                         db.insertNode({
                             name: username
@@ -107,7 +107,7 @@ module.exports.register = (function() {
             }).then(function(body) {
                 if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
-                } else if(body.response.statusCode === 401) {
+                } else if(body.response.statusCode === 404) {
                     return new Promise(function(resolve, reject) {
                         db.insertNode({
                             name: businessname
