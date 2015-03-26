@@ -5,7 +5,7 @@ node_js:
 services:
   - couchdb
 before_script:
-  - sudo apt-get install expect
+  - sudo apt-get install sshpass
   - npm install -g jasmine-node
   - npm install -g request
   - npm install -g restify
