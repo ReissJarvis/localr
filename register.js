@@ -4,7 +4,8 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
-    neo4j = require('node-neo4j');
+    neo4j = require('node-neo4j'),
+    Promise = require('promise');
 
 module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
@@ -20,7 +21,7 @@ module.exports.register = (function() {
             if(!this.checkUser(username, city, dob, firstname, surname)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
-            getRequest(url).
+            this.getRequest(url).
             catch(function(err) {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
