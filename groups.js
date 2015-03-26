@@ -250,12 +250,12 @@ module.exports.groups = (function() {
                             if(response.statusCode === 200) {
                                 body = JSON.parse(body);
                                 body.usersjoined.push(req.authorization.basic.username)
-                                console.log(body)
                             }
                             var params = {
-                                uri: userUrl,
+                                uri:'http://localhost:5984/groups/' + req.params.groupname,
                                 body: JSON.stringify(body)
                             };
+                            console.log(params)
                             resolve(params)
                         })
                     }).then(function(params) {
