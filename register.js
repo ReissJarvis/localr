@@ -26,9 +26,9 @@ module.exports.register = (function() {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
             }).then(function(body) {
-                if(body.response.statusCode === '200') {
+                if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
-                } else if(body.response.statusCode === '401') {
+                } else if(body.response.statusCode === 401) {
                     return new Promise(function(resolve, reject) {
                         db.insertNode({
                             name: username
@@ -105,9 +105,9 @@ module.exports.register = (function() {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
             }).then(function(body) {
-                if(body.response.statusCode === '200') {
+                if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
-                } else if(body.response.statusCode === '401') {
+                } else if(body.response.statusCode === 401) {
                     return new Promise(function(resolve, reject) {
                         db.insertNode({
                             name: businessname
