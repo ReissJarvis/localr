@@ -1,7 +1,8 @@
 var restify = require('restify'),
     request = require('request'),
     rand = require('csprng'),
-    sha1 = require('sha1');
+    sha1 = require('sha1'),
+    Promise = require('promise');
 //Module to check password is the same
 module.exports.check = (function(username, password, type) {
     if(type == "business") {
