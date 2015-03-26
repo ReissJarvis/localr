@@ -224,7 +224,7 @@ module.exports.register = (function() {
             if(!this.checkUser(username, city, dob, firstname, surname)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
-            getRequest(url).
+            this.getRequest(url).
             catch(function(err) {
                 console.log("Get request error");
                 return next(new restify.InternalServerError('Error has occured!'));
