@@ -16,6 +16,7 @@ module.exports.register = (function() {
                 dob = req.params.dob,
                 firstname = req.params.firstname,
                 surname = req.params.surname,
+                email = req.params.email,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + username;
             if(!this.checkUser(username, city, dob, firstname, surname)){
@@ -51,7 +52,8 @@ module.exports.register = (function() {
                         city: city,
                         dob: dob,
                         firstname: firstname,
-                        surname: surname
+                        surname: surname,
+                        email: email
                     },
                     params = {
                         uri: url,
@@ -88,6 +90,7 @@ module.exports.register = (function() {
                 postcode = req.params.postcode,
                 longitude = req.params.longitude,
                 latitude = req.params.latitude,
+                email = req.params.email,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + businessname;
             if(!this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude)){
@@ -123,7 +126,8 @@ module.exports.register = (function() {
                         city: city,
                         postcode: postcode,
                         latitude: latitude,
-                        longitude: longitude
+                        longitude: longitude,
+                        email: email
                     },
                     params = {
                         uri: url,
