@@ -278,6 +278,8 @@ module.exports.groups = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(doc) {
+                var d = new Date(),
+                        date = d.toUTCString();
                 console.log('about to send single group res')
                 res.setHeader('Last-Modified', date);
                 res.setHeader('Content-Type', 'application/json');
