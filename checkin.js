@@ -18,7 +18,6 @@ function checkin(req, res, next) {
         businessUrl = 'http://localhost:5984/business/' + business,
         points = 0,
         credentials = true;
-    var that = this;
     //Get business doc to see how many points the user gets for checkin
     request.get(businessUrl, function(err, response, body) {
         if(response.statusCode === 404) {
@@ -32,7 +31,9 @@ function checkin(req, res, next) {
         //New promise to check if username and password match the document
         pwdCheck.check(username, password, 'user').
         catch(function(err) {
-            that.credentials = false;
+            console.log(credentials + 'above')
+            credentials = false;
+            console.log(credentials + 'below')
             return next(new restify.UnauthorizedError('Invalid username/password'));
         }).then(function() {
             if(credentials = true) {
