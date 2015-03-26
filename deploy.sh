@@ -1,9 +1,6 @@
-#!/usr/bin/expect -f
 spawn ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
-expect "password:"
-sleep 1
-send "Localer2015/\r"
-sleep 5
+expect "assword:"
+send "Adam15\r"
 cd localer
 forever stop server.js
 git pull origin master
