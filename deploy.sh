@@ -9,6 +9,7 @@ expect -re $prompt
 send "forever stop server.js\r"
 expect -re $prompt
 send "git pull origin master\r"
+sleep 10
 expect -re $prompt
 send "forever start server.js\r"
 expect -re $prompt
