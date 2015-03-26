@@ -1,8 +1,9 @@
+#!/usr/bin/expect -f
 spawn ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
 expect "assword:"
 send "Adam15\r"
-cd localer
-forever stop server.js
-git pull origin master
-forever start server.js
-exit
+send "cd localer"
+send "forever stop server.js"
+send "git pull origin master"
+send "forever start server.js"
+send "exit"
