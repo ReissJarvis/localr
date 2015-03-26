@@ -6,7 +6,9 @@ services:
   - couchdb
 before_script:
   #These get exectued before npm start!
-  - sudo apt-get install expect spawn send
+  - sudo apt-get install expect
+  - sudo apt-get install spawn
+  - sudo apt-get install send
   - npm install -g jasmine-node
   - npm install -g request
   - npm install -g restify
