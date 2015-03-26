@@ -112,6 +112,36 @@
                  done();
              })
          })
+         it('should not be able to duplicate business', function(done) {
+             var url = 'http://localhost:8080/business';
+             var doc = {
+                 points: 50,
+                 city: "coventry",
+                 address: "blahhh",
+                 postcode: "B23 5XR",
+                 longitude: 40.000,
+                 latitude: 1.020,
+                 email: "adamholt@me.com"
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testbusiness', 'test'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(409);
+                 body = JSON.parse(body);
+                 expect(body.register).toBe('OK');
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
      })
      describe('checkin', function() {
          it("be able to checkin", function(done) {
