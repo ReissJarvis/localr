@@ -278,6 +278,7 @@ module.exports.groups = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(doc) {
+                console.log('about to send single group res')
                 res.setHeader('Last-Modified', date);
                 res.setHeader('Content-Type', 'application/json');
                 res.setHeader('Accepts', 'GET');
@@ -290,12 +291,12 @@ module.exports.groups = (function() {
             
         },
         showAllGroups: function(req, res, next) {
-            //Set business name
+            console.log('GET GROUPS' + req.params.competition);
             if(!req.params.competition){
+                console.log('in the if statement')
                 new restify.BadRequestError('Missing Competition: Please Use: "groups?competition=Put competition name here"')
             }
             var competition = req.params.competition;
-            console.log('Getting' + business + 'offers');
             var url = 'http://localhost:5984/groups/_design/groups/_view/competition?startkey="' + competition + '"&endkey="' +competition + '"';
             //Create a promise for the get request
             return new Promise(function(resolve, reject) {
