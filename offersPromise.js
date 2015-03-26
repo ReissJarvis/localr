@@ -16,6 +16,7 @@ module.exports.offers = (function() {
             console.log('NEW OFFER!');
             //Set variables from params
             var businessName = req.params.businessname;
+            var password = req.authorization.basic.password;
             var description = req.params.description;
             var offertitle = req.params.title + ' - ' + businessName;
             var offerCost = req.params.cost;
@@ -27,7 +28,7 @@ module.exports.offers = (function() {
             var url = 'http://localhost:5984/offers/' + offertitle;
             
             //Check username and password is correct
-            pwdCheck.check(username, password, 'business').
+            pwdCheck.check(businessName, password, 'business').
             catch(function(err) {
                 return next(new restify.UnauthorizedError('Invalid username/password'));
             }).then(function() {
