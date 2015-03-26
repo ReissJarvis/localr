@@ -33,7 +33,8 @@
                      city: "Birmingham",
                      dob: "31.05.1991",
                      firstname: "Adam",
-                     surname: "Holt"
+                     surname: "Holt",
+                     email: "adamholt@me.com"
                  }
                  // getting the parameters
                  var params = {
@@ -60,7 +61,8 @@
                      city: "Birmingham",
                      dob: "31.05.1991",
                      firstname: "Adam",
-                     surname: "Holt"
+                     surname: "Holt",
+                     email: "adamholt@me.com"
                  }
                  // getting the parameters
                  var params = {
@@ -89,7 +91,8 @@
                  address: "blahhh",
                  postcode: "B23 5XR",
                  longitude: 40.000,
-                 latitude: 1.020
+                 latitude: 1.020,
+                 email: "adamholt@me.com"
              }
              // getting the parameters
              var params = {
