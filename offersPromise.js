@@ -5,7 +5,9 @@ var restify = require('restify'),
     sha1 = require('sha1'),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j'),
-    Promise = require('promise');
+    Promise = require('promise'),
+    pwdCheck = require('./passwordCheck.js')
+    
 module.exports.offers = (function() {
     //Some handy variables
     var rand = uuid.v1(),
@@ -170,6 +172,7 @@ module.exports.offers = (function() {
             console.log('REDEEM OFFER!');
             //Set username from auth header
             var username = req.authorization.basic.username;
+            var password = req.authorization.basic.password;
             //Get offerTitle from params
             var offerTitle = req.params.offerTitle;
             var offerUrl = 'http://localhost:5984/offers/' + offerTitle;
@@ -184,21 +187,30 @@ module.exports.offers = (function() {
             if(typeof offerTitle == 'undefined') {
                 return next(new restify.NotAcceptableError('Please supply an offer title'));
             };
-            //Get the offer URL
-            //Create a promise for the get request
+            //Make sure the user has priveledges to redeem from header credentials
             return new Promise(function(resolve, reject) {
-                request.get(offerUrl, function(err, response, body) {
-                    if(err) {
-                        reject(err)
-                    };
-                    // if the document isnt found it will create it from sratch
-                    console.log('code ' + response.statusCode)
-                    if(body) {
-                        resolve({
-                            response: response,
-                            body: body
-                        })
-                    }
+                //Check username and password is correct
+                var testCreds = pwdCheck.check(username, password, 'user')
+                if (testCreds = true){
+                    resolve()
+                }
+            }).then(function() {
+                //Get the offer URL
+                //Create a promise for the get request
+                return new Promise(function(resolve, reject) {
+                    request.get(offerUrl, function(err, response, body) {
+                        if(err) {
+                            reject(err)
+                        };
+                        // if the document isnt found it will create it from sratch
+                        console.log('code ' + response.statusCode)
+                        if(body) {
+                            resolve({
+                                response: response,
+                                body: body
+                            })
+                        }
+                    })
                 })
             }).
             catch(function(err) {
@@ -226,6 +238,7 @@ module.exports.offers = (function() {
                             if(response.statusCode === 200) {
                                 user = JSON.parse(userdoc);
                                 console.log('user points' + user.points)
+                                //Check to see if user has enough points to redeem
                                 if((user.points - cost) < 0) {
                                     console.log("You don't have enough points sunshine - come back another day :D")
                                     return next(new restify.ForbiddenError("You don't have enough points to redeem this offer"));
