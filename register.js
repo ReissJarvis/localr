@@ -177,42 +177,6 @@ function registera(req, res, next, type) {
 module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
-        checkUser: function(u, c, d, f, s) {
-            console.log(u + "  " + c + " " + d + " " + f + " " + s);
-            if(typeof u == "undefined") {
-                return false;
-            } else if(typeof c == "undefined") {
-                return false;
-            } else if(typeof d == "undefined") {
-                return false;
-            } else if(typeof f == "undefined") {
-                return false;
-            } else if(typeof s == "undefined") {
-                return false;
-            } else {
-                return true;
-            };
-            return true;
-        },
-        checkBusiness: function(bus, pon, add, cit, pos, lon, lat) {
-            if(typeof bus == "undefined") {
-                return false;
-            } else if(typeof pon == "undefined") {
-                return false;
-            } else if(typeof add == "undefined") {
-                return false;
-            } else if(typeof cit == "undefined") {
-                return false;
-            } else if(typeof pos == "undefined") {
-                return false;
-            } else if(typeof lon == "undefined") {
-                return false;
-            } else if(typeof lat == "undefined") {
-                return false;
-            } else {
-                return true;
-            };
-        },
         registerUser: function(req, res, next) {
             var username = req.authorization.basic.username,
                 city = req.params.city,
@@ -368,6 +332,42 @@ module.exports.register = (function() {
                     })
                 })
             });
+        },
+        checkUser: function(u, c, d, f, s) {
+            console.log(u + "  " + c + " " + d + " " + f + " " + s);
+            if(typeof u == "undefined") {
+                return false;
+            } else if(typeof c == "undefined") {
+                return false;
+            } else if(typeof d == "undefined") {
+                return false;
+            } else if(typeof f == "undefined") {
+                return false;
+            } else if(typeof s == "undefined") {
+                return false;
+            } else {
+                return true;
+            };
+            return true;
+        },
+        checkBusiness: function(bus, pon, add, cit, pos, lon, lat) {
+            if(typeof bus == "undefined") {
+                return false;
+            } else if(typeof pon == "undefined") {
+                return false;
+            } else if(typeof add == "undefined") {
+                return false;
+            } else if(typeof cit == "undefined") {
+                return false;
+            } else if(typeof pos == "undefined") {
+                return false;
+            } else if(typeof lon == "undefined") {
+                return false;
+            } else if(typeof lat == "undefined") {
+                return false;
+            } else {
+                return true;
+            };
         }
     };
 })();
