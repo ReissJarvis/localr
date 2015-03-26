@@ -27,6 +27,10 @@ module.exports.offers = (function() {
             //URL for when offer will be stored in CouchDB
             var url = 'http://localhost:5984/offers/' + offertitle;
             var credentials = true;
+            //Make sure the business is only adding for their own business
+            if (businessName !== req.authorization.basic.username){
+                return next(new restify.UnauthorizedError('You must only add your own offers'));
+            };
             //Check username and password is correct
             pwdCheck.check(businessName, password, 'business').
             catch(function(err) {
