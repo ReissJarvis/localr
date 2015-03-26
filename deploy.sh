@@ -1,5 +1,21 @@
-sshpass -p 'Localer2015/' couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
-sleep 10
+#!/bin/bash
+
+HOST="api.adam-holt.co.uk"
+USER="couch"
+PASS="Localer2015/"
+CMD=$@
+
+VAR=$(expect -c "
+spawn ssh -o StrictHostKeyChecking=no $USER@$HOST $CMD
+match_max 100000
+expect \"*?assword:*\"
+send -- \"$PASS\r\"
+send -- \"\r\"
+expect eof
+")
+echo "==============="
+
+sleep 5
 cd localer
 forever stop server.js
 git pull origin master
