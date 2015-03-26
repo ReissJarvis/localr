@@ -408,6 +408,30 @@
                  done();
              })
          })
+         it("should not be able to redeem an offer with wrong credentials", function(done) {
+             var url = 'http://localhost:8080/business/offers/redeem';
+             var doc = {
+                 offerTitle: 'test offer - testbusiness'
+             }
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'wrong'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.put(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(401);
+                 body = JSON.parse(body);
+                 expect(body.message).toBe("Invalid username/password")
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             })
+         })
          it("be able to check what offers youve redeemed", function(done) {
              var url = 'http://localhost:8080/users/get/testuser';
              var params = {
