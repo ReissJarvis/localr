@@ -2,13 +2,15 @@
 spawn ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
 expect "assword:"
 send "Adam15\r"
-set timeout 10
+set prompt {\$ $}
+expect -re $prompt
 send "cd localer"
-set timeout 1
+expect -re $prompt
 send "forever stop server.js"
-set timeout 2
+expect -re $prompt
 send "git pull origin master"
-set timeout 10
+expect -re $prompt
 send "forever start server.js"
-set timeout 4
-send "exit"
+expect -re $prompt
+send "logout\r"
+expect eof
