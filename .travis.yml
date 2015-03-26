@@ -20,6 +20,7 @@ before_script:
   - curl -X PUT localhost:5984/groups
   - curl -X PUT localhost:5984/business
   - curl -X PUT localhost:5984/offers
+  #Used for the couchdb design views
   - curl -X PUT http://localhost:5984/offers/_design/offers --data-binary @offersView.json
   - curl -X PUT http://localhost:5984/groups/_design/groups --data-binary @groupsView.json
 jdk:
