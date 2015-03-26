@@ -48,8 +48,7 @@
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      body = JSON.parse(body);
-                     expect(body.Username).toBe('testuser');
-                     expect(body.url).toBe('api.adam-holt.co.uk/users/testuser');
+                     expect(body.username).toBe('testuser');
                      if(error) {
                          expect(error.code).not.toBe('ECONNREFUSED');
                      }
@@ -108,7 +107,7 @@
              request.post(params, function(error, response, body) {
                  expect(response.statusCode).toBe(201);
                  body = JSON.parse(body);
-                 expect(body.Registered).toBe('OK');
+                 expect(body.register).toBe('OK');
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
