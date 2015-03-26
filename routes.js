@@ -114,7 +114,7 @@ exports.getRoutes = function(server){
         path: group
     }, function(req, res, next) {
 
-        groups.groupsshowAllGroups(req, res, next);
+        groups.groups.showAllGroups(req, res, next);
     });
     //?username=username&groupname=test21
     server.post({
