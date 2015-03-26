@@ -46,7 +46,7 @@ exports.getRoutes = function(server){
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
             failed = true;
         } else {
-            register.register(req, res, next, 'users');
+            register.register.registerUser(req, res, next);
         }
     });
     // Register business.
@@ -57,7 +57,7 @@ exports.getRoutes = function(server){
             return next(new restify.UnauthorizedError('Basic HTTP auth required'));
             failed = true;
         } else {
-            register.register(req, res, next, 'business');
+            register.register.registerBusiness(req, res, next);
         }
     });
     //Update User
