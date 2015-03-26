@@ -1,7 +1,5 @@
-ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
-expect "Echo of after ssh couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no"
-sleep 5
-send Localer2015/\r
+sshpass -p 'Localer2015/' couch@api.adam-holt.co.uk -o StrictHostKeyChecking=no
+sleep 10
 cd localer
 forever stop server.js
 git pull origin master
