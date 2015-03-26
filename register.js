@@ -93,7 +93,7 @@ module.exports.register = (function() {
                 email = req.params.email,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + businessname;
-            if(!this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude)){
+            if(!this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude, email)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
             this.getRequest(url).
@@ -170,7 +170,7 @@ module.exports.register = (function() {
                 })
             });
         },
-        checkUser: function(u, c, d, f, s) {
+        checkUser: function(u, c, d, f, s, e) {
             console.log(u + "  " + c + " " + d + " " + f + " " + s);
             if(typeof u == "undefined") {
                 return false;
@@ -182,12 +182,14 @@ module.exports.register = (function() {
                 return false;
             } else if(typeof s == "undefined") {
                 return false;
+            } else if(typeof e == "undefined") {
+                return false;
             } else {
                 return true;
             };
             return true;
         },
-        checkBusiness: function(bus, pon, add, cit, pos, lon, lat) {
+        checkBusiness: function(bus, pon, add, cit, pos, lon, lat, ema) {
             if(typeof bus == "undefined") {
                 return false;
             } else if(typeof pon == "undefined") {
@@ -201,6 +203,8 @@ module.exports.register = (function() {
             } else if(typeof lon == "undefined") {
                 return false;
             } else if(typeof lat == "undefined") {
+                return false;
+            } else if(typeof ema == "undefined") {
                 return false;
             } else {
                 return true;
