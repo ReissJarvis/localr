@@ -250,6 +250,51 @@
                  })
              });
          })
+         it("Be able to get a single group", function(done) {
+            var url = 'http://localhost:8080/groups/testgroup';
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testbusiness', 'test'),
+                     "content-type": "application/json"
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 console.log(body)
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             }) 
+             
+             
+         })
+         
+         it("Be able to see all groups", function(done) {
+             var url = 'http://localhost:8080/groups?competition=freshers';
+             // getting the parameters
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser', 'test'),
+                     "content-type": "application/json"
+                 },
+             };
+             request.get(params, function(error, response, body) {
+                 expect(response.statusCode).toBe(200);
+                 console.log(body)
+                 expect(body.total_groups).toBe(2);
+                 if(error) {
+                     expect(error.code).not.toBe('ECONNREFUSED');
+                 }
+                 done();
+             }) 
+             
+             
+             
+         })
      })
      describe('Offers', function() {
          it("Be able to add an offer", function(done) {
@@ -283,8 +328,7 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test'),
-                     "content-type": "application/json"
+                     authorization: getBasic('testuser', 'test')
                  },
              };
              request.get(params, function(error, response, body) {
@@ -301,8 +345,7 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testuser', 'test'),
-                     "content-type": "application/json"
+                     authorization: getBasic('testuser', 'test')
                  },
              };
              request.get(params, function(error, response, body) {
@@ -313,7 +356,7 @@
                  done();
              })
          })
-         it("be able to redeem an offer", function(done) {
+         it("be able to reddem an offer", function(done) {
              var url = 'http://localhost:8080/business/offers/redeem';
              var doc = {
                  offerTitle: 'test offer - testbusiness'
@@ -340,7 +383,7 @@
              })
          })
          it("be able to check what offers youve redeemed", function(done) {
-             var url = 'http://localhost:8080/users/get/testuser';
+             var url = 'http://localhost:8080/users/testuser';
              var params = {
                  uri: url,
                  headers: {
@@ -350,7 +393,7 @@
              request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  body = JSON.parse(body);
-                 expect(body.transactions[0].checked_in_at).toBe("testbusiness")
+                 expect(body.transactions[0].checked_in_at).toBe("coventry")
                  expect(body.transactions[1].business_redeemed).toBe("testbusiness")
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');

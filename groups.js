@@ -6,64 +6,6 @@ var validateHTTP = require("./validateHTTP.js"),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j'),
     Promise = require('promise');
-module.exports.showgroup = function(req, res, next) {
-    db = new neo4j('http://localhost:7474');
-    console.log('GET');
-    console.log('GET: ' + req.params.groupname);
-    var url = 'http://localhost:5984/groups/' + req.params.groupname;
-    validateHTTP.validateHTTP(req, res, next, "users")
-    var topres = res
-    request.get(url, function(err, response, body) {
-        if(err) {
-            return next(new restify.InternalServerError('Failed To Connect To Database'));
-        }
-        // if the document isnt found it will create it from sratch
-        console.log('code' + response.statusCode)
-        if(response.statusCode === 200) {
-            body = JSON.parse(body);
-            //res.header('ETag', body._rev);
-            res.header('Last-Modified', body.last_modified);
-            res.header('Accepts', 'GET');
-            group = {
-                id: body._id,
-                groupname: body.groupname,
-                description: body.description,
-                last_modified: body.last_modified,
-                points: body.grouppoints,
-                transactions: body.transactions,
-                owner: body.createdby,
-                groupmemebers: body.usersjoined
-            }
-            console.log(group)
-            console.log("Set Group data");
-            res.send(group);
-            console.log("sent group data");
-            res.end();
-        } else if(response.statusCode === 404) {
-            return next(new restify.ConflictError('Group Already Created'));
-        }
-    });
-};
-module.exports.showcompetitiongroup = function(req, res, next) {
-    //match (n:freshers)-[COMPETING_IN]->r return n,r
-    db = new neo4j('http://localhost:7474');
-    console.log('GET');
-    console.log('GET COMPETITION GROUPS: ' + req.params.competition)
-    var url = 'http://localhost:5984/groups/' + req.params.groupname;
-    var competition = req.params.competition
-    validateHTTP.validateHTTP(req, res, next)
-    var topres = res
-    db.cypherQuery("match (n:" + competition + ")-[COMPETING_IN]->r return labels(n),n,r", function(err, Results) {
-        if(err) throw err;
-        if(Results.data == 0) {
-            return next(new restify.NotFoundError('Competition not found'));
-        } else {
-            res.send(Results.data);
-            console.log("competition data sent");
-            res.end();
-        }
-    });
-};
 module.exports.groups = (function() {
     var url = "",
         competition = "",
@@ -240,7 +182,7 @@ module.exports.groups = (function() {
                         console.log('code' + response.statusCode)
                         var body = JSON.parse(body),
                             rev = body._rev
-                        console.log(body)
+                            console.log(body)
                             resolve(rev)
                     })
                 }).then(function(rev) {
@@ -309,6 +251,104 @@ module.exports.groups = (function() {
                         res.end();
                     });
                 })
+            })
+        },
+        showGroup: function(req, res, next) {
+            //Set business name
+            groupname = req.params.groupname;
+            console.log('GET GROUP ' + groupname);
+            url = 'http://localhost:5984/groups/' + groupname;
+            //Create a promise for the get request
+            return new Promise(function(resolve, reject) {
+                request.get(url, function(err, response, body) {
+                    if(err) {
+                        reject(err)
+                    };
+                    // if the document isnt found it will create it from sratch
+                    console.log('code ' + response.statusCode)
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    }
+                })
+            }).
+            catch(function(err) {
+                console.log("GET request error on couchDB document")
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
+            }).then(function(doc) {
+                res.setHeader('Last-Modified', date);
+                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Accepts', 'GET');
+                res.send(200, doc)
+                res.end()
+                
+            })
+        
+            
+            
+        },
+        showAllGroups: function(req, res, next) {
+            //Set business name
+            if(!req.params.competition){
+                new restify.BadRequestError('Missing Competition: Please Use: "groups?competition=Put competition name here"')
+            }
+            var competition = req.params.competition;
+            console.log('Getting' + business + 'offers');
+            var url = 'http://localhost:5984/groups/_design/groups/_view/competition?startkey="' + competition + '"&endkey="' +competition + '"';
+            //Create a promise for the get request
+            return new Promise(function(resolve, reject) {
+                request.get(url, function(err, response, body) {
+                    if(err) {
+                        reject(err)
+                    };
+                    // if the document isnt found it will create it from sratch
+                    console.log('code ' + response.statusCode)
+                    if(body) {
+                        resolve({
+                            response: response,
+                            body: body
+                        })
+                    }
+                })
+            }).
+            catch(function(err) {
+                console.log("GET request error on couchDB document")
+                return next(new restify.InternalServerError('Error communicating with CouchDB'));
+            }).then(function(doc) {
+                if(doc.response.statusCode === 404) {
+                    return next(new restify.InternalServerError('No Offers Found'));
+                } else if(doc.response.statusCode === 200) {
+                    var resp = JSON.parse(doc.body);
+                    console.log(resp.rows);
+                    var competitionGroups = [];
+                    resp.rows.forEach(function(i) {
+                        var group = {
+                            groupname: i.value.groupname,
+                            description: i.value.description,
+                            date_joined: i.value.date_joined,
+                            last_modified: i.value.last_modified,
+                            createdby: i.value.createdby,
+                            grouppoints: i.value.grouppoints,
+                            transactions: i.value.transactions,
+                            usersjoined: i.value.usersjoined
+                        };
+                        competitionGroups.push(group);
+                    });
+                    var groups = {
+                        total_groups: resp.rows.length,
+                        groups: competitionGroups
+                    };
+                    //Time and date for header
+                    var d = new Date();
+                    var date = d.toUTCString();
+                    res.setHeader('Last-Modified', date);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Accepts', 'GET');
+                    res.send(200, groups);
+                    res.end()
+                }
             })
         }
     }
