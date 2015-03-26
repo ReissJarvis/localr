@@ -53,21 +53,35 @@ http://api.adam-holt.co.uk/business/offers/add?businessname=BUSINESSNAME&offer=O
 
 PUT - http://api.adam-holt.co.uk/business/offers
 
+headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
+
+body: businessname: 'testbusiness', description: 'description', title: 'test offer', cost: 25
+
 ###Get Offers
 
 GET - http://api.adam-holt.co.uk/business/offers/all
 
+headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+
 ###Get Businesses Offers
 
-GET - http://api.adam-holt.co.uk/business/offers/testbusiness 
+GET - http://api.adam-holt.co.uk/business/offers/testbusiness
+
+headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
 ###Redeem Offers 
 
 GET - http://api.adam-holt.co.uk/business/offers/redeem
 
+headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+
+body: offerTitle: 'test offer - testbusiness'
+
 ###Check Offers Redeemed
 
 GET - http://api.adam-holt.co.uk/users/get/testuser
+
+headers: authorization: getBasic('testuser', 'test')
 
 
 ##Groups
@@ -93,17 +107,21 @@ body:  username: "testuser2", groupname: "testgroup2", description: "This is a T
 
 GET - http://api.adam-holt.co.uk/groups/testgroup
 
+headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
+
 ###View Groups
 
 GET - http://api.adam-holt.co.uk/groups?competition=freshers
 
+headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
 
 
-FOR GETTING ALL OFFERS FROM CODIO WITH BUSINESSNAME
+
+##FOR GETTING ALL OFFERS FROM CODIO WITH BUSINESSNAME
 http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/business?startkey=%22codio%22&endkey=%22codio%22
 
-READ THIS:
+##READ THIS:
 http://mark-kirby.co.uk/2013/creating-a-true-rest-api/
 
 
