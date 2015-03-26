@@ -6,7 +6,7 @@ var validateHTTP = require("./validateHTTP.js"),
     uuid = require('node-uuid'),
     neo4j = require('node-neo4j');
 
-function register(req, res, next, type) {
+function registera(req, res, next, type) {
     if(type == "users") {
         //Get new username from authorization header
         var username = req.authorization.basic.username;
