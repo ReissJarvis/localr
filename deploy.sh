@@ -11,12 +11,12 @@ match_max 100000
 expect \"*?assword:*\"
 send -- \"$PASS\r\"
 send -- \"\r\"
-expect eof
-")
-echo "==============="
-
 sleep 5
 cd localer
 forever stop server.js
 git pull origin master
 forever start server.js
+exit
+expect eof
+")
+echo "==============="
