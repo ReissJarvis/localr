@@ -1,5 +1,6 @@
 ssh couch@api.adam-holt.co.uk
 Localer2015/
+y
 cd localer
 forever stop server.js
 git pull origin master
