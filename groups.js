@@ -240,16 +240,45 @@ module.exports.groups = (function() {
                         }
                     })
                 }).then(function() {
-                    var d = new Date(),
-                        date = d.toUTCString();
-                    db.insertRelationship(userid, groupid, 'IN_GROUP', {
-                        datejoined: date,
-                    }, function(err, relationship) {
-                        if(err) throw err;
-                        console.log("sent data");
-                        res.send(201, "relationship created @ " + date);
-                        res.end();
-                    });
+                    return new Promise(function(resolve, reject) {
+                        url = 'http://localhost:5984/groups/' + groupname;
+                        request.get(url, function(err, response, body) {
+                            // if user is not found will send 404 error
+                            if(response.statusCode === 404) {
+                                return next(new restify.BadRequestError('group Not Found'))
+                            };
+                            if(response.statusCode === 200) {
+                                body = JSON.parse(body);
+                                body.usersjoined.push(req.authorization.basic.username)
+                                console.log(body)
+                            }
+                            var params = {
+                                uri: userUrl,
+                                body: JSON.stringify(body)
+                            };
+                            resolve(params)
+                        })
+                    }).then(function(params) {
+                        return new Promise(function(resolve, reject) {
+                            request.put(params, function(err, response, body) {
+                                if(response.statusCode === 404) {
+                                    return next(new restify.BadRequestError('Group could not be updated'))
+                                };
+                                resolve();
+                            })
+                        }).then(function() {
+                            var d = new Date(),
+                                date = d.toUTCString();
+                            db.insertRelationship(userid, groupid, 'IN_GROUP', {
+                                datejoined: date,
+                            }, function(err, relationship) {
+                                if(err) throw err;
+                                console.log("sent data");
+                                res.send(201, "relationship created @ " + date);
+                                res.end();
+                            });
+                        })
+                    })
                 })
             })
         },
@@ -279,27 +308,23 @@ module.exports.groups = (function() {
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(doc) {
                 var d = new Date(),
-                        date = d.toUTCString();
+                    date = d.toUTCString();
                 console.log('about to send single group res')
                 res.setHeader('Last-Modified', date);
                 res.setHeader('Content-Type', 'application/json');
                 res.setHeader('Accepts', 'GET');
                 res.send(200, doc)
                 res.end()
-                
             })
-        
-            
-            
         },
         showAllGroups: function(req, res, next) {
             console.log('GET GROUPS' + req.params.competition);
-            if(!req.params.competition){
+            if(!req.params.competition) {
                 console.log('in the if statement')
                 new restify.BadRequestError('Missing Competition: Please Use: "groups?competition=Put competition name here"')
             }
             var competition = req.params.competition;
-            var url = 'http://localhost:5984/groups/_design/groups/_view/competition?startkey="' + competition + '"&endkey="' +competition + '"';
+            var url = 'http://localhost:5984/groups/_design/groups/_view/competition?startkey="' + competition + '"&endkey="' + competition + '"';
             //Create a promise for the get request
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {

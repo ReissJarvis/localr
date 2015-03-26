@@ -284,7 +284,7 @@
              };
              request.get(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
-                 console.log(body)
+                 body = JSON.parse(body);
                  expect(body.total_groups).toBe(2);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
