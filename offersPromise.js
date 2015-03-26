@@ -30,9 +30,12 @@ module.exports.offers = (function() {
             //Check username and password is correct
             pwdCheck.check(businessName, password, 'business').
             catch(function(err) {
+                console.log(credentials + ' Above')
                 credentials = false;
                 return next(new restify.UnauthorizedError('Invalid username/password'));
+                console.log(credentials + ' Below')
             });
+            console.log(credentials + ' Next')
             if(credentials === true) {
                 return new Promise(function(resolve, reject) {
                     request.get(url, function(err, response, body) {
