@@ -19,7 +19,7 @@ module.exports.register = (function() {
                 email = req.params.email,
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + username;
-            if(!this.checkUser(username, city, dob, firstname, surname)){
+            if(!this.checkUser(username, city, dob, firstname, surname, email)){
                 return next(new restify.InternalServerError('Not all requirements supplied!'));
             };
             this.getRequest(url).
