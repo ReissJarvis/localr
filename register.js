@@ -76,7 +76,8 @@ module.exports.register = (function() {
                         firstname: firstname,
                         surname: surname,
                         city: city,
-                        dob: dob
+                        dob: dob,
+                        email: email
                     };
                     res.send(201, sendBack);
                     res.end();
@@ -152,7 +153,8 @@ module.exports.register = (function() {
                         city: city,
                         postcode: postcode,
                         longitude: longitude,
-                        latitude: latitude
+                        latitude: latitude,
+                        email: email
                         
                     };
                     res.send(201, sendBack);

@@ -4,6 +4,7 @@ var validateHTTP = require("./validateHTTP.js"),
     rand = require('csprng'),
     sha1 = require('sha1'),
     neo4j = require('node-neo4j'),
+    Promise = require('promise'),
     pwdCheck = require('./passwordCheck.js');
 
 module.exports.del = (function(){
