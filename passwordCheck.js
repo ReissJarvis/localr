@@ -29,4 +29,4 @@ module.exports.check = (function(username, password, type) {
             }
         })
     })
-})();
+});
