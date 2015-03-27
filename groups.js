@@ -110,7 +110,7 @@ module.exports.groups = (function() {
                                             };
                                             var params = {
                                                 uri: url,
-                                                body: JSON.stringify(doc)
+                                                body: doc
                                             };
                                             resolve(params);
                                         }).then(function(params) {
@@ -273,7 +273,7 @@ module.exports.groups = (function() {
                     if(body) {
                         resolve({
                             response: response,
-                            body: body
+                            body: JSON.parse(body);
                         });
                     }
                 });
@@ -286,7 +286,7 @@ module.exports.groups = (function() {
                 res.setHeader('Last-Modified', date);
                 res.setHeader('Content-Type', 'application/json');
                 res.setHeader('Accepts', 'GET');
-                res.send(200, doc);
+                res.send(200, doc.body);
                 res.end();
             });
         },

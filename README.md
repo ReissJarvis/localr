@@ -315,13 +315,11 @@ RESPONSE: `200 OK`
 
 ###Add Groups
 
-RL:
+URL:
 ```json
 http://api.adam-holt.co.uk:8080/groups
 ```
 METHOD: `POST`
-
-#####(Username will be taken from the auth header)
 
 HEADERS:
 ```json
@@ -345,7 +343,7 @@ RESPONSE: `201 Created`
         "uri": "http://localhost:5984/groups/testgroup",
         "body": "{"groupname":"testgroup",
         "description":"This is a Test Group",
-        "date_joined\":\"Fri, 27 Mar 2015 13:52:01 GMT",
+        "date_joined":"Fri, 27 Mar 2015 13:52:01 GMT",
         "last_modified":"Fri, 27 Mar 2015 13:52:01 GMT",
         "createdby":"testuser",
         "grouppoints":0,
@@ -372,32 +370,97 @@ RESPONSE: `400 Bad Request`
     "message": "Competition Not Found"
 }
 ```
+RESPONSE: `415 Unsupported Media Type`
+```json
+{
+    "code": "unsupportedMediaType",
+    "message": "Competition Not Found"
+}
+```
+ 
 
 ###Join Groups
 
-url: http://api.adam-holt.co.uk/groups
+URL:
+```json
+http://api.adam-holt.co.uk:8080/groups/join/:groupname
+```
+METHOD: `POST`
 
-headers: authorization: getBasic('testuser2', 'test'), "content-type": "application/json"
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx"}
+```
 
-body:  username: "testuser2", groupname: "testgroup2", description: "This is a Test Group 2", competition: "freshers"
+RESPONSE: `201 Created`
+```json
+"relationship created @ Fri, 27 Mar 2015 14:16:20 GMT"
+```
+RESPONSE: `400 Bad Request`
+```json
+{
+    "code": "BadRequestError",
+    "message": "User Not Found"
+}
 
-method: PUT
+```
+
+RESPONSE: `400 Bad Request`
+```json
+{
+    "code": "BadRequest",
+    "message": "Group Not Found"
+}
+```
 
 ###Get Groups
 
-url: http://api.adam-holt.co.uk/groups/testgroup
+URL:
+```json
+http://api.adam-holt.co.uk:8080/groups/testgroup
+```
+METHOD: `GET`
 
-headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx"}
+```
 
-method: GET
+RESPONSE: `200 OK`
+```json
+{
+    "body": {
+        "uri": "http://api.adam-holt.co.uk:5984/groups/testgroup",
+        "body": "{"groupname":"testgroup",
+        "description":"This is a Test Group",
+        "date_joined":"Fri, 27 Mar 2015 13:52:01 GMT",
+        "last_modified":"Fri, 27 Mar 2015 13:52:01 GMT",
+        "createdby":"testuser",
+        "grouppoints":0,
+        "transactions":[],
+        "usersjoined":["testuser"],
+        "competition":"freshers",
+        "groupnodeid":133
+        }"
+    }
+}
+```
+RESPONSE: `400 Bad Request`
+```json
+{
+    "code": "BadRequestError",
+    "message": "User Not Found"
+}
 
-###View Groups
+```
 
-url: http://api.adam-holt.co.uk/groups?competition=freshers
-
-headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
-
-method: GET
+RESPONSE: `400 Bad Request`
+```json
+{
+    "code": "BadRequest",
+    "message": "Group Not Found"
+}
+```
 
 
 
