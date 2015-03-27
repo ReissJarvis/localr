@@ -502,7 +502,7 @@
      })
      describe('delete all', function() {
          it("be able to delete the user", function(done) {
-             var url = 'http://localhost:8080/users';
+             var url = 'http://localhost:8080/users/testuser';
              // getting the parameters
              var params = {
                  uri: url,
@@ -520,7 +520,7 @@
              })
          })
          it('be able to delete the business', function(done) {
-             var url = 'http://localhost:8080/business';
+             var url = 'http://localhost:8080/business/testBusiness';
              // getting the parameters
              var params = {
                  uri: url,
