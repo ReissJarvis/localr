@@ -1,5 +1,8 @@
 #Localr Documentation
 
+##Introduction
+Localr is a location based rewards system built using to Node.js. NOSql databases have been used, Neo4j for the group/relationship aspects and CouchDB for storage of documents like, users, businesses and offers. The API offers the ability for businesses to sign up and add new offers. The users can then checkin to businesses and get points which can then be used to redeem the offers other the businesses have entered through the API.
+
 ##Users
 
 ###Add New User:
