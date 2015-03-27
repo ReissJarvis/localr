@@ -293,6 +293,7 @@
              };
              request.post(params, function(error, response, body) {
                  //create group
+                 console.log("creating group")
                  var url = 'http://localhost:8080/groups'
                  var doc = {
                      username: "testuser2",
@@ -310,6 +311,7 @@
                  };
                  request.post(params, function(error, response, body) {
                      //join the group
+                     console.log("joining group")
                      url = 'http://localhost:8080/groups/join/testgroup2'
                      var params = {
                          uri: url,

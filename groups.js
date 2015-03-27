@@ -269,11 +269,12 @@ module.exports.groups = (function() {
                     if(err) {
                         reject(err);
                     }
+                    body = JSON.parse(body)
                     // if the document isnt found it will create it from sratch
                     if(body) {
                         resolve({
                             response: response,
-                            body: JSON.parse(body)
+                            body: body
                         });
                     }
                 });
