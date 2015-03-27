@@ -301,6 +301,7 @@
                      description: "This is a Test Group 2",
                      competition: "freshers"
                  };
+                 console.log(doc)
                  var params = {
                      uri: url,
                      headers: {
@@ -309,7 +310,7 @@
                      },
                      body: JSON.stringify(doc)
                  };
-                 console.log("end of console")
+                 console.log("end of console");
                  request.post(params, function(error, response, body) {
                      //join the group
                      console.log("Joining group")
