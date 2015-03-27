@@ -254,6 +254,7 @@
                  name: "freshers"
              }, ['competition'], function(err, node) {
                  if(err) throw err;
+                 console.log("inserting the node")
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      if(error) {
@@ -301,6 +302,7 @@
                      description: "This is a Test Group 2",
                      competition: "freshers"
                  };
+                 console.log(doc)
                  var params = {
                      uri: url,
                      headers: {
@@ -309,9 +311,10 @@
                      },
                      body: JSON.stringify(doc)
                  };
+                 console.log("end of console");
                  request.post(params, function(error, response, body) {
                      //join the group
-                     console.log("joining group")
+                     console.log("Joining group")
                      url = 'http://localhost:8080/groups/join/testgroup2'
                      var params = {
                          uri: url,
