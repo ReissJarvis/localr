@@ -19,7 +19,7 @@ module.exports.register = (function() {
                 nodeid = 0,
                 url = 'http://localhost:5984/users/' + username;
             if(!this.checkUser(username, city, dob, firstname, surname, email)) {
-                return next(new restify.InternalServerError('Not all requirements supplied!'));
+                return next(new restify.NotAcceptableError('Not all requirements supplied!'));
             };
             this.getRequest(url).
             catch(function(err) {
@@ -103,7 +103,7 @@ module.exports.register = (function() {
             this.getRequest(url).
             catch(function(err) {
                 console.log("Get request error");
-                return next(new restify.InternalServerError('Error has occured!'));
+                return next(new restify.NotAcceptableError('Error has occured!'));
             }).then(function(body) {
                 if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
