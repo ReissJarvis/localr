@@ -117,9 +117,9 @@ HEADERS:
 BODY:
 ```json
 {
-     "businessname": 'testbusiness',
-     "description": 'description',
-     "title": 'test offer',
+     "businessname": "testbusiness",
+     "description": "description",
+     "title": "test offer",
      "cost": 25
 }
 ```
