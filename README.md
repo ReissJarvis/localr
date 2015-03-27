@@ -315,13 +315,63 @@ RESPONSE: `200 OK`
 
 ###Add Groups
 
-url: http://api.adam-holt.co.uk/groups
+RL:
+```json
+http://api.adam-holt.co.uk:8080/groups
+```
+METHOD: `POST`
 
-headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+#####(Username will be taken from the auth header)
 
-body: username: "testuser", groupname: "testgroup", description: "This is a Test Group", competition: "freshers"
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 
-method: PUT
+BODY:
+```json
+{
+     "username": "testuser",
+     "groupname": "testgroup",
+     "description": "This is a Test Group",
+     "competition": "freshers"
+}
+```
+
+RESPONSE: `201 Created`
+```json
+{
+    "Group": {
+        "uri": "http://localhost:5984/groups/testgroup",
+        "body": "{"groupname":"testgroup",
+        "description":"This is a Test Group",
+        "date_joined\":\"Fri, 27 Mar 2015 13:52:01 GMT",
+        "last_modified":"Fri, 27 Mar 2015 13:52:01 GMT",
+        "createdby":"testuser",
+        "grouppoints":0,
+        "transactions":[],
+        "usersjoined":["testuser"],
+        "competition":"freshers",
+        "groupnodeid":133
+        }"
+    }
+}
+```
+RESPONSE: `406 Not Acceptable`
+```json
+{
+    "code": "NotAcceptableError",
+    "message": "Not all requirements supplied!"
+}
+```
+
+RESPONSE: `400 Bad Request`
+```json
+{
+    "code": "BadRequest",
+    "message": "Competition Not Found"
+}
+```
 
 ###Join Groups
 

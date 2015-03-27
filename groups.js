@@ -41,7 +41,7 @@ module.exports.groups = (function() {
                     db.cypherQuery(" MATCH (n:competition) WHERE n.name ='" + competition + "' RETURN n", function(err, result) {
                         if(err) throw err;
                         if(result.data.length === 0) {
-                            return next(new restify.InternalServerError('no competition found'));
+                            return next(new restify.BadRequestError('Competition Not Found'));
                         }
                         competitionid = result.data[0]._id;
                         resolve(competitionid);

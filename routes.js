@@ -97,6 +97,9 @@ exports.getRoutes = function(server){
     server.post({
         path: group
     }, function(req, res, next) {
+        if(req.headers['content-type'] !== 'application/json') {
+            return next(new restify.UnsupportedMediaTypeError('Bad Content-Type'));
+        }
         groups.groups.createGroup(req, res, next);
     });
     server.del({
