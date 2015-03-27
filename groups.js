@@ -22,7 +22,6 @@ module.exports.groups = (function() {
             competition = req.params.competition;
             groupname = req.params.groupname;
             description = req.params.description;
-            console.log(competition + " " + groupname + " " + description)
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
