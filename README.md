@@ -6,24 +6,31 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 ###Add New User:
 
-PUT - http://api.adam-holt.co.uk/users
+url: http://api.adam-holt.co.uk/users
 
 headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
 body: JSON.stringify(doc)
 
+method: PUT
+
 ###Get User:
 
-GET - http://api.adam-holt.co.uk/users/get?username=USERNAME
+url: http://api.adam-holt.co.uk/users/get?username=USERNAME
+
+method: GET
 
 ###Check in user:
 
-PUT - http://api.adam-holt.co.uk/users/checkin
+url: http://api.adam-holt.co.uk/users/checkin
+
+method: PUT
 
 ###Delete User:
 
-DEL - http://api.adam-holt.co.uk/users/delete?username=USERNAME
+url: http://api.adam-holt.co.uk/users/delete?username=USERNAME
 
+method: DEL
 
 ##Businesses
 
@@ -31,16 +38,19 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 ###Add Business:
 
-PUT - http://api.adam-holt.co.uk/business/
+url: http://api.adam-holt.co.uk/business/
 
 authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
 
 body: points: 50, city: "coventry", address: "blahhh", postcode: "B23 5XR", longitude: 40.000, latitude: 1.020, email: "adamholt@me.com"
 
+method: PUT
+
 ###Delete Business
 
-DEL - http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
+url: http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
 
+method: DEL
 
 
 ##Offers
@@ -51,70 +61,85 @@ http://api.adam-holt.co.uk/business/offers/add?businessname=BUSINESSNAME&offer=O
 
 ###Add Offers
 
-PUT - http://api.adam-holt.co.uk/business/offers
+url: http://api.adam-holt.co.uk/business/offers
 
 headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
 
 body: businessname: 'testbusiness', description: 'description', title: 'test offer', cost: 25
 
+method: PUT
+
 ###Get Offers
 
-GET - http://api.adam-holt.co.uk/business/offers/all
+url: http://api.adam-holt.co.uk/business/offers/all
 
 headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+
+method: GET
 
 ###Get Businesses Offers
 
-GET - http://api.adam-holt.co.uk/business/offers/testbusiness
+url: http://api.adam-holt.co.uk/business/offers/testbusiness
 
 headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
+method: GET
+
 ###Redeem Offers 
 
-GET - http://api.adam-holt.co.uk/business/offers/redeem
+url: http://api.adam-holt.co.uk/business/offers/redeem
 
 headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
 body: offerTitle: 'test offer - testbusiness'
 
+method: GET
+
 ###Check Offers Redeemed
 
-GET - http://api.adam-holt.co.uk/users/get/testuser
+url: http://api.adam-holt.co.uk/users/get/testuser
 
 headers: authorization: getBasic('testuser', 'test')
 
+method: GET
 
 ##Groups
 
 ###Add Groups
 
-PUT - http://api.adam-holt.co.uk/groups
+url: http://api.adam-holt.co.uk/groups
 
 headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
 body: username: "testuser", groupname: "testgroup", description: "This is a Test Group", competition: "freshers"
 
+method: PUT
+
 ###Join Groups
 
-PUT - http://api.adam-holt.co.uk/groups
+url: http://api.adam-holt.co.uk/groups
 
 headers: authorization: getBasic('testuser2', 'test'), "content-type": "application/json"
 
 body:  username: "testuser2", groupname: "testgroup2", description: "This is a Test Group 2", competition: "freshers"
-                
+
+method: PUT
 
 ###Get Groups
 
-GET - http://api.adam-holt.co.uk/groups/testgroup
+url: http://api.adam-holt.co.uk/groups/testgroup
 
 headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
 
+method: GET
+
 ###View Groups
 
-GET - http://api.adam-holt.co.uk/groups?competition=freshers
+url: http://api.adam-holt.co.uk/groups?competition=freshers
 
 headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
 
+method: GET
 
 
 
