@@ -511,7 +511,7 @@
                  },
              };
              request.del(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
+                 expect(response.statusCode).toBe(202);
                  expect(body).toBe('"Deleted User!"')
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
@@ -520,7 +520,7 @@
              })
          })
          it('be able to delete the business', function(done) {
-             var url = 'http://localhost:8080/business/testBusiness';
+             var url = 'http://localhost:8080/business/testbusiness';
              // getting the parameters
              var params = {
                  uri: url,
