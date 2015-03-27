@@ -140,7 +140,7 @@ RESPONSE: `401 Unauthorized`
 
 
 ###Get Offers
-
+######Here a user can get all the offers available
 URL:
 
                 http://api.adam-holt.co.uk/business/offers/all
@@ -174,7 +174,7 @@ RESPONSE: `200 OK`
                 }
 
 ###Get Businesses Offers
-
+######Here a user can get all the offers available from a specific business
 URL:
 
                 http://api.adam-holt.co.uk/business/offers/BUSINESS-NAME-HERE
@@ -200,6 +200,7 @@ RESPONSE: `200 OK`
                 }
 
 ###Redeem Offers 
+######This part of the API allows users to redeem offers that they want to by supplying the 'offerTitle' in the body that is sent to the server.
 
 URL:
 
@@ -241,21 +242,53 @@ RESPONSE `403 Forbidden`
 
 RESPONSE: `404 Not Found`
 
+            ```json
             {
             "code": "NotFoundError",
             "message": "Offer Not Found"
             }
+            ```
 
 
 
 
 ###Check Offers Redeemed
 
-url: http://api.adam-holt.co.uk/users/get/testuser
+URL:
 
-headers: authorization: getBasic('testuser', 'test')
+                http://api.adam-holt.co.uk/users/get
 
-method: GET
+HEADERS:
+
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+METHOD: `GET`
+
+RESPONSE: `200 OK`
+
+                ```json
+                {
+                    "id": "adam5",
+                    "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
+                    "last_modified": "Fri, 27 Mar 2015 11:44:02 GMT",
+                    "points": 30,
+                    "transactions": [
+                        {
+                        "transactionid": "906e1380-d476-11e4-a248-374a0843ba7b",
+                        "date": "Fri, 27 Mar 2015 11:44:02 GMT",
+                        "amount_of_points": 50,
+                        "checked_in_at": "coventry"
+                        },
+                        {
+                        "transactionid": "998cd2d0-d476-11e4-a248-374a0843ba7b",
+                        "date": "Fri, 27 Mar 2015 11:44:17 GMT",
+                        "offer": "Wednesday 2 - tesco",
+                        "amount_of_points": -20,
+                        "business_redeemed": "tesco"
+                        }
+                    ]
+                }
+                ```
 
 ##Groups
 
