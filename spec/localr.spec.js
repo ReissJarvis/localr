@@ -525,29 +525,12 @@
              var params = {
                  uri: url,
                  headers: {
-                     authorization: getBasic('testBusiness', 'test')
+                     authorization: getBasic('testbusiness', 'test')
                  },
              };
              request.del(params, function(error, response, body) {
                  expect(response.statusCode).toBe(200);
                  expect(body).toBe('"Deleted Business!"')
-                 if(error) {
-                     expect(error.code).not.toBe('ECONNREFUSED');
-                 }
-                 done();
-             })
-         })
-         it('delete offers', function(done) {
-             var url = 'http://localhost:8080/business/offers';
-             // getting the parameters
-             var params = {
-                 uri: url,
-                 headers: {
-                     authorization: getBasic('testuser', 'test')
-                 },
-             };
-             request.del(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(200);
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
                  }
