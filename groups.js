@@ -120,10 +120,7 @@ module.exports.groups = (function() {
                                                 }
                                                 console.log("About to send res")
                                                 // document has been inserted into database
-                                                body = JSON.parse(body);
-                                                res.send(201, {
-                                                    Group: params
-                                                });
+                                                res.send(201,  params);
                                                 res.end();
                                             });
                                         });

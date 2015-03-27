@@ -254,6 +254,7 @@
                  name: "freshers"
              }, ['competition'], function(err, node) {
                  if(err) throw err;
+                 console.log("inserting the node")
                  request.post(params, function(error, response, body) {
                      expect(response.statusCode).toBe(201);
                      if(error) {
@@ -272,67 +273,67 @@
                  })
              });
          })
-//          it("be able to join a group", function(done) {
-//              var url = 'http://localhost:8080/users';
-//              var doc = {
-//                  city: "Birmingham",
-//                  dob: "11.01.1992",
-//                  firstname: "Reiss",
-//                  surname: "Jarvis",
-//                  email: "adamholt@me.com"
-//              }
-//              // getting the parameters
-//              // create new user first
-//              var params = {
-//                  uri: url,
-//                  headers: {
-//                      authorization: getBasic('testuser2', 'test'),
-//                      "content-type": "application/json"
-//                  },
-//                  body: JSON.stringify(doc)
-//              };
-//              request.post(params, function(error, response, body) {
-//                  //create group
-//                  console.log("creating group")
-//                  var url = 'http://localhost:8080/groups'
-//                  var doc = {
-//                      username: "testuser2",
-//                      groupname: "testgroup2",
-//                      description: "This is a Test Group 2",
-//                      competition: "freshers"
-//                  };
-//                  console.log(doc)
-//                  var params = {
-//                      uri: url,
-//                      headers: {
-//                          authorization: getBasic('testuser2', 'test'),
-//                          "content-type": "application/json"
-//                      },
-//                      body: JSON.stringify(doc)
-//                  };
-//                  console.log("end of console");
-//                  request.post(params, function(error, response, body) {
-//                      //join the group
-//                      console.log("Joining group")
-//                      url = 'http://localhost:8080/groups/join/testgroup2'
-//                      var params = {
-//                          uri: url,
-//                          headers: {
-//                              authorization: getBasic('testuser', 'test'),
-//                              "content-type": "application/json"
-//                          }
-//                      };
-//                      request.post(params, function(error, response, body) {
-//                          expect(response.statusCode).toBe(201);
-//                          console.log("join group" + body)
-//                          if(error) {
-//                              expect(error.code).not.toBe('ECONNREFUSED');
-//                          }
-//                          done()
-//                      })
-//                  })
-//              });
-//          })
+         it("be able to join a group", function(done) {
+             var url = 'http://localhost:8080/users';
+             var doc = {
+                 city: "Birmingham",
+                 dob: "11.01.1992",
+                 firstname: "Reiss",
+                 surname: "Jarvis",
+                 email: "adamholt@me.com"
+             }
+             // getting the parameters
+             // create new user first
+             var params = {
+                 uri: url,
+                 headers: {
+                     authorization: getBasic('testuser2', 'test'),
+                     "content-type": "application/json"
+                 },
+                 body: JSON.stringify(doc)
+             };
+             request.post(params, function(error, response, body) {
+                 //create group
+                 console.log("creating group")
+                 var url = 'http://localhost:8080/groups'
+                 var doc = {
+                     username: "testuser2",
+                     groupname: "testgroup2",
+                     description: "This is a Test Group 2",
+                     competition: "freshers"
+                 };
+                 console.log(doc)
+                 var params = {
+                     uri: url,
+                     headers: {
+                         authorization: getBasic('testuser2', 'test'),
+                         "content-type": "application/json"
+                     },
+                     body: JSON.stringify(doc)
+                 };
+                 console.log("end of console");
+                 request.post(params, function(error, response, body) {
+                     //join the group
+                     console.log("Joining group")
+                     url = 'http://localhost:8080/groups/join/testgroup2'
+                     var params = {
+                         uri: url,
+                         headers: {
+                             authorization: getBasic('testuser', 'test'),
+                             "content-type": "application/json"
+                         }
+                     };
+                     request.post(params, function(error, response, body) {
+                         expect(response.statusCode).toBe(201);
+                         console.log("join group" + body)
+                         if(error) {
+                             expect(error.code).not.toBe('ECONNREFUSED');
+                         }
+                         done()
+                     })
+                 })
+             });
+         })
          it("Be able to get a single group", function(done) {
              var url = 'http://localhost:8080/groups/testgroup';
              // getting the parameters
