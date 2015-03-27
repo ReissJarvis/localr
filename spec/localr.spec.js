@@ -298,6 +298,7 @@
                      },
                      body: JSON.stringify(doc)
                  };
+                 console.log(response);
                  request.post(params, function(error, response, body) {
                      //join the group
                      url = 'http://localhost:8080/groups/join/testgroup2'
