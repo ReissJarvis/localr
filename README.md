@@ -1,11 +1,12 @@
 #Localr Documentation
 
 ##Introduction
-Localr is a location based rewards system built using to Node.js. NOSql databases have been used, Neo4j for the group/relationship aspects and CouchDB for storage of documents like, users, businesses and offers. The API offers the ability for businesses to sign up and add new offers. The users can then checkin to businesses and get points which can then be used to redeem the offers other the businesses have entered through the API.
+Localr is a location based rewards system built using to Node.js. NoSQL databases have been used, Neo4j for the group/relationship aspects and CouchDB for storage of documents like, users, businesses and offers. The API offers the ability for businesses to sign up and add new offers. The users can then checkin to businesses and get points which can then be used to redeem the offers other the businesses have entered through the API.
 
 ##Users
 
 ###Add New User:
+######This allows you to create a new user, you must submit all parameters that are in the body below. The username is taken from the auth header.
 
 URL:
 ```json
@@ -13,21 +14,19 @@ http://api.adam-holt.co.uk/users
 ```
 METHOD: `POST`
 
-#####(Username will be taken from the auth header)
-
 HEADERS:
 ```json
 {"authorization": "Basic xxxxxx", "content-type": "application/json"}
 ```
-
+#####Username will be taken from the auth header
 BODY:
 ```json
 {
      "city": "Birmingham",
-     "dob": "31.05.1991",
-     "firstname": "Adam",
-     "surname": "Holt",
-     "email": "adamholt@me.com"
+     "dob": "01.01.1990",
+     "firstname": "Firstname",
+     "surname": "Surname",
+     "email": "adam@email.com"
 }
 ```
 
@@ -39,11 +38,11 @@ RESPONSE: `201 Created`
     "last_modified": "Fri, 27 Mar 2015 11:08:59 GMT",
     "nodeid": 128,
     "username": "adam5",
-    "firstname": "Adam",
-    "surname": "Holt",
+    "firstname": "Firstname",
+    "surname": "Surname",
     "city": "Birmingham",
-    "dob": "31.05.1991",
-    "email": "test@email.com"
+    "dob": "01.01.1990",
+    "email": "adam@email.com"
 }
 ```
 RESPONSE: `406 Not Acceptable`
@@ -64,31 +63,119 @@ RESPONSE: `409 Conflict`
 
 
 ###Get User:
-
+#####This lets you get all the information about a user including points, transactions etc.
 URL:
 ```json
 http://api.adam-holt.co.uk/users/get?username=USERNAME
 ```
 
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
+
 METHOD: `GET`
 
-###Check in user:
+RESPONSE: `200 OK`
+```json
+{
+    "id": "adam5",
+    "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
+    "last_modified": "Fri, 27 Mar 2015 11:44:02 GMT",
+    "points": 30,
+    "transactions": [
+        {
+        "transactionid": "906e1380-d476-11e4-a248-374a0843ba7b",
+        "date": "Fri, 27 Mar 2015 11:44:02 GMT",
+        "amount_of_points": 50,
+        "checked_in_at": "coventry"
+        },
+        {
+        "transactionid": "998cd2d0-d476-11e4-a248-374a0843ba7b",
+        "date": "Fri, 27 Mar 2015 11:44:17 GMT",
+        "offer": "Wednesday 2 - tesco",
+        "amount_of_points": -20,
+        "business_redeemed": "tesco"
+        }
+    ]
+}
+```
 
+RESPONSE: `404 Not Found`
+```json
+{
+    "code": "NotFoundError",
+    "message": "User Not Found"
+}
+```
+
+###Check in user:
+#####Here a user can check into a business by supplying the business in the body
 URL:
 ```json
 http://api.adam-holt.co.uk/users/checkin
 ```
 
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
+
 METHOD: `PUT`
+
+BODY:
+```json
+{
+    "business": "coventry"
+}
+```
+
+RESPONSE: `202 Accepted`
+```json
+{
+    "CheckIn": "Ok",
+    "username": "adam",
+    "business": "coventry",
+    "points_added": 50,
+    "total_points": 120
+}
+```
+
+RESPONSE: `404 Not Found`
+```json
+{
+    "code": "NotFoundError",
+    "message": "Business Not Found"
+}
+```
 
 ###Delete User:
 
 URL:
 ```json
-http://api.adam-holt.co.uk/users/delete?username=USERNAME
+http://api.adam-holt.co.uk/users/USERNAME-HERE
+```
+
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
 ```
 
 METHOD: `DEL`
+
+RESPONSE: `200 OK`
+```json
+{"Deleted User!"}
+```
+
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "You do not have permission to edit this user!"
+}
+```
+
 
 ##Businesses
 
@@ -121,12 +208,13 @@ http://api.adam-holt.co.uk/business/offers
 ```
 METHOD: `POST`
 
-#####(Business will be taken from the auth header)
+
 HEADERS:
 ```json
 {"authorization": "Basic xxxxxx", "content-type": "application/json"}
 ```
 BODY:
+#####(Business will be taken from the auth header)
 ```json
 {
      "businessname": "testbusiness",
