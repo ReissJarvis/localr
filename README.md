@@ -2,8 +2,6 @@
 
 ##Users
 
-These all assume you have set the basic auth headers and ('content-type' = 'application/json')
-
 ###Add New User:
 
 URL:
@@ -11,6 +9,8 @@ URL:
                 http://api.adam-holt.co.uk/users
 
 METHOD: `POST`
+
+#####(Username will be taken from the auth header)
 
 HEADERS:
 
@@ -100,45 +100,154 @@ method: DEL
 
 ##Offers
 
-These all assume you have set the basic auth headers and ('content-type' = 'application/json')
-
-http://api.adam-holt.co.uk/business/offers/add?businessname=BUSINESSNAME&offer=OFFER&description=DESCRIPTION
-
 ###Add Offers
 
-url: http://api.adam-holt.co.uk/business/offers
+URL:
 
-headers: authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
+                http://api.adam-holt.co.uk/business/offers
 
-body: businessname: 'testbusiness', description: 'description', title: 'test offer', cost: 25
+METHOD: `POST`
 
-method: PUT
+#####(Business will be taken from the auth header)
+HEADERS:
+
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+BODY:
+
+                {
+                 businessname: 'testbusiness',
+                 description: 'description',
+                 title: 'test offer',
+                 cost: 25
+                }
+RESPONSE `201 Created`
+
+                {
+                "Added": "OK",
+                "Offer_Title": "Friday - thursday",
+                "Offer_Description": "testestest",
+                "Date_Added": "Fri, 27 Mar 2015 11:25:28 GMT"
+                }
+
+
+RESPONSE: `401 Unauthorized`
+
+                {
+                "code": "UnauthorizedError",
+                "message": "You must only add your own offers"
+                }
+
 
 ###Get Offers
 
-url: http://api.adam-holt.co.uk/business/offers/all
+URL:
 
-headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+                http://api.adam-holt.co.uk/business/offers/all
 
-method: GET
+HEADERS:
+
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+METHOD: `GET`
+
+RESPONSE: `200 OK`
+
+                {
+                    "total_Offers": 2,
+                    "offers": [
+                        {
+                        "title": "Tuesday test - coventry",
+                        "description": "Tuesday test",
+                        "points_cost": 100,
+                        "businessname": "coventry",
+                        "last_modified": "Tue, 24 Mar 2015 10:40:53 GMT"
+                        },
+                        {
+                        "title": "testst - rfthurdsday",
+                        "description": "testestest",
+                        "points_cost": 20,
+                        "businessname": "rfthurdsday",
+                        "last_modified": "Thu, 26 Mar 2015 16:42:57 GMT"
+                        }
+                    ]
+                }
 
 ###Get Businesses Offers
 
-url: http://api.adam-holt.co.uk/business/offers/testbusiness
+URL:
 
-headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+                http://api.adam-holt.co.uk/business/offers/BUSINESS-NAME-HERE
 
-method: GET
+HEADERS:
+
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+METHOD: `GET`
+
+RESPONSE: `200 OK`
+
+                {
+                    "total_Offers": 1,
+                    "offers": [
+                        {
+                        "title": "Fridady - thursday",
+                        "description": "testestest",
+                        "businessname": "thursday",
+                        "last_modified": "Fri, 27 Mar 2015 11:26:00 GMT"
+                        }
+                    ]
+                }
 
 ###Redeem Offers 
 
-url: http://api.adam-holt.co.uk/business/offers/redeem
+URL:
 
-headers:  authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+                http://api.adam-holt.co.uk/business/offers/redeem
 
-body: offerTitle: 'test offer - testbusiness'
+HEADERS:
 
-method: GET
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+METHOD: `PUT`
+
+BODY: 
+
+                {"offerTitle": "test offer - testbusiness"}
+
+RESPONSE: `202 Accepted`
+
+                {
+                "Redeem": "OK",
+                "username": "adam",
+                "business": "tesco",
+                "points_taken": 20,
+                "total_points": 3890
+                }
+
+RESPONSE: `401 Unauthorized`
+
+                {
+                "code": "UnauthorizedError",
+                "message": "Invalid username/password"
+                }
+
+RESPONSE `403 Forbidden`
+
+                {
+                "code": "ForbiddenError",
+                "message": "You don't have enough points to redeem this offer"
+                }
+
+RESPONSE: `404 Not Found`
+
+            {
+            "code": "NotFoundError",
+            "message": "Offer Not Found"
+            }
+
+
+
 
 ###Check Offers Redeemed
 
