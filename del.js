@@ -74,7 +74,7 @@ module.exports.del = (function() {
             if(businessname !== req.authorization.basic.username) {
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
-            pwdCheck.check(businessname, password, 'user').
+            pwdCheck.check(businessname, password, 'business').
             catch(function(err) {
                 return next(new restify.UnauthorizedError('Invalid username/password'));
                 credentials = false;
