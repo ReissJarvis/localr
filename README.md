@@ -5,58 +5,59 @@
 ###Add New User:
 
 URL:
-
-                http://api.adam-holt.co.uk/users
-
+```json
+http://api.adam-holt.co.uk/users
+```
 METHOD: `POST`
 
 #####(Username will be taken from the auth header)
 
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 
 BODY:
-
-                {
-                 "city": "Birmingham",
-                 "dob": "31.05.1991",
-                 "firstname": "Adam",
-                 "surname": "Holt",
-                 "email": "adamholt@me.com"
-                }
-
+```json
+{
+     "city": "Birmingham",
+     "dob": "31.05.1991",
+     "firstname": "Adam",
+     "surname": "Holt",
+     "email": "adamholt@me.com"
+}
+```
 
 RESPONSE: `201 Created`
-
-                {
-                "register": "OK",
-                "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
-                "last_modified": "Fri, 27 Mar 2015 11:08:59 GMT",
-                "nodeid": 128,
-                "username": "adam5",
-                "firstname": "Adam",
-                "surname": "Holt",
-                "city": "Birmingham",
-                "dob": "31.05.1991",
-                "email": "test@email.com"
-                }
+```json
+{
+    "register": "OK",
+    "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
+    "last_modified": "Fri, 27 Mar 2015 11:08:59 GMT",
+    "nodeid": 128,
+    "username": "adam5",
+    "firstname": "Adam",
+    "surname": "Holt",
+    "city": "Birmingham",
+    "dob": "31.05.1991",
+    "email": "test@email.com"
+}
+```
 RESPONSE: `406 Not Acceptable`
-
-                {
-                "code": "NotAcceptableError",
-                "message": "Not all requirements supplied!"
-                }
-
+```json
+{
+    "code": "NotAcceptableError",
+    "message": "Not all requirements supplied!"
+}
+```
 
 RESPONSE: `409 Conflict`
-
-                {
-                "code": "ConflictError",
-                "message": "User already exists!"
-                }
-
+```json
+{
+    "code": "ConflictError",
+    "message": "User already exists!"
+}
+```
 
 
 ###Get User:
@@ -103,151 +104,159 @@ method: DEL
 ###Add Offers
 
 URL:
-
-                http://api.adam-holt.co.uk/business/offers
-
+```json
+http://api.adam-holt.co.uk/business/offers
+```
 METHOD: `POST`
 
 #####(Business will be taken from the auth header)
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 BODY:
-
-                {
-                 businessname: 'testbusiness',
-                 description: 'description',
-                 title: 'test offer',
-                 cost: 25
-                }
+```json
+{
+     businessname: 'testbusiness',
+     description: 'description',
+     title: 'test offer',
+     cost: 25
+}
+```
 RESPONSE `201 Created`
-
-                {
-                "Added": "OK",
-                "Offer_Title": "Friday - thursday",
-                "Offer_Description": "testestest",
-                "Date_Added": "Fri, 27 Mar 2015 11:25:28 GMT"
-                }
-
+```json
+{
+    "Added": "OK",
+    "Offer_Title": "Friday - thursday",
+    "Offer_Description": "testestest",
+    "Date_Added": "Fri, 27 Mar 2015 11:25:28 GMT"
+}
+```
 
 RESPONSE: `401 Unauthorized`
-
-                {
-                "code": "UnauthorizedError",
-                "message": "You must only add your own offers"
-                }
-
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "You must only add your own offers"
+}
+```
 
 ###Get Offers
 ######Here a user can get all the offers available
 URL:
-
-                http://api.adam-holt.co.uk/business/offers/all
-
+```json
+http://api.adam-holt.co.uk/business/offers/all
+```
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 METHOD: `GET`
 
 RESPONSE: `200 OK`
-
-                {
-                    "total_Offers": 2,
-                    "offers": [
-                        {
-                        "title": "Tuesday test - coventry",
-                        "description": "Tuesday test",
-                        "points_cost": 100,
-                        "businessname": "coventry",
-                        "last_modified": "Tue, 24 Mar 2015 10:40:53 GMT"
-                        },
-                        {
-                        "title": "testst - rfthurdsday",
-                        "description": "testestest",
-                        "points_cost": 20,
-                        "businessname": "rfthurdsday",
-                        "last_modified": "Thu, 26 Mar 2015 16:42:57 GMT"
-                        }
-                    ]
-                }
-
+```json
+{
+    "total_Offers": 2,
+    "offers": [
+        {
+        "title": "Tuesday test - coventry",
+        "description": "Tuesday test",
+        "points_cost": 100,
+        "businessname": "coventry",
+        "last_modified": "Tue, 24 Mar 2015 10:40:53 GMT"
+        },
+        {
+        "title": "testst - rfthurdsday",
+        "description": "testestest",
+        "points_cost": 20,
+        "businessname": "rfthurdsday",
+        "last_modified": "Thu, 26 Mar 2015 16:42:57 GMT"
+        }
+    ]
+}
+```
 ###Get Businesses Offers
 ######Here a user can get all the offers available from a specific business
 URL:
-
-                http://api.adam-holt.co.uk/business/offers/BUSINESS-NAME-HERE
-
+```json
+http://api.adam-holt.co.uk/business/offers/BUSINESS-NAME-HERE
+```
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+ {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 METHOD: `GET`
 
 RESPONSE: `200 OK`
-
-                {
-                    "total_Offers": 1,
-                    "offers": [
-                        {
-                        "title": "Fridady - thursday",
-                        "description": "testestest",
-                        "businessname": "thursday",
-                        "last_modified": "Fri, 27 Mar 2015 11:26:00 GMT"
-                        }
-                    ]
-                }
-
+```json
+{
+    "total_Offers": 1,
+    "offers": [
+        {
+        "title": "Fridady - thursday",
+        "description": "testestest",
+        "businessname": "thursday",
+        "last_modified": "Fri, 27 Mar 2015 11:26:00 GMT"
+        }
+    ]
+}
+```
 ###Redeem Offers 
 ######This part of the API allows users to redeem offers that they want to by supplying the 'offerTitle' in the body that is sent to the server.
 
 URL:
-
-                http://api.adam-holt.co.uk/business/offers/redeem
-
+```json
+http://api.adam-holt.co.uk/business/offers/redeem
+```
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 METHOD: `PUT`
 
 BODY: 
-
-                {"offerTitle": "test offer - testbusiness"}
+```json
+{"offerTitle": "test offer - testbusiness"}
+```
 
 RESPONSE: `202 Accepted`
 
-                {
-                "Redeem": "OK",
-                "username": "adam",
-                "business": "tesco",
-                "points_taken": 20,
-                "total_points": 3890
-                }
+```json
+{
+    "Redeem": "OK",
+    "username": "adam",
+    "business": "tesco",
+    "points_taken": 20,
+    "total_points": 3890
+    }
+```
 
 RESPONSE: `401 Unauthorized`
 
-                {
-                "code": "UnauthorizedError",
-                "message": "Invalid username/password"
-                }
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "Invalid username/password"
+}
+```
 
 RESPONSE `403 Forbidden`
 
-                {
-                "code": "ForbiddenError",
-                "message": "You don't have enough points to redeem this offer"
-                }
+```json
+{
+    "code": "ForbiddenError",
+    "message": "You don't have enough points to redeem this offer"
+}
+```
 
 RESPONSE: `404 Not Found`
 
-            ```json
-            {
-            "code": "NotFoundError",
-            "message": "Offer Not Found"
-            }
-            ```
+```json
+{
+    "code": "NotFoundError",
+    "message": "Offer Not Found"
+}
+```
 
 
 
