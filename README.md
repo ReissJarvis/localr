@@ -182,20 +182,81 @@ RESPONSE: `401 Unauthorized`
 
 ###Add Business:
 
-url: http://api.adam-holt.co.uk/business/
+URL: 
+```json
+http://api.adam-holt.co.uk/business/
+```
 
-authorization: getBasic('testbusiness', 'test'), "content-type": "application/json"
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 
-body: points: 50, city: "coventry", address: "blahhh", postcode: "B23 5XR", longitude: 40.000, latitude: 1.020, email: "adamholt@me.com"
+METHOD: `POST`
 
-method: PUT
+######Business name taken from auth header
+BODY: 
+```json
+{
+     "points": 50,
+     "city": "coventry",
+     "address": "addr",
+     "postcode": "B67 8LP",
+     "longitude": 40.000,
+     "latitude": 1.020,
+     "email": "adam@email.com"
+}
+```
+RESPONSE: `201 Created`
+```json
+{
+    "register": "OK",
+    "date_joined": "Fri, 27 Mar 2015 14:18:06 GMT",
+    "last_modified": "Fri, 27 Mar 2015 14:18:06 GMT",
+    "nodeid": 134,
+    "checkin_points": 50,
+    "address": "addr",
+    "city": "coventry",
+    "postcode": "B67 8LP",
+    "longitude": 40,
+    "latitude": 1.02,
+    "email": "adam@email.com"
+}
+```
+RESPONSE: `406 Not Acceptable`
+```json
+{
+    "code": "InternalServerError",
+    "message": "Not all requirements supplied!"
+}
+```
 
 ###Delete Business
 
-url: http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
+URL: 
+```json
+http://api.adam-holt.co.uk/business/BUSINESS-NAME
+```
 
-method: DEL
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 
+METHOD: `DEL`
+
+RESPONSE: `200 OK`
+```json
+"Deleted Business!"
+```
+
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "Invalid username/password"
+}
+```
 
 #Offers
 ###Add Offers
@@ -240,7 +301,7 @@ RESPONSE: `401 Unauthorized`
 }
 ```
 
-###Get Offers
+###Get All Offers
 ######Here a user can get all the offers available
 URL:
 ```json
@@ -436,13 +497,6 @@ headers:  authorization: getBasic('testuser', 'test'), "content-type": "applicat
 
 method: GET
 
-
-
-##FOR GETTING ALL OFFERS FROM CODIO WITH BUSINESSNAME
-http://api.adam-holt.co.uk:5984/offers/_design/offers/_view/business?startkey=%22codio%22&endkey=%22codio%22
-
-##READ THIS:
-http://mark-kirby.co.uk/2013/creating-a-true-rest-api/
 
 
 
