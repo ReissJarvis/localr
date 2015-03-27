@@ -58,7 +58,7 @@ module.exports.del = (function() {
                             if(err) {
                                 return next(new restify.InternalServerError('Cant delete CouchDB document.'));
                             };
-                            res.send(202, "Deleted User!");
+                            res.send(200, "Deleted User!");
                             res.end();
                         });
                     })
@@ -113,7 +113,7 @@ module.exports.del = (function() {
                             if(err) {
                                 return next(new restify.InternalServerError('Cant delete CouchDB document.'));
                             };
-                            res.send(202, "Deleted Business!");
+                            res.send(200, "Deleted Business!");
                             res.end();
                         });
                     })
