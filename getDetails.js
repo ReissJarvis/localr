@@ -21,11 +21,13 @@ module.exports.getDetails = function (req, res, next, type) {
             if (response.statusCode == 404) {
                 return next(new restify.NotFoundError('User Not Found'));
             };
+            // If user is found
             if (response.statusCode == 200) {
                 body = JSON.parse(body);
-                //res.header('ETag', body._rev);
+                //Set headers
                 res.header('Last-Modified', body.last_modified);
                 res.header('Accepts', 'GET');
+                // build user object
                 user = {
                     id: body._id,
                     date_joined: body.date_joined,
@@ -35,6 +37,7 @@ module.exports.getDetails = function (req, res, next, type) {
                 };
                 console.log(user.points)
                 console.log("set user");
+                //Send back the user
                 res.send(user);
                 console.log("sent data");
                 res.end();
@@ -58,15 +61,17 @@ module.exports.getDetails = function (req, res, next, type) {
             };
             if (response.statusCode == 200) {
                 body = JSON.parse(body);
-                //res.header('ETag', body._rev);
+                //Set headers
                 res.header('Last-Modified', body.last_modified);
                 res.header('Accepts', 'GET');
+                // Build business object
                 business = {
                     id: body._id,
                     date_joined: body.date_joined,
                     last_modified: body.last_modified,
                 };
                 console.log("set business");
+                //Send back business
                 res.send(business);
                 console.log("sent data");
                 res.end();

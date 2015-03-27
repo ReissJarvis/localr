@@ -20,9 +20,11 @@ function checkin(req, res, next) {
         credentials = true;
     //Get business doc to see how many points the user gets for checkin
     request.get(businessUrl, function(err, response, body) {
+        //Return error if business not found
         if(response.statusCode === 404) {
             return next(new restify.NotFoundError('Business Not Found'));
         };
+        //If business is found parse the body and set points
         if(response.statusCode === 200) {
             //Parse string into javascript object
             body = JSON.parse(body);
@@ -31,13 +33,15 @@ function checkin(req, res, next) {
         //New promise to check if username and password match the document
         pwdCheck.check(username, password, 'user').
         catch(function(err) {
+            //If password is not right the set credentials to false
             credentials = false;
             return next(new restify.UnauthorizedError('Invalid username/password'));
         }).then(function() {
-            console.log(credentials + ' after promise catch')
+            //Only do the following if credentials is set to true
             if(credentials === true) {
                 console.log('CHECKIN ');
                 console.log('PUT ' + username);
+                //Get the user document
                 request.get(userUrl, function(err, response, body) {
                     console.log("Request started.");
                     // if the document isnt found it will error
@@ -62,6 +66,7 @@ function checkin(req, res, next) {
                             amount_of_points: points,
                             checked_in_at: business
                         })
+                        //Sexy console log
                         console.log(username + ' Added ' + body.points + ' points');
                         var params = {
                             uri: userUrl,
@@ -72,11 +77,12 @@ function checkin(req, res, next) {
                             if(err) {
                                 return next(new restify.InternalServerError('Cant create document'));
                             }
-                            // document has been inserted into database
+                            //Set headers
                             res.setHeader('Location', 'http://' + req.headers.host + '/users/' + username);
                             res.setHeader('Last-Modified', date);
                             res.setHeader('Content-Type', 'application/json');
                             res.setHeader('Accepts', 'PUT');
+                            //Build object with some nice params to send back
                             var sendBack = {
                                 CheckIn: 'Ok',
                                 username: username,
