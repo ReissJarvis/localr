@@ -10,6 +10,7 @@ module.exports.register = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
         registerUser: function(req, res, next) {
+            console.log('POST USER ' + req.authorization.basic.username)
             var username = req.authorization.basic.username,
                 city = req.params.city,
                 dob = req.params.dob,
