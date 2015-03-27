@@ -316,7 +316,7 @@
                          headers: {
                              authorization: getBasic('testuser', 'test'),
                              "content-type": "application/json"
-                         },
+                         }
                      };
                      request.post(params, function(error, response, body) {
                          expect(response.statusCode).toBe(201);
