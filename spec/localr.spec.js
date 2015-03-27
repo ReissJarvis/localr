@@ -309,9 +309,10 @@
                      },
                      body: JSON.stringify(doc)
                  };
+                 console.log("end of console")
                  request.post(params, function(error, response, body) {
                      //join the group
-                     console.log("joining group")
+                     console.log("Joining group")
                      url = 'http://localhost:8080/groups/join/testgroup2'
                      var params = {
                          uri: url,

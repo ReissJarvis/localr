@@ -118,6 +118,7 @@ module.exports.groups = (function() {
                                                 if(err) {
                                                     return next(new restify.InternalServerError('Cant create document'));
                                                 }
+                                                console.log("About to send res")
                                                 // document has been inserted into database
                                                 body = JSON.parse(body);
                                                 res.send(201, {
