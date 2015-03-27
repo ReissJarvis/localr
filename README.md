@@ -6,13 +6,58 @@ These all assume you have set the basic auth headers and ('content-type' = 'appl
 
 ###Add New User:
 
-url: http://api.adam-holt.co.uk/users
+URL:
 
-headers: authorization: getBasic('testuser', 'test'), "content-type": "application/json"
+                http://api.adam-holt.co.uk/users
 
-body: JSON.stringify(doc)
+METHOD: `POST`
 
-method: PUT
+HEADERS:
+
+                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
+
+
+BODY:
+
+                {
+                 "city": "Birmingham",
+                 "dob": "31.05.1991",
+                 "firstname": "Adam",
+                 "surname": "Holt",
+                 "email": "adamholt@me.com"
+                }
+
+
+RESPONSE: `201 Created`
+
+                {
+                "register": "OK",
+                "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
+                "last_modified": "Fri, 27 Mar 2015 11:08:59 GMT",
+                "nodeid": 128,
+                "username": "adam5",
+                "firstname": "Adam",
+                "surname": "Holt",
+                "city": "Birmingham",
+                "dob": "31.05.1991",
+                "email": "test@email.com"
+                }
+RESPONSE: `406 Not Acceptable`
+
+                {
+                "code": "NotAcceptableError",
+                "message": "Not all requirements supplied!"
+                }
+
+
+RESPONSE: `409 Conflict`
+
+                {
+                "code": "ConflictError",
+                "message": "User already exists!"
+                }
+
+
 
 ###Get User:
 
