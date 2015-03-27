@@ -65,21 +65,30 @@ RESPONSE: `409 Conflict`
 
 ###Get User:
 
-url: http://api.adam-holt.co.uk/users/get?username=USERNAME
+URL:
+```json
+http://api.adam-holt.co.uk/users/get?username=USERNAME
+```
 
-method: GET
+METHOD: `GET`
 
 ###Check in user:
 
-url: http://api.adam-holt.co.uk/users/checkin
+URL:
+```json
+http://api.adam-holt.co.uk/users/checkin
+```
 
-method: PUT
+METHOD: `PUT`
 
 ###Delete User:
 
-url: http://api.adam-holt.co.uk/users/delete?username=USERNAME
+URL:
+```json
+http://api.adam-holt.co.uk/users/delete?username=USERNAME
+```
 
-method: DEL
+METHOD: `DEL`
 
 ##Businesses
 
