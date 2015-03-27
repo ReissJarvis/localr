@@ -4,9 +4,12 @@ node_js:
    - "0.10"
 services:
   - couchdb
+  
+sudo: required
+
 before_script:
   #These get exectued before npm start!
-  - apt-get install expect
+  - sudo apt-get install expect
   - npm install -g jasmine-node
   - npm install -g request
   - npm install -g restify
@@ -39,5 +42,5 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   
 after_success:
-  - expect ./deploy.sh
+  - sudo expect ./deploy.sh
   
