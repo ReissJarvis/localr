@@ -1,3 +1,4 @@
+[![Build Status](https://magnum.travis-ci.com/ReissJarvis/localr.svg?token=yZzJbvpunqPPHxpWym7f&branch=master)](https://magnum.travis-ci.com/ReissJarvis/localr)
 #Localr Documentation
 
 ##Introduction

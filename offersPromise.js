@@ -37,8 +37,10 @@ module.exports.offers = (function() {
                 credentials = false;
                 return next(new restify.UnauthorizedError('Invalid username/password'));
             }).then(function() {
+                //Only add offer is business password is accepted
                 if(credentials === true) {
                     return new Promise(function(resolve, reject) {
+                        //Get the offer from CouchDB
                         request.get(url, function(err, response, body) {
                             if(err) {
                                 reject(err)
@@ -75,6 +77,7 @@ module.exports.offers = (function() {
                                     console.log('New neo4j node created with name = ' + node.name);
                                     nodeid = node._id
                                 })
+                                //Create the document
                                 var doc = {
                                     date_created: date,
                                     last_modified: date,
@@ -89,9 +92,11 @@ module.exports.offers = (function() {
                                     uri: url,
                                     body: JSON.stringify(doc)
                                 };
+                                //Resolve promise and pass through params
                                 resolve(params)
                             }
                         }).then(function(params) {
+                            //Promise to put offer into CouchDB
                             return new Promise(function(resolve, reject) {
                                 request.put(params, function(err, response, body) {
                                     if(err) {
@@ -102,7 +107,7 @@ module.exports.offers = (function() {
                                     }
                                 })
                             }).then(function() {
-                                // document has been inserted into database
+                                //Set headers
                                 res.setHeader('Location', 'http://' + req.headers.host + req.url);
                                 res.setHeader('Last-Modified', date);
                                 res.setHeader('Content-Type', 'application/json');
@@ -113,6 +118,7 @@ module.exports.offers = (function() {
                                     Offer_Description: description,
                                     Date_Added: date
                                 }
+                                //Send offer that was created
                                 res.send(201, sendBack);
                                 res.end();
                             })
@@ -136,8 +142,8 @@ module.exports.offers = (function() {
                     if(err) {
                         reject(err)
                     };
-                    // if the document isnt found it will create it from sratch
                     console.log('code ' + response.statusCode)
+                    //If body is there then pass through response and body
                     if(body) {
                         resolve({
                             response: response,
@@ -150,12 +156,15 @@ module.exports.offers = (function() {
                 console.log("GET request error on couchDB document")
                 return next(new restify.InternalServerError('Error communicating with CouchDB'));
             }).then(function(doc) {
+                //If no offer is found return error
                 if(doc.response.statusCode === 404) {
                     return next(new restify.InternalServerError('No Offers Found'));
                 } else if(doc.response.statusCode === 200) {
+                    //If offer is there do the following
                     var resp = JSON.parse(doc.body);
                     console.log(resp.rows);
                     var allOffers = [];
+                    //For each loop to put all the offers into an array to send
                     resp.rows.forEach(function(i) {
                         var offer = {
                             title: i.value.offer_title,
@@ -166,6 +175,7 @@ module.exports.offers = (function() {
                         };
                         allOffers.push(offer);
                     });
+                    //Create the object of what will be sent back
                     var offers = {
                         total_Offers: resp.rows.length,
                         offers: allOffers
@@ -173,6 +183,7 @@ module.exports.offers = (function() {
                     //Time and date for header
                     var d = new Date();
                     var date = d.toUTCString();
+                    //Set headers and send offers
                     res.setHeader('Last-Modified', date);
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Accepts', 'GET');
@@ -208,6 +219,7 @@ module.exports.offers = (function() {
                 credentials = false;
                 return next(new restify.UnauthorizedError('Invalid username/password'));
             }).then(function() {
+                //Only do the following if credentials still set to true
                 if(credentials === true) {
                     //Get the offer URL
                     //Create a promise for the get request
@@ -234,6 +246,7 @@ module.exports.offers = (function() {
                         if(call.response.statusCode === 404) {
                             return next(new restify.NotFoundError('Offer Not Found'));
                         };
+                        //If offer is found do the following
                         if(call.response.statusCode === 200) {
                             //Set offer variable as whats returned from the GET Offer
                             offer = JSON.parse(call.body);
@@ -285,12 +298,14 @@ module.exports.offers = (function() {
                                             return next(new restify.InternalServerError('Cant Update CouchDB document'));
                                             reject(err)
                                         };
+                                        //Add offer to tranasctions array
                                         offer.redeems.push({
                                             transactionid: txID,
                                             date: date,
                                             amount_of_points: (cost - (cost * 2)),
                                             user_redeemed: username
                                         });
+                                        //Build params
                                         var redeemParams = {
                                             uri: offerUrl,
                                             body: JSON.stringify(offer)
@@ -298,15 +313,17 @@ module.exports.offers = (function() {
                                         resolve(redeemParams);
                                     })
                                 }).then(function(redeem) {
+                                    //Put offer back to couchDB with redeem added
                                     request.put(redeem, function(err, response, body) {
                                         if(err) {
                                             return next(new restify.InternalServerError('Cant Update CouchDB document'));
                                             reject(err)
                                         }
-                                        // document has been inserted into database
+                                        //Set headers
                                         res.setHeader('Last-Modified', date);
                                         res.setHeader('Content-Type', 'application/json');
                                         res.setHeader('Accepts', 'PUT');
+                                        //Build object to send back on successful redeem
                                         var sendBack = {
                                             Redeem: 'OK',
                                             username: username,
@@ -314,6 +331,7 @@ module.exports.offers = (function() {
                                             points_taken: cost,
                                             total_points: totalPoints
                                         }
+                                        //Send back redeem details
                                         res.send(202, sendBack);
                                         res.end();
                                     })
