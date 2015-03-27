@@ -66,7 +66,7 @@ RESPONSE: `409 Conflict`
 ######This lets you get all the information about a user including points, transactions etc.
 URL:
 ```json
-http://api.adam-holt.co.uk/users/get?username=USERNAME
+http://api.adam-holt.co.uk/users/get/:username
 ```
 
 HEADERS:
@@ -153,7 +153,7 @@ RESPONSE: `404 Not Found`
 ######This allows you to delete the user but it will check your header auth against the database to make sure you are elegible to delete the user
 URL:
 ```json
-http://api.adam-holt.co.uk/users/USERNAME-HERE
+http://api.adam-holt.co.uk/users/:username
 ```
 
 HEADERS:
@@ -235,7 +235,7 @@ RESPONSE: `406 Not Acceptable`
 
 URL: 
 ```json
-http://api.adam-holt.co.uk/business/BUSINESS-NAME
+http://api.adam-holt.co.uk/business/:businessname
 ```
 
 HEADERS:
@@ -339,7 +339,7 @@ RESPONSE: `200 OK`
 ######Here a user can get all the offers available from a specific business
 URL:
 ```json
-http://api.adam-holt.co.uk/business/offers/BUSINESS-NAME-HERE
+http://api.adam-holt.co.uk/business/offers/:businessname
 ```
 HEADERS:
 ```json
@@ -425,7 +425,7 @@ RESPONSE: `404 Not Found`
 
 URL:
 ```json
-http://api.adam-holt.co.uk/users/get
+http://api.adam-holt.co.uk/users/get/:username
 ```
 HEADERS:
 ```json
@@ -465,7 +465,7 @@ RESPONSE: `200 OK`
 
 URL:
 ```json
-http://api.adam-holt.co.uk:8080/groups
+http://api.adam-holt.co.uk/groups
 ```
 METHOD: `POST`
 
@@ -531,7 +531,7 @@ RESPONSE: `415 Unsupported Media Type`
 
 URL:
 ```json
-http://api.adam-holt.co.uk:8080/groups/join/:groupname
+http://api.adam-holt.co.uk/groups/join/:groupname
 ```
 METHOD: `POST`
 
@@ -565,11 +565,11 @@ RESPONSE: `400 Bad Request`
 
 URL:
 ```json
-http://api.adam-holt.co.uk:8080/groups/:groupname
+http://api.adam-holt.co.uk/groups/:groupname
 ```
 PARAMETERS :
 ```json
-http://api.adam-holt.co.uk:8080/groups?competition= :competition name
+http://api.adam-holt.co.uk/groups?competition=:competition name
 
 For all Groups in a competition
 ```
