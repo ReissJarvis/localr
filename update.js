@@ -92,8 +92,8 @@ module.exports.update = (function() {
                                 city: mainBody.city,
                                 dob: mainBody.dob
                             };
-                            //Send back a 202 with object above
-                            res.send(202, sendBack);
+                            //Send back a 200 with object above
+                            res.send(200, sendBack);
                             res.end();
                         });
                     });
@@ -181,12 +181,12 @@ module.exports.update = (function() {
                                 Update: 'OK',
                                 businessname: businessname,
                                 address: mainBody.address,
-                                city: mainBody.surname,
+                                city: mainBody.city,
                                 postcode: mainBody.postcode,
                                 longitude: mainBody.longitude,
                                 latitude: mainBody.latitude
                             };
-                            res.send(202, sendBack);
+                            res.send(200, sendBack);
                             res.end();
                         });
                     });

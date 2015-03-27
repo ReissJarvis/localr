@@ -149,6 +149,58 @@ RESPONSE: `404 Not Found`
     "message": "Business Not Found"
 }
 ```
+###Update User:
+######This allows you to update an existing user, all body parameters are optional.
+
+URL:
+```json
+http://api.adam-holt.co.uk/users/:username
+```
+METHOD: `PUT`
+
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
+
+BODY:
+```json
+{
+     "firstname": "firstname",
+     "surname": "surname",
+     "city": "city",
+     "dob": "01.01.1990",
+     "password": "password"
+}
+```
+
+RESPONSE: `200 OK`
+```json
+{
+    "update": "OK",
+    "username": "username",
+    "firstname": "firstname",
+    "surname": "surname",
+    "city": "city",
+    "dob": "dob"
+
+}
+```
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "You do not have permission to edit this user!"
+}
+```
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "Invalid username/password"
+}
+```
+
 
 ###Delete User:
 ######This allows you to delete the user but it will check your header auth against the database to make sure you are elegible to delete the user
@@ -231,6 +283,61 @@ RESPONSE: `406 Not Acceptable`
     "message": "Not all requirements supplied!"
 }
 ```
+
+###Update Business:
+######This allows you to update an existing business, all body parameters are optional.
+
+URL:
+```json
+http://api.adam-holt.co.uk/users/:businessname
+```
+METHOD: `PUT`
+
+HEADERS:
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
+
+BODY:
+```json
+{
+     "password": "password",
+     "address": "address",
+     "city": "city",
+     "postcode": "postcode",
+     "longitude": "longitude",
+     "latitude": "latitude",
+     
+}
+```
+
+RESPONSE: `200 OK`
+```json
+{
+    "Update": "OK",
+    "businessname": "businessname",
+    "address": "address",
+    "city": "city",
+    "postcode": "postcode",
+    "longitude": "longitude",
+    "latitude": "latitude"
+}
+```
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "You do not have permission to edit this business!"
+}
+```
+RESPONSE: `401 Unauthorized`
+```json
+{
+    "code": "UnauthorizedError",
+    "message": "Invalid username/password"
+}
+```
+
 
 ###Delete Business
 
