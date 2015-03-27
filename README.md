@@ -18,7 +18,7 @@ HEADERS:
 ```json
 {"authorization": "Basic xxxxxx", "content-type": "application/json"}
 ```
-#####Username will be taken from the auth header
+######Username will be taken from the auth header
 BODY:
 ```json
 {
@@ -63,7 +63,7 @@ RESPONSE: `409 Conflict`
 
 
 ###Get User:
-#####This lets you get all the information about a user including points, transactions etc.
+######This lets you get all the information about a user including points, transactions etc.
 URL:
 ```json
 http://api.adam-holt.co.uk/users/get?username=USERNAME
@@ -110,7 +110,7 @@ RESPONSE: `404 Not Found`
 ```
 
 ###Check in user:
-#####Here a user can check into a business by supplying the business in the body
+######Here a user can check into a business by supplying the business in the body
 URL:
 ```json
 http://api.adam-holt.co.uk/users/checkin
@@ -150,7 +150,7 @@ RESPONSE: `404 Not Found`
 ```
 
 ###Delete User:
-
+######This allows you to delete the user but it will check your header auth against the database to make sure you are elegible to delete the user
 URL:
 ```json
 http://api.adam-holt.co.uk/users/USERNAME-HERE
