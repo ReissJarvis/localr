@@ -231,7 +231,7 @@ module.exports.groups = (function() {
                             }
                             var params = {
                                 uri:'http://localhost:5984/groups/' + req.params.groupname,
-                                body: JSON.stringify(body)
+                                body: body
                             };
                             resolve(params);
                         });
