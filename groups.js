@@ -273,7 +273,7 @@ module.exports.groups = (function() {
                     if(body) {
                         resolve({
                             response: response,
-                            body: JSON.parse(body);
+                            body: JSON.parse(body)
                         });
                     }
                 });

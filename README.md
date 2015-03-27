@@ -527,7 +527,7 @@ RESPONSE: `415 Unsupported Media Type`
 ```
  
 
-###Join Groups
+###Join Group
 
 URL:
 ```json
@@ -565,8 +565,15 @@ RESPONSE: `400 Bad Request`
 
 URL:
 ```json
-http://api.adam-holt.co.uk:8080/groups/testgroup
+http://api.adam-holt.co.uk:8080/groups/:groupname
 ```
+PARAMETERS :
+```json
+http://api.adam-holt.co.uk:8080/groups?competition= :competition name
+
+For all Groups in a competition
+```
+
 METHOD: `GET`
 
 HEADERS:
@@ -609,6 +616,7 @@ RESPONSE: `400 Bad Request`
     "message": "Group Not Found"
 }
 ```
+
 
 
 
