@@ -315,6 +315,7 @@
                          uri: url,
                          headers: {
                              authorization: getBasic('testuser', 'test'),
+                             "content-type": "application/json"
                          },
                      };
                      request.post(params, function(error, response, body) {
