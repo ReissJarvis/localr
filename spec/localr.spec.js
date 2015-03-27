@@ -511,7 +511,7 @@
                  },
              };
              request.del(params, function(error, response, body) {
-                 expect(response.statusCode).toBe(202);
+                 expect(response.statusCode).toBe(200);
                  expect(body).toBe('"Deleted User!"')
                  if(error) {
                      expect(error.code).not.toBe('ECONNREFUSED');
