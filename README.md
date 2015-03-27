@@ -179,7 +179,6 @@ RESPONSE: `401 Unauthorized`
 
 ##Businesses
 
-These all assume you have set the basic auth headers and ('content-type' = 'application/json')
 
 ###Add Business:
 
@@ -198,10 +197,9 @@ url: http://api.adam-holt.co.uk/business/delete?businessname=BUSINESSNAME
 method: DEL
 
 
-##Offers
-
+#Offers
 ###Add Offers
-
+######Here a business can add an offer and must supply all the parameters shown in the body
 URL:
 ```json
 http://api.adam-holt.co.uk/business/offers
@@ -214,7 +212,8 @@ HEADERS:
 {"authorization": "Basic xxxxxx", "content-type": "application/json"}
 ```
 BODY:
-#####(Business will be taken from the auth header)
+######(Business will be taken from the auth header)
+
 ```json
 {
      "businessname": "testbusiness",
