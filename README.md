@@ -117,10 +117,10 @@ HEADERS:
 BODY:
 ```json
 {
-     businessname: 'testbusiness',
-     description: 'description',
-     title: 'test offer',
-     cost: 25
+     "businessname": 'testbusiness',
+     "description": 'description',
+     "title": 'test offer',
+     "cost": 25
 }
 ```
 RESPONSE `201 Created`
@@ -264,40 +264,40 @@ RESPONSE: `404 Not Found`
 ###Check Offers Redeemed
 
 URL:
-
-                http://api.adam-holt.co.uk/users/get
-
+```json
+http://api.adam-holt.co.uk/users/get
+```
 HEADERS:
-
-                {"authorization": "Basic xxxxxx", "content-type": "application/json"}
-
+```json
+{"authorization": "Basic xxxxxx", "content-type": "application/json"}
+```
 METHOD: `GET`
 
 RESPONSE: `200 OK`
 
-                ```json
-                {
-                    "id": "adam5",
-                    "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
-                    "last_modified": "Fri, 27 Mar 2015 11:44:02 GMT",
-                    "points": 30,
-                    "transactions": [
-                        {
-                        "transactionid": "906e1380-d476-11e4-a248-374a0843ba7b",
-                        "date": "Fri, 27 Mar 2015 11:44:02 GMT",
-                        "amount_of_points": 50,
-                        "checked_in_at": "coventry"
-                        },
-                        {
-                        "transactionid": "998cd2d0-d476-11e4-a248-374a0843ba7b",
-                        "date": "Fri, 27 Mar 2015 11:44:17 GMT",
-                        "offer": "Wednesday 2 - tesco",
-                        "amount_of_points": -20,
-                        "business_redeemed": "tesco"
-                        }
-                    ]
-                }
-                ```
+ ```json
+{
+    "id": "adam5",
+    "date_joined": "Fri, 27 Mar 2015 11:08:59 GMT",
+    "last_modified": "Fri, 27 Mar 2015 11:44:02 GMT",
+    "points": 30,
+    "transactions": [
+        {
+        "transactionid": "906e1380-d476-11e4-a248-374a0843ba7b",
+        "date": "Fri, 27 Mar 2015 11:44:02 GMT",
+        "amount_of_points": 50,
+        "checked_in_at": "coventry"
+        },
+        {
+        "transactionid": "998cd2d0-d476-11e4-a248-374a0843ba7b",
+        "date": "Fri, 27 Mar 2015 11:44:17 GMT",
+        "offer": "Wednesday 2 - tesco",
+        "amount_of_points": -20,
+        "business_redeemed": "tesco"
+        }
+    ]
+}
+```
 
 ##Groups
 
