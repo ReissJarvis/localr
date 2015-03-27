@@ -24,7 +24,7 @@ module.exports.register = (function() {
             this.getRequest(url).
             catch(function(err) {
                 console.log("Get request error");
-                return next(new restify.InternalServerError('Error has occured!'));
+                return next(new restify.InternalServerError('Error has occured getting CouchDB document!'));
             }).then(function(body) {
                 if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
@@ -98,12 +98,12 @@ module.exports.register = (function() {
                 nodeid = 0,
                 url = 'http://localhost:5984/business/' + businessname;
             if(!this.checkBusiness(businessname, points, address, city, postcode, longitude, latitude, email)) {
-                return next(new restify.InternalServerError('Not all requirements supplied!'));
+                return next(new restify.NotAcceptableError('Not all requirements supplied!'));
             };
             this.getRequest(url).
             catch(function(err) {
                 console.log("Get request error");
-                return next(new restify.NotAcceptableError('Error has occured!'));
+                return next(new restify.InternalServerError('Error has occured getting CouchDB document!'));
             }).then(function(body) {
                 if(body.response.statusCode === 200) {
                     return next(new restify.ConflictError('User already exists!'));
