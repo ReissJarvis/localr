@@ -6,6 +6,7 @@ var validateHTTP = require("./validateHTTP.js"),
     neo4j = require('node-neo4j'),
     Promise = require('promise'),
     pwdCheck = require('./passwordCheck.js');
+
 module.exports.del = (function() {
     var db = new neo4j('http://localhost:7474');
     return {
@@ -13,7 +14,8 @@ module.exports.del = (function() {
             var username = req.params.username,
                 url = 'http://localhost:5984/users/' + username,
                 password = req.authorization.basic.password,
-                mainBody = {};
+                mainBody = {},
+                credentials = true;
             if(username !== req.authorization.basic.username) {
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
@@ -67,7 +69,8 @@ module.exports.del = (function() {
             var businessname = req.params.businessname,
                 url = 'http://localhost:5984/business/' + businessname,
                 password = req.authorization.basic.password,
-                mainBody = {};
+                mainBody = {},
+                credentials = true;
             if(businessname !== req.authorization.basic.username) {
                 return next(new restify.UnauthorizedError("You do not have permission to edit this user!"))
             };
