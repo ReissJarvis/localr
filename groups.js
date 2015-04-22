@@ -109,7 +109,7 @@ module.exports.groups = (function() {
                                             };
                                             var params = {
                                                 uri: url,
-                                                body: JSON.stringify(doc
+                                                body: JSON.stringify(doc)
                                             };
                                             resolve(params);
                                         }).then(function(params) {
