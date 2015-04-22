@@ -597,7 +597,7 @@ RESPONSE: `201 Created`
 {
     "Group": {
         "uri": "http://localhost:5984/groups/testgroup",
-        "body": "{"groupname":"testgroup",
+        "body": {"groupname":"testgroup",
         "description":"This is a Test Group",
         "date_joined":"Fri, 27 Mar 2015 13:52:01 GMT",
         "last_modified":"Fri, 27 Mar 2015 13:52:01 GMT",
@@ -607,7 +607,7 @@ RESPONSE: `201 Created`
         "usersjoined":["testuser"],
         "competition":"freshers",
         "groupnodeid":133
-        }"
+        }
     }
 }
 ```
@@ -694,7 +694,7 @@ RESPONSE: `200 OK`
 {
     "body": {
         "uri": "http://api.adam-holt.co.uk:5984/groups/testgroup",
-        "body": "{"groupname":"testgroup",
+        "body": {"groupname":"testgroup",
         "description":"This is a Test Group",
         "date_joined":"Fri, 27 Mar 2015 13:52:01 GMT",
         "last_modified":"Fri, 27 Mar 2015 13:52:01 GMT",
@@ -704,7 +704,7 @@ RESPONSE: `200 OK`
         "usersjoined":["testuser"],
         "competition":"freshers",
         "groupnodeid":133
-        }"
+        }
     }
 }
 ```
