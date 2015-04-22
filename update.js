@@ -169,7 +169,6 @@ module.exports.update = (function() {
                         return params;
                     }).then(function(params) {
                         //Put new document
-                        console.log(mainBody);
                         request.put(params, function(err, response, content) {
                             if(err) {
                                 return next(new restify.InternalServerError('Cant Update CouchDB document'));

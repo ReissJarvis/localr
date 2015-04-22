@@ -89,7 +89,6 @@ module.exports.groups = (function() {
                                             description: 'Created this group'
                                         }, function(err, relationship) {
                                             if(err) throw err;
-                                            console.log(relationship);
                                             resolve(relationship._id);
                                         });
                                     }).then(function(id) {
@@ -118,7 +117,6 @@ module.exports.groups = (function() {
                                                 if(err) {
                                                     return next(new restify.InternalServerError('Cant create document'));
                                                 }
-                                                console.log("About to send res")
                                                 // document has been inserted into database
                                                 res.send(201,  params);
                                                 res.end();
@@ -156,15 +154,13 @@ module.exports.groups = (function() {
                 });
             }).then(function() {
                 return new Promise(function(resolve, reject) {
-                    console.log("getting groups");
                     url = 'http://localhost:5984/groups/' + req.params.groupname;
                     request.get(url, function(err, response, body) {
                         if(err) reject(err);
                         // if the document isnt found it will create it from sratch
-                        console.log('code' + response.statusCode);
+                        
                         body = JSON.parse(body);
                         var rev = body._rev;
-                            console.log(body);
                             resolve(rev);
                     });
                 }).then(function(rev) {
@@ -172,7 +168,7 @@ module.exports.groups = (function() {
                     request.del(url + "?rev=" + rev, function(err, response, body) {
                         if(err) reject(err);
                         // if the document isnt found it will create it from sratch
-                        console.log('code' + response.statusCode);
+                        
                         res.send(200, "group deleted");
                         res.end();
                     });
@@ -318,7 +314,6 @@ module.exports.groups = (function() {
                     return next(new restify.InternalServerError('No Offers Found'));
                 } else if(doc.response.statusCode === 200) {
                     var resp = JSON.parse(doc.body);
-                    console.log(resp.rows);
                     var competitionGroups = [];
                     resp.rows.forEach(function(i) {
                         var group = {

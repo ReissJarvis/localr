@@ -171,7 +171,7 @@ module.exports.register = (function() {
             return new Promise(function(resolve, reject) {
                 request.get(url, function(err, response, body) {
                     if(err) reject(err);
-                    console.log('code' + response.statusCode)
+
                     resolve({
                         response: response,
                         body: body

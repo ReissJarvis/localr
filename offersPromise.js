@@ -46,7 +46,7 @@ module.exports.offers = (function() {
                                 reject(err)
                             };
                             // if the document isnt found it will create it from sratch
-                            console.log('code ' + response.statusCode)
+                           
                             if(body) {
                                 resolve({
                                     response: response,
@@ -162,7 +162,6 @@ module.exports.offers = (function() {
                 } else if(doc.response.statusCode === 200) {
                     //If offer is there do the following
                     var resp = JSON.parse(doc.body);
-                    console.log(resp.rows);
                     var allOffers = [];
                     //For each loop to put all the offers into an array to send
                     resp.rows.forEach(function(i) {

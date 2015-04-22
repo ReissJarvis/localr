@@ -38,6 +38,7 @@ myApp.controller('mainController', ['UserService', '$http', '$location',
         }
     }
 ]);
+
 myApp.controller('logout', ['UserService', '$http', '$location',
     function(UserService, $http, $location) {
         this.logout = function() {
