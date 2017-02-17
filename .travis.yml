@@ -3,44 +3,45 @@ language: node_js
 node_js:
    - "0.10"
 services:
-  - couchdb
-  
+   - couchdb
+
 sudo: required
 
-before_script:
+install:
   #These get exectued before npm start!
-  - sudo apt-get install expect
-  - npm install -g jasmine-node
-  - npm install -g request
-  - npm install -g restify
-  - npm install -g csprng
-  - npm install -g sha1
-  - npm install -g node-uuid
-  - npm install -g node-neo4j
-  - npm install -g promise
-  
-  - curl -X PUT localhost:5984/users
-  - curl -X PUT localhost:5984/groups
-  - curl -X PUT localhost:5984/business
-  - curl -X PUT localhost:5984/offers
+   - sudo apt-get install expect
+   - npm install
+   - npm install -g jasmine-node
+   - npm install -g request
+   - npm install -g restify
+   - npm install -g csprng
+   - npm install -g sha1
+   - npm install -g node-uuid
+   - npm install -g node-neo4j
+   - npm install -g promise
+
+before_script:
+     - curl -X PUT localhost:5984/users
+     - curl -X PUT localhost:5984/groups
+     - curl -X PUT localhost:5984/business
+     - curl -X PUT localhost:5984/offers
   #Used for the couchdb design views
-  - curl -X PUT http://localhost:5984/offers/_design/offers --data-binary @offersView.json
-  - curl -X PUT http://localhost:5984/groups/_design/groups --data-binary @groupsView.json
+     - curl -X PUT http://localhost:5984/offers/_design/offers --data-binary @offersView.json
+     - curl -X PUT http://localhost:5984/groups/_design/groups --data-binary @groupsView.json
 jdk:
   - oraclejdk7  
-  
+
 notifications:
   slack: 305cde:D6P6eEdiisfcsHy0mXuWJ8sT
 
 env:
-  - NEO4J_VERSION="2.1.7"
+   - NEO4J_VERSION="2.1.7"
 
 before_install:
   # install Neo4j locally:
-  - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
-  - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
-  - neo4j-community-$NEO4J_VERSION/bin/neo4j start
-  
+     - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
+     - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
+     - neo4j-community-$NEO4J_VERSION/bin/neo4j start
+
 after_success:
-  - sudo expect ./deploy.sh
-  
+   - sudo expect ./deploy.sh
